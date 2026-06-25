@@ -163,8 +163,11 @@ a{color:inherit;}
 .hero .grid{display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center; position:relative;}
 .hero h1{font-size:58px; margin:18px 0 22px;}
 .hero h1 em{color:var(--accent);}
-.hero .lede{font-size:20px; color:var(--ink-soft); line-height:1.55; max-width:30em;}
+.hero .lede{font-size:20px; color:var(--ink-soft); line-height:1.55; max-width:30em; margin:0 0 16px;}
+.hero .lede:last-of-type{margin-bottom:0;}
 .hero .lede b{color:var(--ink); font-weight:600;}
+.hero .lede.beat{font-size:26px; color:var(--accent); margin:4px 0 18px;}
+.hero .lede.beat b{color:var(--accent);}
 .hero .price-line{display:flex; align-items:baseline; gap:12px; margin:28px 0 18px;}
 .hero .price{font-family:var(--font-display); font-size:30px; color:var(--ink); font-weight:500;}
 .hero .price small{font-size:16px; color:var(--ink-soft); font-style:italic;}
@@ -369,10 +372,16 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
       <h1>Where did <em>she</em> go?</h1>
       <p class="lede">
         You have done the dishes, booked the dinners, swallowed the arguments. And she is
-        still slipping away. Here is the part no one told you: all that effort was aimed at being
-        <b>seen</b> as a good husband, not at <b>seeing</b> her. In 30 days you will either watch
-        her soften toward a man who has clearly changed, or you will finally know where you stand,
-        with the self-respect to stop waiting.
+        still slipping away.
+      </p>
+      <p class="lede">
+        All that effort has been missing the one thing she desires to feel most:
+      </p>
+      <p class="lede beat"><b>Being Seen.</b></p>
+      <p class="lede">
+        If you follow this plan, in 30 days you'll learn what most men never will. And you'll
+        either watch her soften toward a man who can clearly see her, or you will finally know
+        where you stand, with the self-respect to stop waiting.
       </p>
       <div class="price-line">
         <span class="was" style="font-size:24px;">$25</span>
@@ -420,7 +429,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 <!-- ============ THE REFRAME / TRUTH ============ -->
 <section>
   <div class="wrap reframe">
-    <p class="sec-eyebrow eyebrow">The part no one told you</p>
+    <p class="sec-eyebrow eyebrow">What she's been carrying</p>
     <h2 class="sec-title reveal">The harder you tried, the more alone she felt</h2>
     <div class="reveal" style="margin-top:30px">
       <p>There is a weight she has carried that you were never taught to see. The invisible project management of a shared life. Being the one who notices when something is off and tends to it. It runs in the back of her mind every waking hour and never clocks out.</p>
@@ -632,7 +641,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
   <div class="wrap">
     <a href="#top" class="brand" style="font-size:19px"><img class="seal" src="assets/tc-seal.png" alt="True Contact logo" style="width:36px;height:36px" /><span><span class="t">True</span> <span class="c">Contact</span></span></a>
     <p style="margin-top:10px"><em style="font-family:var(--font-display);color:var(--ink)">Save Your Relationship</em>, by Yaniv Rose</p>
-    <p style="margin-top:14px">&copy; 2026 True Contact &middot; <a href="REPLACE_WITH_TERMS_URL">Terms</a> &middot; <a href="REPLACE_WITH_PRIVACY_URL">Privacy</a> &middot; <a href="REPLACE_WITH_CONTACT_URL">Contact</a></p>
+    <p style="margin-top:14px">&copy; 2026 True Contact &middot; <a href="REPLACE_WITH_TERMS_URL">Terms</a> &middot; <a href="REPLACE_WITH_PRIVACY_URL">Privacy</a> &middot; <a href="mailto:yaniv@thetruecontact.com">Contact</a></p>
   </div>
 </footer>
 
