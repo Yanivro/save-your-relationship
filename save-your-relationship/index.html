@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Save Your Relationship — by Yaniv Rose | True Contact</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<!-- Social share / link-preview card. REPLACE the og:url + og:image absolute URLs with your live domain before launch (scrapers require absolute URLs). -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Save Your Relationship — a 30-day plan" />
+<meta property="og:description" content="If you miss her, the woman who used to dance in the kitchen. A 30-day plan to know within a month whether your marriage can be saved." />
+<meta property="og:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
+<meta property="og:url" content="https://thetruecontact.com/save-your-relationship/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Save Your Relationship — a 30-day plan" />
+<meta name="twitter:description" content="If you miss her, the woman who used to dance in the kitchen. A 30-day plan for the man who's tried everything." />
+<meta name="twitter:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
+
+<!-- ===================== ANALYTICS STACK =====================
+     Replace the 3 placeholder IDs below with your real ones.
+     Each loader stays DORMANT until its ID is filled in (no bad
+     requests while the placeholder is still there or on file://).
+     One track() helper fires every event to BOTH GA4 (gtag) and
+     GTM (dataLayer), so whichever you configure, it works.
+     NOTE: GA4 is loaded directly here — do NOT also add a GA4
+     config tag inside GTM, or pageviews/events will double-count. -->
+<script>
+  window.TC = window.TC || {};
+  window.TC.ids = { gtm: 'GTM-XXXXXXX', ga4: 'G-XXXXXXXXXX', clarity: 'CLARITY_ID' };
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  // Unified tracker → GA4 (gtag) + GTM (dataLayer)
+  window.track = function(name, params){
+    params = params || {};
+    try { gtag('event', name, params); } catch(e){}
+    try { dataLayer.push(Object.assign({ event: name }, params)); } catch(e){}
+  };
+  (function(){
+    var ids = window.TC.ids, placeholder = /XXXX|CLARITY_ID/;
+    if (ids.gtm && !placeholder.test(ids.gtm)) {
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':+new Date(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;
+        j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',ids.gtm);
+    }
+    if (ids.ga4 && !placeholder.test(ids.ga4)) {
+      var g=document.createElement('script'); g.async=true;
+      g.src='https://www.googletagmanager.com/gtag/js?id='+ids.ga4;
+      document.head.appendChild(g);
+      gtag('js', new Date()); gtag('config', ids.ga4);
+    }
+    if (ids.clarity && !placeholder.test(ids.clarity)) {
+      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,'clarity','script',ids.clarity);
+    }
+  })();
+</script>
+<!-- ===================== /ANALYTICS STACK ===================== -->
+<meta name="description" content="You've tried everything and she's still slipping away. A 30-day plan that shows you what's actually wrong, so within a month you'll know whether your marriage can be saved. $25 $17.50 (30% off), read it tonight." />
+
+<!-- ============================================================
+     Save Your Relationship — cold sales page
+     Built on the SB7 BrandScript + the Red Thread.
+     Brand: gold-on-midnight, matches build/book.pdf exactly.
+
+     >>> TO GO LIVE: replace every  href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30"
+         with your Gumroad / Stripe / Lemon Squeezy checkout link.
+     ============================================================ -->
+
+<style>
+@font-face { font-family:'Fraunces'; src:url('assets/fonts/Fraunces.ttf') format('truetype'); font-weight:100 900; font-style:normal; font-display:swap; }
+@font-face { font-family:'Fraunces'; src:url('assets/fonts/Fraunces-Italic.ttf') format('truetype'); font-weight:100 900; font-style:italic; font-display:swap; }
+@font-face { font-family:'Inter'; src:url('assets/fonts/Inter.ttf') format('truetype'); font-weight:100 900; font-style:normal; font-display:swap; }
+
+:root{
+  --bg:#16131f; --bg-2:#1b1726; --page:#211c2e; --ink:#ece6f2; --ink-soft:#b3a9c2;
+  --accent:#cda35a; --accent-soft:#e0c28a; --line:#3a3348; --box:#2a2438; --box-line:#403653;
+  --brand-cream:#e0d8d0; --brand-rust:#c06840;
+  --rule-ink:#1a1622; --radius:10px;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-display:'Fraunces',Georgia,serif;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+.wrap-wide{max-width:980px; margin:0 auto; padding:0 24px;}
+
+h1,h2,h3{font-family:var(--font-display); font-weight:500; line-height:1.12; letter-spacing:-0.01em;}
+em{font-style:italic;}
+.gold{color:var(--accent);}
+.soft{color:var(--ink-soft);}
+strong{font-weight:600; color:var(--ink);}
+
+.eyebrow{font-size:13px; letter-spacing:0.26em; text-transform:uppercase; color:var(--accent); font-weight:600;}
+.kicker{font-family:var(--font-display); font-style:italic; color:var(--ink-soft);}
+
+a{color:inherit;}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--font-body); font-weight:600; font-size:17px; text-decoration:none;
+  padding:16px 30px; border-radius:var(--radius); cursor:pointer; border:0;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-primary{
+  background:var(--accent); color:var(--rule-ink);
+  box-shadow:0 10px 30px -8px rgba(205,163,90,.5);
+}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 16px 38px -8px rgba(205,163,90,.6);}
+.btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--line);}
+.btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+.btn .ico{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.under-btn{font-size:14px; color:var(--ink-soft); margin-top:12px;}
+.under-btn .ico{width:15px; height:15px; vertical-align:-2px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; margin-right:5px;}
+.spec-strip{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px;}
+.chip{display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border:1px solid var(--box-line); border-radius:100px; background:var(--page); font-size:14px; color:var(--ink-soft); line-height:1;}
+.chip .ico{width:16px; height:16px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.chip b{color:var(--ink); font-weight:600;}
+.was{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:rgba(179,169,194,.55); font-weight:400; font-family:var(--font-display);}
+.off-pill{display:inline-flex; align-items:center; gap:6px; background:rgba(205,163,90,.14); border:1px solid var(--accent); color:var(--accent); font-size:13px; font-weight:600; padding:5px 12px; border-radius:100px; font-family:var(--font-body); line-height:1;}
+.announce{background:var(--bg-2); color:var(--ink-soft); text-align:center; font-size:13px; font-weight:500; padding:9px 16px; letter-spacing:.05em; border-bottom:1px solid var(--line);}
+.announce b{font-weight:700; color:var(--accent);}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:50; background:rgba(22,19,31,.86);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+}
+.topbar .row{display:flex; align-items:center; justify-content:space-between; height:62px;}
+.wordmark{font-family:var(--font-display); font-size:19px; font-weight:500; letter-spacing:-.01em; text-decoration:none; color:var(--ink);}
+.wordmark em{font-style:italic; color:var(--accent);}
+/* True Contact brand lockup: seal + wordmark */
+.brand{display:inline-flex; align-items:center; gap:11px; font-family:var(--font-display); font-weight:700; font-size:22px; letter-spacing:-0.005em; text-decoration:none; white-space:nowrap; line-height:1;}
+.brand .seal{width:44px; height:44px; display:block; flex:0 0 auto;}
+.brand .t{color:var(--brand-cream);}
+.brand .c{color:var(--accent);}
+.topbar .btn{padding:9px 18px; font-size:14px;}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 64px; position:relative;}
+.hero:before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(900px 460px at 72% -8%, rgba(205,163,90,.13), transparent 60%);
+}
+.hero .grid{display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center; position:relative;}
+.hero h1{font-size:58px; margin:18px 0 22px;}
+.hero h1 em{color:var(--accent);}
+.hero .lede{font-size:20px; color:var(--ink-soft); line-height:1.55; max-width:30em;}
+.hero .lede b{color:var(--ink); font-weight:600;}
+.hero .price-line{display:flex; align-items:baseline; gap:12px; margin:28px 0 18px;}
+.hero .price{font-family:var(--font-display); font-size:30px; color:var(--ink); font-weight:500;}
+.hero .price small{font-size:16px; color:var(--ink-soft); font-style:italic;}
+
+/* real book cover shot */
+.cover-shot{width:318px; max-width:100%; margin:0 auto; position:relative; transform:rotate(1.6deg);}
+.cover-shot:after{content:""; position:absolute; inset:-8% -6%; z-index:-1; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(205,163,90,.16), transparent 72%); filter:blur(8px);}
+.cover-shot img{display:block; width:100%; height:auto; border-radius:7px;
+  box-shadow:0 44px 90px -30px rgba(0,0,0,.85), 0 8px 22px -10px rgba(0,0,0,.6);
+  border:1px solid var(--box-line);}
+.cover-shot:before{content:""; position:absolute; left:0; top:0; bottom:0; width:9px; z-index:2;
+  border-radius:7px 0 0 7px;
+  background:linear-gradient(90deg, rgba(0,0,0,.42), rgba(255,255,255,.07) 55%, rgba(0,0,0,.18));}
+
+/* ---------- section scaffolding ---------- */
+section{padding:64px 0;}
+.sec-eyebrow{text-align:center; margin-bottom:14px;}
+.sec-title{font-size:38px; text-align:center; line-height:1.14; margin-bottom:18px;}
+.sec-title em{color:var(--accent);}
+.sec-intro{text-align:center; color:var(--ink-soft); font-size:19px; max-width:34em; margin:0 auto 8px;}
+.divider{height:1px; background:var(--line); border:0; max-width:760px; margin:0 auto;}
+
+/* the 2am / pain list */
+.band{background:var(--bg-2);}
+.pain-list{list-style:none; max-width:620px; margin:34px auto 0;}
+.pain-list li{display:flex; gap:14px; padding:15px 0; border-bottom:1px solid var(--line); color:var(--ink); font-size:17.5px;}
+.pain-list li:last-child{border-bottom:0;}
+.pain-list .ico{width:20px; height:20px; flex:0 0 20px; margin-top:4px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.pain-after{text-align:center; font-family:var(--font-display); font-style:italic; font-size:22px; color:var(--accent); margin-top:36px; line-height:1.4;}
+
+/* reframe / truth */
+.pull{font-family:var(--font-display); font-style:italic; font-size:28px; line-height:1.34; color:var(--accent); text-align:center; max-width:18em; margin:0 auto;}
+.reframe p{font-size:19px; color:var(--ink); margin-bottom:20px;}
+.reframe p.big{font-family:var(--font-display); font-style:italic; font-size:23px; color:var(--ink); line-height:1.4;}
+.reframe .quote{
+  border-left:2px solid var(--accent); padding:6px 0 6px 22px; margin:8px 0 26px;
+  font-family:var(--font-display); font-style:italic; font-size:21px; color:var(--ink-soft); line-height:1.45;
+}
+
+/* plan steps */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:42px;}
+.step{
+  background:var(--page); border:1px solid var(--box-line); border-radius:var(--radius);
+  padding:30px 26px; position:relative;
+}
+.step .num{font-family:var(--font-display); font-style:italic; font-size:15px; color:var(--accent); letter-spacing:.04em;}
+.step .ico-wrap{width:46px; height:46px; border-radius:10px; background:var(--box); display:flex; align-items:center; justify-content:center; margin:14px 0 16px;}
+.step .ico{width:24px; height:24px; stroke:var(--accent); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+.step h3{font-size:22px; font-style:italic; color:var(--ink); margin-bottom:10px;}
+.step p{font-size:16px; color:var(--ink-soft); line-height:1.55;}
+
+/* what's inside */
+.inside{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:42px;}
+.card{background:var(--page); border:1px solid var(--box-line); border-radius:var(--radius); padding:28px 24px;}
+.card .ico-wrap{width:44px; height:44px; border-radius:10px; background:var(--box); display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+.card .ico{width:22px; height:22px; stroke:var(--accent); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+.card h3{font-size:19px; font-style:italic; color:var(--ink); margin-bottom:8px;}
+.card p{font-size:15.5px; color:var(--ink-soft); line-height:1.55;}
+.card .tag{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:4px; display:block;}
+
+/* guide / author */
+.guide-grid{display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:center; max-width:640px; margin:0 auto;}
+.avatar{
+  width:138px; height:138px; border-radius:50%; flex:0 0 138px; overflow:hidden;
+  border:2px solid var(--accent); box-shadow:0 16px 40px -16px rgba(0,0,0,.7);
+}
+.avatar img{width:100%; height:100%; object-fit:cover; display:block;}
+.guide-grid h3{font-size:24px; color:var(--ink); margin-bottom:5px;}
+.guide-grid .role{font-style:italic; color:var(--accent); font-family:var(--font-display); font-size:16px; margin-bottom:2px;}
+.guide-grid .role2{font-style:italic; color:var(--ink-soft); font-family:var(--font-display); font-size:15px; line-height:1.4; margin-bottom:16px;}
+.guide-grid p{color:var(--ink-soft); font-size:16.5px;}
+
+/* success */
+.success{background:var(--bg-2);}
+.win-list{display:grid; grid-template-columns:1fr 1fr; gap:16px 32px; max-width:680px; margin:38px auto 0;}
+.win-list li{list-style:none; display:flex; gap:12px; align-items:flex-start; font-size:17px; color:var(--ink);}
+.win-list .ico{width:20px; height:20px; flex:0 0 20px; margin-top:4px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+
+/* guarantee */
+.guarantee{
+  background:linear-gradient(135deg, rgba(205,163,90,.10), rgba(205,163,90,.02));
+  border:1px solid var(--accent); border-radius:16px; padding:46px 40px; text-align:center;
+  max-width:720px; margin:0 auto; position:relative;
+}
+.guarantee .seal{width:54px; height:54px; stroke:var(--accent); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; margin-bottom:18px;}
+.guarantee h2{font-size:30px; color:var(--ink); margin-bottom:18px;}
+.guarantee p{font-size:21px; color:var(--ink); font-family:var(--font-display); font-style:italic; line-height:1.5; max-width:24em; margin:0 auto;}
+.guarantee .sign{margin-top:22px; font-size:15px; letter-spacing:.06em; color:var(--accent);}
+
+/* offer box */
+.offer-box{
+  background:var(--page); border:1px solid var(--box-line); border-radius:16px;
+  max-width:560px; margin:0 auto; padding:40px 36px; text-align:center;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.8);
+}
+.offer-box h2{font-size:30px; margin-bottom:6px;}
+.offer-box h2 em{color:var(--accent);}
+.offer-box .incl{list-style:none; text-align:left; max-width:380px; margin:24px auto 28px;}
+.offer-box .incl li{display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); font-size:16px;}
+.offer-box .incl li:last-child{border-bottom:0;}
+.offer-box .incl .ico{width:19px; height:19px; flex:0 0 19px; margin-top:4px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.offer-box .pricetag{display:flex; align-items:baseline; justify-content:center; gap:10px; margin:6px 0 22px;}
+.offer-box .pricetag .now{font-family:var(--font-display); font-size:52px; color:var(--ink); font-weight:500;}
+.offer-box .pricetag .ctx{color:var(--ink-soft); font-style:italic; font-family:var(--font-display);}
+.offer-box .btn{width:100%;}
+.money-back{margin-top:22px; padding-top:20px; border-top:1px solid var(--line); display:flex; gap:13px; align-items:flex-start; text-align:left;}
+.money-back .ico{width:30px; height:30px; flex:0 0 30px; margin-top:2px; stroke:var(--accent); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+.money-back .mb-title{font-family:var(--font-display); font-style:italic; font-size:17px; color:var(--ink); margin-bottom:3px;}
+.money-back p{font-size:14.5px; color:var(--ink-soft); line-height:1.5;}
+
+/* faq */
+details{border-bottom:1px solid var(--line); padding:8px 0;}
+details summary{
+  list-style:none; cursor:pointer; padding:18px 36px 18px 4px; position:relative;
+  font-family:var(--font-display); font-size:20px; color:var(--ink); font-weight:500;
+}
+details summary::-webkit-details-marker{display:none;}
+details summary:after{
+  content:"+"; position:absolute; right:6px; top:14px; font-size:26px; color:var(--accent);
+  font-family:var(--font-body); transition:transform .2s;
+}
+details[open] summary:after{content:"\2013";}
+details .a{padding:0 4px 20px; color:var(--ink-soft); font-size:16.5px; line-height:1.6;}
+
+/* final cta */
+.final{text-align:center; padding:84px 0;}
+.final h2{font-size:42px; margin-bottom:16px;}
+.final h2 em{color:var(--accent);}
+.final p{color:var(--ink-soft); font-size:19px; max-width:30em; margin:0 auto 30px;}
+
+/* footer */
+footer{border-top:1px solid var(--line); padding:36px 0 60px; text-align:center; color:var(--ink-soft); font-size:14px;}
+footer .wordmark{font-size:16px; display:inline-block; margin-bottom:10px;}
+footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px;}
+
+/* sticky mobile cta */
+.sticky-cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:60; display:none;
+  background:rgba(22,19,31,.94); backdrop-filter:blur(10px); border-top:1px solid var(--line);
+  padding:12px 16px; align-items:center; justify-content:space-between; gap:14px;
+}
+.sticky-cta .p{font-family:var(--font-display); font-size:16px;}
+.sticky-cta .p span{color:var(--ink-soft); font-style:italic; font-size:13px;}
+.sticky-cta .btn{padding:12px 20px; font-size:15px;}
+
+/* reveal on scroll */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1; transform:none;}
+
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+  .hero .grid{grid-template-columns:1fr; gap:36px;}
+  .hero .cover-col{order:-1;}
+  .cover-shot{transform:none; width:230px;}
+  .hero h1{font-size:46px;}
+  .steps,.inside{grid-template-columns:1fr;}
+  .win-list{grid-template-columns:1fr;}
+  .guide-grid{grid-template-columns:1fr; text-align:center; gap:18px;}
+  .avatar{margin:0 auto;}
+}
+@media (max-width:620px){
+  body{font-size:17px;}
+  .hero h1{font-size:38px;}
+  .sec-title{font-size:30px;}
+  .final h2{font-size:32px;}
+  .guarantee{padding:36px 24px;}
+  .offer-box{padding:32px 22px;}
+  .topbar .btn{display:none;}
+  .sticky-cta{display:flex;}
+  .final{padding-bottom:120px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1; transform:none; transition:none;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+<!-- GTM noscript fallback: once you have a real GTM id, uncomment and swap GTM-XXXXXXX
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+-->
+
+<!-- ============ ANNOUNCEMENT BAR ============ -->
+<div class="announce"><b>30% off</b> &middot; launch offer, limited time</div>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="wrap-wide row">
+    <a href="#top" class="brand"><img class="seal" src="assets/tc-seal.png" alt="True Contact logo" /><span><span class="t">True</span> <span class="c">Contact</span></span></a>
+    <a href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30" class="btn btn-ghost">Get the book</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap-wide grid">
+    <div class="copy">
+      <p class="eyebrow">For the man who has tried everything</p>
+      <h1>Where did <em>she</em> go?</h1>
+      <p class="lede">
+        You have done the dishes, booked the dinners, swallowed the arguments. And she is
+        still slipping away. Here is the part no one told you: all that effort was aimed at being
+        <b>seen</b> as a good husband, not at <b>seeing</b> her. In 30 days you will either watch
+        her soften toward a man who has clearly changed, or you will finally know where you stand,
+        with the self-respect to stop waiting.
+      </p>
+      <div class="price-line">
+        <span class="was" style="font-size:24px;">$25</span>
+        <span class="price">$17.50 <small>one-time, read it tonight</small></span>
+      </div>
+      <a href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30" class="btn btn-primary">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Get the book
+      </a>
+      <p class="under-btn">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+        Instant PDF download &middot; no app, no account
+      </p>
+      <div class="spec-strip">
+        <span class="chip"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Read it in <b>30 minutes</b></span>
+        <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 4 14h7v8l9-12h-7z"/></svg> No fluff, no filler</span>
+        <span class="chip"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg> Then practice it <b>30 days</b></span>
+      </div>
+    </div>
+    <div class="cover-col">
+      <div class="cover-shot">
+        <img src="assets/cover.jpg" alt="Save Your Relationship, a 30-day plan by Yaniv Rose — book cover" width="318" height="426" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAKES / PROBLEM (2am) ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="sec-eyebrow eyebrow">If you are reading this at 2am</p>
+    <h2 class="sec-title reveal">You don't need another book that tells you to <em>try harder</em></h2>
+    <p class="sec-intro reveal">You have already tried harder. You know this feeling, the one you never say out loud:</p>
+    <ul class="pain-list reveal">
+      <li><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> She seems tired, careful with her words, always halfway inside a thought she does not share.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h12"/></svg> You do the kind thing, then quietly wait for the thank-you that proves it worked. It does not come.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Every promise you made to change has stopped meaning anything to her.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg> The conversations have gone quiet, because she stopped believing you would hear her.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/></svg> Underneath all of it, one thought you cannot put down: <em>I did this, and I don't know how to undo it.</em></li>
+    </ul>
+    <p class="pain-after reveal">She doesn't hate you.<br>She is more tired than she is angry.</p>
+  </div>
+</section>
+
+<!-- ============ THE REFRAME / TRUTH ============ -->
+<section>
+  <div class="wrap reframe">
+    <p class="sec-eyebrow eyebrow">The part no one told you</p>
+    <h2 class="sec-title reveal">The harder you tried, the more alone she felt</h2>
+    <div class="reveal" style="margin-top:30px">
+      <p>There is a weight she has carried that you were never taught to see. The invisible project management of a shared life. Being the one who notices when something is off and tends to it. It runs in the back of her mind every waking hour and never clocks out.</p>
+      <p>So when you did a kind thing and then waited, watching her face for the warmth to come back, she felt the wait. A gift from a man who needs her to be delighted does not land as a gift.</p>
+      <p class="quote">"You handed her a gift. She received a bill."</p>
+      <p class="big">Nobody feels loved because they were impressed. They feel loved because they were understood.</p>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:50px">
+    <p class="pull reveal">Step off the stage.<br>Walk into the room.</p>
+  </div>
+</section>
+
+<!-- ============ THE PLAN ============ -->
+<section class="band">
+  <div class="wrap-wide">
+    <p class="sec-eyebrow eyebrow">The 30-day plan</p>
+    <h2 class="sec-title reveal">A clear path out, one page you can hold</h2>
+    <p class="sec-intro reveal">Not theory. A sequence you can follow on the days you feel it and the days you don't.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="num">Part One</span>
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>See</h3>
+        <p>See the invisible weight she carries and why effort alone never reached her. Clarity comes first. The 2am spiral stops here.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">Part Two</span>
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="m3 21 18-18"/><path d="M14 4h6v6"/><path d="M9 15l-3 3"/><path d="M11 13l-2 2"/></svg></div>
+        <h3>Become</h3>
+        <p>Stop performing. Give without billing her for it. Lay down quiet evidence every day, no announcements, until the foundation cures.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">Part Three</span>
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 7l7-4 7 4"/><path d="M5 7v6a7 7 0 0 0 14 0V7"/></svg></div>
+        <h3>Stand</h3>
+        <p>At day 30, read both gauges, yours and hers, honestly. Choose your next thirty days with open eyes instead of guessing in the dark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT'S INSIDE ============ -->
+<section>
+  <div class="wrap-wide">
+    <p class="sec-eyebrow eyebrow">What you get</p>
+    <h2 class="sec-title reveal">Everything for the next 30 days, <em>$17.50</em></h2>
+    <div class="inside">
+      <div class="card reveal">
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div>
+        <span class="tag">The book</span>
+        <h3>Save Your Relationship</h3>
+        <p>The full diagnosis and the plan, in plain language. Cover to cover in about 30 minutes, no fluff, no padding. The compassionate look no free advice gives you.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/></svg></div>
+        <span class="tag">The companion</span>
+        <h3>The day-by-day guide</h3>
+        <p>What to do each day, plus a two-minute nightly practice. Two questions and one line, so you never lose the thread.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+        <span class="tag">The drip</span>
+        <h3>30 days of email</h3>
+        <p>A short note in your inbox at the right moment, so you hold steady through the loneliest stretch and don't quit on day nine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE GUIDE ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="sec-eyebrow eyebrow">Who wrote this</p>
+    <div class="guide-grid reveal">
+      <div class="avatar"><img src="assets/author.jpg" alt="Yaniv Rose, author of Save Your Relationship" width="138" height="138" /></div>
+      <div>
+        <h3>Yaniv Rose</h3>
+        <p class="role">Certified Relationship Facilitator</p>
+        <p class="role2">Recovering people pleaser turned Relational Alchemist</p>
+        <p>This is not built from theory or a stage. It is built from the real words of hundreds of men who tried everything, and the women who quietly left them while still living in the house. I will not sell you a trick to win her back. I will tell you what is actually wrong, and give you 30 days to find out whether it can be fixed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUCCESS VISION ============ -->
+<section class="success">
+  <div class="wrap">
+    <p class="sec-eyebrow eyebrow">Thirty days from now</p>
+    <h2 class="sec-title reveal">The man on the other side of this</h2>
+    <p class="sec-intro reveal">Whatever she decides, this is who you become.</p>
+    <ul class="win-list reveal">
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> You can do a kind thing and let it go unthanked.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> You hold the line when she stays cool, instead of snapping back.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> You stop performing, and your chest unclenches.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> The 2am spiral ends. You know what is wrong and what to do.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Within a month, you know where you stand. No more limbo.</li>
+      <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> You become a man worth saving the marriage for.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ THE GUARANTEE (the mechanism) ============ -->
+<section>
+  <div class="wrap">
+    <div class="guarantee reveal">
+      <svg class="seal" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg>
+      <h2>The No-Lose promise</h2>
+      <p>In 30 days you will either watch her soften toward a man who has clearly changed, or you will finally have the clarity and self-respect to stop living in limbo.</p>
+      <p class="sign">There is no version where you do the work and lose.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFFER / PRICE ============ -->
+<section class="band" id="offer">
+  <div class="wrap">
+    <div class="offer-box reveal">
+      <h2>Start <em>tonight</em></h2>
+      <p class="soft" style="font-family:var(--font-display);font-style:italic">Instant download. Nothing to wait for.</p>
+      <ul class="incl">
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> <span><strong>Save Your Relationship</strong>, the full book (PDF)</span></li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> <span>The 30-day day-by-day companion</span></li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> <span>The two-minute nightly practice</span></li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> <span>30 days of email, timed to the plan</span></li>
+      </ul>
+      <span class="off-pill" style="margin-bottom:4px;">30% off &middot; launch price</span>
+      <div class="pricetag">
+        <span class="was" style="font-size:34px;">$25</span>
+        <span class="now">$17.50</span>
+        <span class="ctx">one-time, yours to keep</span>
+      </div>
+      <a href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30" class="btn btn-primary">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Get instant access
+      </a>
+      <p class="under-btn">
+        <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secure checkout &middot; private &middot; discreet on your statement
+      </p>
+      <div class="money-back">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 1.5"/></svg>
+        <div>
+          <div class="mb-title">30-day money-back guarantee</div>
+          <p>If there is no clear shift, or you didn't find any value in this book, reach out within 30 days and get a complete refund. No questions asked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section>
+  <div class="wrap">
+    <p class="sec-eyebrow eyebrow">Before you decide</p>
+    <h2 class="sec-title reveal">Honest answers</h2>
+    <div class="reveal" style="margin-top:24px">
+      <details>
+        <summary>Is this another "win her back" trick?</summary>
+        <div class="a">No. There is no script to manipulate her, and no line that flips a switch. This is the opposite: you stop performing for her, you change in plain sight, and you let her honest response tell you the truth. Tricks are exactly what she has learned to feel coming.</div>
+      </details>
+      <details>
+        <summary>What if I have already tried everything?</summary>
+        <div class="a">Then you are the man this was written for. The problem was never that you did too little. It was that the effort was aimed at being seen as a good husband instead of at seeing her. Once you see that, what you do next changes completely.</div>
+      </details>
+      <details>
+        <summary>What if she has already checked out?</summary>
+        <div class="a">The book meets that honestly. Some of what you read will help her thaw. Some of it is for you, no matter what she decides. At day 30 you read both gauges clearly, so you stop guessing. Either she softens toward a man who changed, or you get the clarity to stop waiting.</div>
+      </details>
+      <details>
+        <summary>How long does it take?</summary>
+        <div class="a">The book itself reads in about 30 minutes, cover to cover. It is short on purpose. No padding to hit a page count, no chapters that say the same thing five ways. You read it tonight, then practice it one day at a time for 30 days. The nightly practice takes two minutes.</div>
+      </details>
+      <details>
+        <summary>What exactly do I get for $17?</summary>
+        <div class="a">The full book as an instant PDF download, the day-by-day companion, the two-minute nightly practice, and 30 days of short emails timed to the plan. No app, no account, no subscription. Yours to keep.</div>
+      </details>
+      <details>
+        <summary>What if it doesn't help me?</summary>
+        <div class="a">Then you should not pay for it. If there is no clear shift, or you didn't find any value in the book, reach out within 30 days and get a complete refund. No questions asked. The risk is mine, not yours.</div>
+      </details>
+      <details>
+        <summary>Is it private?</summary>
+        <div class="a">Yes. It is a quiet digital download you read on your own. Secure checkout, discreet on your statement. No one needs to know but you.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final">
+  <div class="wrap">
+    <h2 class="reveal">You can keep guessing,<br>or you can <em>know</em></h2>
+    <p class="reveal">Thirty days from now you are either a month closer to losing her in the dark, or a man who finally knows what to do. The price of finding out is $17.50 and one honest month.</p>
+    <a href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30" class="btn btn-primary reveal">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      Get it now &middot; <span style="text-decoration:line-through;opacity:.6;font-weight:500;margin:0 3px">$25</span> $17.50
+    </a>
+    <p class="under-btn">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+      Instant download &middot; read it tonight &middot; backed by a 30-day money-back guarantee
+    </p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <a href="#top" class="brand" style="font-size:19px"><img class="seal" src="assets/tc-seal.png" alt="True Contact logo" style="width:36px;height:36px" /><span><span class="t">True</span> <span class="c">Contact</span></span></a>
+    <p style="margin-top:10px"><em style="font-family:var(--font-display);color:var(--ink)">Save Your Relationship</em>, by Yaniv Rose</p>
+    <p style="margin-top:14px">&copy; 2026 True Contact &middot; <a href="REPLACE_WITH_TERMS_URL">Terms</a> &middot; <a href="REPLACE_WITH_PRIVACY_URL">Privacy</a> &middot; <a href="REPLACE_WITH_CONTACT_URL">Contact</a></p>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE CTA ============ -->
+<div class="sticky-cta">
+  <div class="p"><s style="opacity:.55;font-weight:400">$25</s> $17.50 <span>30% off</span></div>
+  <a href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30" class="btn btn-primary">Get the book</a>
+</div>
+
+<script>
+// reveal on scroll
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:0.12});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+
+<!-- ===================== FUNNEL EVENT TRACKING ===================== -->
+<script>
+(function(){
+  function loc(el){
+    if (el.closest('.topbar')) return 'header';
+    if (el.closest('.sticky-cta')) return 'sticky';
+    if (el.closest('#offer')) return 'offer';
+    if (el.closest('.final')) return 'final';
+    if (el.closest('.hero')) return 'hero';
+    return 'other';
+  }
+  // Buy buttons = any link to the Gumroad checkout (placeholder or live)
+  var buys = document.querySelectorAll('a[href*="/l/"], a[href*="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30"]');
+  buys.forEach(function(a){
+    a.addEventListener('click', function(){
+      var where = loc(a);
+      track('cta_click', { location: where, link_text: a.textContent.trim() });
+      track('begin_checkout', {
+        location: where, currency: 'USD', value: 17.5,
+        items: [{ item_id: 'save-your-relationship', item_name: 'Save Your Relationship', price: 17.5, quantity: 1 }]
+      });
+    });
+  });
+  // Mid-funnel: offer/price box scrolled into view (once)
+  var offer = document.querySelector('#offer');
+  if (offer && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { track('view_offer'); io.disconnect(); } });
+    }, { threshold: 0.4 });
+    io.observe(offer);
+  }
+  // Engagement: FAQ opened
+  document.querySelectorAll('details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (d.open) track('faq_open', { question: (d.querySelector('summary') || {}).textContent || '' });
+    });
+  });
+})();
+</script>
+</body>
+</html>
