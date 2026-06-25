@@ -27,7 +27,7 @@
      config tag inside GTM, or pageviews/events will double-count. -->
 <script>
   window.TC = window.TC || {};
-  window.TC.ids = { gtm: 'GTM-XXXXXXX', ga4: 'G-XXXXXXXXXX', clarity: 'CLARITY_ID' };
+  window.TC.ids = { gtm: 'GTM-N64L8X7B', ga4: 'G-1LL1N2SNQ6', clarity: 'xch290gh1o', meta: '1414945823907025' };
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
   // Unified tracker → GA4 (gtag) + GTM (dataLayer)
@@ -55,6 +55,14 @@
         t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window,document,'clarity','script',ids.clarity);
+    }
+    if (ids.meta && /^\d+$/.test(ids.meta)) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+      (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', ids.meta); fbq('track', 'PageView');
     }
   })();
 </script>
@@ -667,6 +675,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
         location: where, currency: 'USD', value: 17.5,
         items: [{ item_id: 'save-your-relationship', item_name: 'Save Your Relationship', price: 17.5, quantity: 1 }]
       });
+      if (window.fbq) fbq('track', 'InitiateCheckout', { value: 17.5, currency: 'USD', content_name: 'Save Your Relationship' });
     });
   });
   // Mid-funnel: offer/price box scrolled into view (once)
