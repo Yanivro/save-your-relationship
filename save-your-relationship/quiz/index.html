@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is it too late to save your marriage? An honest look | True Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ===================== ANALYTICS STACK (same IDs as the landing page) =====================
+     Each loader stays dormant until its ID is real (no bad requests on file://).
+     window.track() fires every event to GA4 + GTM. -->
+<script>
+  window.TC = window.TC || {};
+  window.TC.ids = { gtm: 'GTM-N64L8X7B', ga4: 'G-1LL1N2SNQ6', clarity: 'xch290gh1o', meta: '1479566503849993' };
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.track = function(name, params){
+    params = params || {};
+    try { gtag('event', name, params); } catch(e){}
+    try { dataLayer.push(Object.assign({ event: name }, params)); } catch(e){}
+  };
+  (function(){
+    var ids = window.TC.ids, placeholder = /XXXX|CLARITY_ID/;
+    if (ids.gtm && !placeholder.test(ids.gtm)) {
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':+new Date(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;
+        j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',ids.gtm);
+    }
+    if (ids.ga4 && !placeholder.test(ids.ga4)) {
+      var g=document.createElement('script'); g.async=true;
+      g.src='https://www.googletagmanager.com/gtag/js?id='+ids.ga4;
+      document.head.appendChild(g);
+      gtag('js', new Date()); gtag('config', ids.ga4);
+    }
+    if (ids.clarity && !placeholder.test(ids.clarity)) {
+      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,'clarity','script',ids.clarity);
+    }
+    if (ids.meta && /^\d+$/.test(ids.meta)) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+      (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', ids.meta); fbq('track', 'PageView');
+    }
+  })();
+</script>
+<!-- ===================== /ANALYTICS STACK ===================== -->
+
+<style>
+  :root{
+    /* gold-on-midnight, matches build/landing.html exactly */
+    --ink:#ece6f2;        /* headings + light text */
+    --ink-soft:#15121d;   /* DARK token: input/field backgrounds (name kept from base) */
+    --paper:#16131f;      /* body background (midnight) */
+    --paper-2:#211c2e;    /* panel / card background */
+    --text:#ece6f2;       /* body text */
+    --text-soft:#b3a9c2;  /* muted text */
+    --ember:#cda35a;      /* gold accent + primary buttons */
+    --ember-deep:#b8893f; /* button hover */
+    --sage:#88b0a8;       /* muted calm secondary (positive states, spectrum calm end) */
+    --teal:#2f4a52;       /* deep calm (progress track gradient) */
+    --rust:#c06840;       /* alarm end of the severity spectrum */
+    --gold:#cda35a;       /* eyebrows */
+    --line:#3a3348; --line-dark:#403653;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 16px 44px rgba(0,0,0,.55);
+    --ease:cubic-bezier(0.22,1,0.36,1); --dur-fast:200ms; --dur-med:400ms;
+    --r-lg:20px; --r-md:12px; --r-sm:6px;
+  }
+  @keyframes fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){
+    .section-enter,.q-enter,.opt.sel,.reveal-block,.spec-marker{animation:none!important;transition:none!important}
+    .reading-beat{display:none!important}
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.13;letter-spacing:-.01em;color:var(--ink)}
+  em{font-style:italic}
+  .topbar{border-bottom:1px solid var(--line);background:rgba(22,19,31,.92);backdrop-filter:blur(8px)}
+  .topbar .in{max-width:680px;margin:0 auto;padding:14px 24px;font-family:'Fraunces',serif;font-weight:600;font-size:15px}
+  .topbar b{color:var(--ember)}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+  .panel{width:100%;max-width:680px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:clamp(28px,5vw,52px)}
+
+  /* intro */
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .intro h1{font-size:clamp(28px,5vw,40px);max-width:18ch}
+  .intro h1 .q-em{color:var(--ember);font-style:italic}
+  .intro p{margin-top:18px;font-size:16.5px;color:var(--text-soft)}
+  .reassure{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font-size:13px;font-weight:600;color:var(--gold);background:rgba(205,163,90,.12);border-radius:999px;padding:7px 14px}
+  .btn{appearance:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;font-size:16px;color:#1c1726;background:var(--ember);padding:15px 30px;border-radius:var(--r-md);transition:.15s;box-shadow:0 10px 30px -8px rgba(205,163,90,.5);text-decoration:none;display:inline-block}
+  .btn:hover{background:var(--ember-deep);transform:translateY(-1px)}
+  .btn.secondary{background:transparent;color:var(--ember);box-shadow:none;padding:14px 0}
+  .intro-sub{margin-top:12px;font-size:18px;color:var(--text-soft);font-family:'Inter',sans-serif;font-weight:400;line-height:1.4}
+  .start-row{margin-top:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .start-row small{color:var(--text-soft);font-size:13px}
+
+  /* progress */
+  .prog{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .prog .bar{flex:1;height:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ember-deep),var(--ember));transition:width .3s ease;border-radius:999px}
+  .prog .count{font-size:13px;font-weight:600;color:var(--text-soft);white-space:nowrap}
+
+  /* question */
+  .qnum{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .qtext{font-family:'Fraunces',serif;font-size:clamp(21px,3.4vw,28px);font-weight:600;color:var(--ink);line-height:1.25}
+  .q-em{color:var(--ember)}
+  .qhint{margin-top:10px;font-size:14px;color:var(--text-soft)}
+  .opts{margin-top:26px;display:grid;gap:11px}
+  .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r-md);padding:16px 18px;font-size:15.5px;color:var(--text);transition:.13s;font-family:inherit}
+  .opt:hover{border-color:var(--ember);background:#2a2438}
+  .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;transition:.13s}
+  .opt:hover .dot{border-color:var(--ember)}
+  .opt.sel{border-color:var(--ember);background:#2c2540}
+  .opt.sel .dot{border-color:var(--ember);background:var(--ember);box-shadow:inset 0 0 0 3px #2c2540}
+  .nav-row{margin-top:26px;display:flex;justify-content:space-between;align-items:center}
+  .back{background:none;border:none;color:var(--text-soft);cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:8px 0}
+  .back:hover{color:var(--ink)}
+  .back[disabled]{opacity:.3;cursor:default}
+
+  /* reading beat */
+  @keyframes beat-pulse{0%,100%{opacity:.45}50%{opacity:1}}
+  .reading-beat{text-align:center;font-size:14px;color:var(--text-soft);padding:32px 0;animation:beat-pulse 1.1s ease-in-out infinite}
+
+  /* staged reveal */
+  .reveal-block{opacity:0}
+  .result.revealed .reveal-block{animation:fade-up var(--dur-med) var(--ease) both}
+
+  /* result */
+  .result h2{font-size:clamp(24px,4vw,32px);max-width:22ch}
+  .result .body{margin-top:22px;font-size:16px;color:var(--text)}
+  .result .body p{margin-top:14px}
+  .result .body em{color:var(--accent-soft,#e0c28a);font-style:italic}
+
+  /* score spectrum */
+  .spectrum{margin-top:24px}
+  .spec-track{display:flex;height:12px;border-radius:999px;overflow:hidden}
+  .spec-zone{flex:1}
+  .spec-zone.z-light{background:color-mix(in srgb,var(--sage) 32%,var(--paper))}
+  .spec-zone.z-mid{background:color-mix(in srgb,var(--gold) 30%,var(--paper))}
+  .spec-zone.z-heavy{background:color-mix(in srgb,var(--rust) 36%,var(--paper))}
+  .spec-labels{display:flex;margin-top:6px}
+  .spec-label{flex:1;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);opacity:.4;transition:opacity .2s,color .2s}
+  .spec-label:nth-child(2){text-align:center}
+  .spec-label:nth-child(3){text-align:right}
+  .spec-label.active{opacity:1;color:var(--gold)}
+  .spec-wrap{position:relative;margin-top:4px;padding-top:28px}
+  .spec-marker{position:absolute;top:0;transform:translateX(-50%);background:var(--gold);color:#16131f;box-shadow:0 0 14px rgba(205,163,90,.45);font-size:11px;font-weight:700;padding:3px 7px;border-radius:999px;white-space:nowrap;transition:left .7s var(--ease)}
+  .spec-caption{margin-top:12px;font-size:13px;color:var(--text-soft);line-height:1.55;max-width:54ch}
+  #spectrum .card-kicker{color:var(--gold)}
+
+  /* unified cards */
+  .flagbox,.move{margin-top:24px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px}
+  .card-kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:8px}
+  .flagbox h3,.move h3{font-size:15px;margin-bottom:12px;color:var(--gold)}
+  .flagbox ul{list-style:none}
+  .flagbox li{position:relative;padding-left:24px;margin-bottom:9px;font-size:14.5px;color:var(--text)}
+  .flagbox li:before{content:"";position:absolute;left:2px;top:8px;width:8px;height:8px;border-radius:2px;background:var(--rust);transform:rotate(45deg)}
+  .flagbox li.none:before{background:var(--sage)}
+  .move p{font-size:15.5px;color:var(--text);margin-top:10px}
+  .move p:first-child{margin-top:0}
+  .move b{color:var(--ink)}
+
+  /* the book offer (primary CTA) */
+  .offer{margin-top:26px;background:linear-gradient(180deg,#241e33,#1c1828);border:1px solid var(--ember);border-radius:var(--r-lg);padding:28px 26px;box-shadow:0 0 44px rgba(205,163,90,.08)}
+  .offer .card-kicker{color:var(--gold)}
+  .offer h3{font-family:'Fraunces',serif;font-size:24px;color:var(--ink)}
+  .offer .sub{font-style:italic;color:var(--text-soft);font-family:'Fraunces',serif;font-size:16px;margin-top:2px}
+  .offer p{margin-top:14px;font-size:15.5px;color:var(--text)}
+  .offer .price-row{display:flex;align-items:baseline;gap:12px;margin:18px 0 16px}
+  .offer .was{color:var(--text-soft);text-decoration:line-through;font-family:'Fraunces',serif;font-size:20px}
+  .offer .now{font-family:'Fraunces',serif;font-size:28px;color:var(--ink)}
+  .offer .now small{font-size:14px;color:var(--text-soft);font-style:italic;font-family:'Inter',sans-serif}
+  .offer .off-pill{display:inline-flex;align-items:center;background:rgba(205,163,90,.14);border:1px solid var(--ember);color:var(--gold);font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px}
+  .offer .btn{width:100%;text-align:center;font-size:17px;padding:16px 22px}
+  .offer .under{margin-top:10px;font-size:13px;color:var(--text-soft);text-align:center}
+
+  /* bridge inside capture */
+  .bridge{font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--text-soft);margin-bottom:20px;line-height:1.4}
+
+  /* capture (soft email ask) */
+  .capture{margin-top:24px;background:#120f1a;border:1px solid rgba(205,163,90,.20);box-shadow:0 0 44px rgba(205,163,90,.06);border-radius:var(--r-lg);padding:28px 26px;color:var(--ink)}
+  .capture h3{color:var(--ink);font-size:20px}
+  .capture p{margin-top:8px;color:var(--text-soft);font-size:14.5px}
+  .opt-toggle{background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;color:#9a8e9e;padding:10px 0 4px;display:flex;align-items:center;gap:5px;text-decoration:underline;text-underline-offset:2px}
+  .opt-toggle:hover{color:var(--text-soft)}
+  .opt-toggle .caret{display:inline-block;transition:transform var(--dur-fast) var(--ease);font-size:11px;line-height:1}
+  .opt-toggle.open .caret{transform:rotate(90deg)}
+  .opt-extra{grid-column:1 / -1;overflow:hidden;max-height:0;opacity:0;transition:max-height var(--dur-med) var(--ease),opacity var(--dur-med) var(--ease);display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt-extra.open{max-height:300px;opacity:1}
+  @media (max-width:520px){.opt-extra{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){.opt-extra,.opt-toggle .caret{transition:none!important}}
+  .form{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .form input,.form select{min-width:0;width:100%;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--line-dark);background:var(--ink-soft);color:var(--ink);font-size:15px;font-family:inherit}
+  .form select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%239A8E9E' stroke-width='2' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .form select:invalid{color:#9a8e9e}
+  .form select option{color:#201E25;background:#fff}
+  .form input::placeholder{color:#9a8e9e}
+  .form input:focus,.form select:focus{outline:none;border-color:var(--ember)}
+  .form button{grid-column:1 / -1;appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:15px;color:#1c1726;background:var(--ember);padding:14px 22px;border-radius:var(--r-md)}
+  .form button:hover{background:var(--ember-deep)}
+  @media (max-width:520px){.form{grid-template-columns:1fr}}
+  .form-field{display:flex;flex-direction:column;gap:5px}
+  .form-field label{font-size:12px;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase}
+  .capture small{display:block;margin-top:12px;color:#9a8e9e;font-size:12.5px}
+  .confirm{margin-top:16px;font-size:15px;color:var(--sage);display:none}
+  .softline{margin-top:26px;font-size:13px;color:var(--text-soft);text-align:center;line-height:1.6}
+  .restart{margin-top:18px;text-align:center}
+  .hidden{display:none}
+  .section-enter{animation:fade-up var(--dur-fast) var(--ease) both}
+  .q-enter{animation:fade-up var(--dur-fast) var(--ease) both}
+  @keyframes opt-confirm{0%{transform:scale(1)}50%{transform:scale(.98)}100%{transform:scale(1)}}
+  .opt.sel{animation:opt-confirm var(--dur-med) var(--ease)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media (max-width:520px){.panel{border-radius:var(--r-lg)}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">True <b>Contact</b></div></div>
+
+<div class="stage">
+  <div class="panel">
+
+    <!-- INTRO -->
+    <section id="intro" class="intro">
+      <div class="eyebrow">A 2-minute honest look</div>
+      <h1>Is it too late to <span class="q-em">save your marriage</span>?</h1>
+      <p class="intro-sub">For the man who has tried everything and can feel her slipping away.</p>
+      <p>Seven honest questions. No one is grading you, and there is no trick where the answer is always "it's hopeless." This just shows you where your marriage actually stands right now, and the one thing most men get wrong about saving it.</p>
+      <div class="reassure">
+        <span class="chip">7 questions</span>
+        <span class="chip">No email to see your result</span>
+        <span class="chip">Brutally honest</span>
+      </div>
+      <div class="start-row">
+        <button class="btn" onclick="start()">Start the honest look</button>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="hidden">
+      <div class="prog">
+        <div class="bar"><i id="progfill" style="width:0%"></i></div>
+        <span class="count" id="progcount">1 / 7</span>
+      </div>
+      <div id="qwrap">
+        <div class="qnum" id="qnum">Question 1</div>
+        <h2 class="qtext" id="qtext" tabindex="-1"></h2>
+        <div class="qhint" id="qhint"></div>
+        <div class="opts" id="opts"></div>
+      </div>
+      <div class="nav-row">
+        <button class="back" id="backbtn" onclick="back()">&larr; Back</button>
+        <span></span>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" class="result hidden">
+      <div class="reading-beat" id="reading-beat">Reading your answers&hellip;</div>
+      <div id="result-content" style="display:none">
+        <div class="reveal-block" id="rb-head">
+          <h2 id="rhead"></h2>
+          <div class="spectrum" id="spectrum">
+            <div class="card-kicker">Where you land</div>
+            <div class="spec-wrap">
+              <div class="spec-marker" id="spec-marker" style="left:0%"></div>
+              <div class="spec-track">
+                <div class="spec-zone z-light"></div>
+                <div class="spec-zone z-mid"></div>
+                <div class="spec-zone z-heavy"></div>
+              </div>
+            </div>
+            <div class="spec-labels">
+              <span class="spec-label" id="sl-light">Drifting</span>
+              <span class="spec-label" id="sl-mid">Roommates</span>
+              <span class="spec-label" id="sl-heavy">One foot out</span>
+            </div>
+            <p class="spec-caption">This measures how far she has pulled away. 0 means a rough patch you are still in together. 21 means she is mostly gone, and you can feel it.</p>
+          </div>
+        </div>
+        <div class="reveal-block" id="rb-body">
+          <div class="body" id="rbody"></div>
+        </div>
+        <div class="reveal-block" id="rb-flags">
+          <div class="flagbox">
+            <div class="card-kicker">What your answers flag</div>
+            <ul id="flags"></ul>
+          </div>
+        </div>
+        <div class="reveal-block" id="rb-move">
+          <div class="move">
+            <div class="card-kicker">Your first move</div>
+            <div id="movebody"></div>
+          </div>
+        </div>
+
+        <!-- THE BOOK (primary conversion) -->
+        <div class="reveal-block" id="rb-offer">
+          <div class="offer">
+            <div class="card-kicker">The full plan</div>
+            <h3>Save Your Relationship</h3>
+            <div class="sub">by Yaniv Rose</div>
+            <p>The 30-day plan that walks you through all of it. Diagnose what is actually wrong, stop the chasing and defending that pushes her away, show the change without announcing it, and at day 30, read what her response is telling you. About a 30-minute read. Start tonight.</p>
+            <div class="price-row">
+              <span class="was">$25</span>
+              <span class="now">$17.50 <small>one-time</small></span>
+              <span class="off-pill">30% off</span>
+            </div>
+            <a class="btn" id="buybtn" href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30">Get the book</a>
+            <div class="under">Instant PDF. Read it on your phone tonight.</div>
+          </div>
+        </div>
+
+        <!-- SOFT EMAIL ASK (secondary) -->
+        <div class="reveal-block" id="rb-capture">
+          <div class="capture">
+            <div class="bridge" id="bridge"></div>
+            <h3 id="capture-h3">Prefer it in your inbox first?</h3>
+            <p id="capture-lead">I will send your result and the first step you can take this week. Free. One email.</p>
+            <form class="form" id="leadform" onsubmit="return submitLead(event)">
+              <div class="form-field">
+                <label for="firstname">First name</label>
+                <input type="text" id="firstname" placeholder="first name" required>
+              </div>
+              <div class="form-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="your email" required>
+              </div>
+              <button type="button" class="opt-toggle" id="opt-toggle" aria-expanded="false" aria-controls="opt-extra" style="grid-column:1 / -1" onclick="toggleOptExtra()"><span class="caret">&#9658;</span> Add a bit about you (optional)</button>
+              <div class="opt-extra" id="opt-extra" role="group" aria-label="Optional details">
+                <div class="form-field">
+                  <label for="age">Age</label>
+                  <select id="age">
+                    <option value="" selected>your age</option>
+                    <option>Under 30</option>
+                    <option>30-39</option>
+                    <option>40-49</option>
+                    <option>50-59</option>
+                    <option>60+</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="years">Years together</label>
+                  <select id="years">
+                    <option value="" selected>years together</option>
+                    <option>Under 5</option>
+                    <option>5-10</option>
+                    <option>10-20</option>
+                    <option>20+</option>
+                  </select>
+                </div>
+              </div>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+              <label class="consent" for="consent" style="grid-column:1 / -1; display:flex; align-items:flex-start; gap:.55em; font-size:.82rem; line-height:1.45; cursor:pointer; color:inherit; opacity:.92; margin:.2em 0 .1em">
+                <input type="checkbox" id="consent" required style="margin-top:.18em; flex:0 0 auto; width:16px; height:16px; accent-color:#cda35a; cursor:pointer">
+                <span>Yes, email me my result and the next steps. Unsubscribe any time.</span>
+              </label>
+              <button type="submit">Send me my result</button>
+            </form>
+            <div class="confirm" id="confirm">You're in. Your result and first step are on the way. Check your inbox.</div>
+            <small>No spam. Leave any time.</small>
+          </div>
+        </div><!-- /rb-capture -->
+      </div><!-- /result-content -->
+
+      <div class="softline">However far gone it feels, doing the work has no losing version. Either she softens toward a man who finally sees her, or you walk away knowing you gave it everything. If you are carrying this completely alone, a good couples therapist is worth the call too.</div>
+      <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  // 7 scored questions (0-3). The score measures how far she has pulled away (the "is it too late" axis).
+  const QUESTIONS = [
+    { q:"The easy warmth between you is gone. She is polite, but the spark that used to be there feels missing.",
+      hint:"Think about a normal evening, not a good day or a bad fight.",
+      flag:"The everyday warmth has drained out. That is usually the first thing to go." },
+    { q:"You cannot remember the last time <span class=\"q-em\">she</span> reached for <span class=\"q-em\">you</span> first. A hand, a hug, sex, any of it.",
+      hint:"Who starts it now, almost every time.",
+      flag:"She has stopped reaching first. The wanting has gone quiet on her side." },
+    { q:"What you talk about now is logistics. The kids, the calendar, the house. The real stuff has thinned out.",
+      hint:"How you feel, what you want, the inside jokes.",
+      flag:"You have dropped to logistics. The real conversations have stopped." },
+    { q:"She seems far away even when she is in the room. Tired, careful, somewhere else in her head.",
+      hint:"Present in body, gone somewhere else.",
+      flag:"She is pulling back even when she is right there. That is withdrawal, not just stress." },
+    { q:"When you do make an effort, it barely lands. A small thank you at best, and the distance stays.",
+      hint:"What happens after you try.",
+      flag:"Your effort is not reaching her anymore. That is the hardest one to sit with." },
+    { q:"She has stopped bringing things up. The arguing has gone quiet, and the quiet scares you more than the fighting did.",
+      hint:"Cold, not loud.",
+      flag:"She has gone quiet instead of angry. Quiet is the later stage, not the calmer one." },
+    { q:"When you let yourself think about where this is heading, part of you believes she may have already checked out.",
+      hint:"The 2am answer, not the daytime one.",
+      flag:"Some part of you already feels her gone. That fear is data, not paranoia." },
+  ];
+  const SCALE = [
+    { t:"Not us", v:0 },
+    { t:"Sometimes", v:1 },
+    { t:"Often", v:2 },
+    { t:"That's exactly us", v:3 },
+  ];
+  // Reach-pattern question (not scored). Drives the first move + personalizes the reframe.
+  const SUBQ = {
+    q:"When the distance scares you and you try to fix it, what do you reach for first?",
+    hint:"This decides your first move, so pick the closest one.",
+    opts:[
+      { t:"The grand gesture. Flowers, a dinner, a trip, a gift to win her back.", k:"gesture" },
+      { t:"My case. Explaining how much I do and how hard I work.", k:"defend" },
+      { t:"More providing. Working harder, earning more, hoping she notices.", k:"provide" },
+      { t:"Slowing down to figure out what she is actually carrying.", k:"see" },
+    ]
+  };
+
+  // Per-band result copy. Honest but hopeful. The reframe (being seen vs seeing her) runs through all three.
+  const BANDS = {
+    light: {
+      label:"sl-light",
+      head:"She hasn't left. She's drifting. And you caught it early.",
+      body:`<p>She is still here, still reaching some of the time. What you are feeling is the early drift, the warmth thinning out before anything is broken. Most men miss this stage completely, or worse, they answer it by working even harder to be a good husband. That is the move that quietly widens the gap.</p>
+            <p>Here is the part that matters. Nobody feels loved because they were impressed. They feel loved because they were understood. All that effort you have been pouring in has been aimed at being <em>seen</em> as a good husband, not at <em>seeing</em> her. Early is the best place to be standing, because you have the most room of anyone to turn that around.</p>`
+    },
+    mid: {
+      label:"sl-mid",
+      head:"You're sharing a house, not a marriage.",
+      body:`<p>You are polite. You co-parent, split the bills, manage the calendar. And somewhere in there the marriage quietly turned into a logistics partnership. You are not at war. You are just not really together. That is not peace. It is distance wearing the costume of peace.</p>
+            <p>And it did not happen because you did too little. It happened because all that effort was aimed at being <em>seen</em> as a good husband, instead of at <em>seeing</em> her. The harder you worked to prove it, the more alone she felt. Roommates can become partners again, but not by being a better roommate. It happens when she starts feeling seen by you, maybe for the first time in years.</p>`
+    },
+    heavy: {
+      label:"sl-heavy",
+      head:"It's late. By your own answers, she's mostly gone. It may not be too late.",
+      body:`<p>I am not going to soften this. By the way you answered, she has pulled most of the way out. The reaching stopped a while ago. She has gone quiet instead of angry, and that is the later stage. It is a frightening place to be reading this from.</p>
+            <p>So here is the honest version. It may be late. It is not automatically too late. Women leave marriages they have given up on. They do not usually leave the month a man finally, genuinely starts seeing them. You will not undo years in a weekend. But all that effort you poured in was aimed at being <em>seen</em> as a good husband, not at <em>seeing</em> her, and that one thing is still in your hands to change.</p>`
+    }
+  };
+
+  const FIRSTMOVE = {
+    gesture:`<p>You reach for the grand gesture. Flowers, a dinner, a trip, a gift to win her back. It is not wrong. It just is not the recipe. A gift says <em>look what I did</em>. It does not say <em>I see what you carry</em>.</p>
+             <p><b>This week:</b> quietly watch the invisible work she does and never gets thanked for. The remembering, the planning, the worrying about everyone. Do not announce it. Just start seeing it. That is the muscle the whole plan is built on.</p>`,
+    defend:`<p>When she is upset, you explain your side. You lay out how much you do. But every time you defend, she hears that her feeling is wrong, and she goes a little quieter.</p>
+            <p><b>This week:</b> the next time she is upset, say nothing in your own defense. Just get curious about what she is actually carrying. One conversation where she feels heard instead of answered will tell you more than ten where you win.</p>`,
+    provide:`<p>You answer the distance by providing more. Working harder, earning more, hoping she will finally notice. She noticed. It just is not what she is starving for.</p>
+             <p><b>This week:</b> give her ten minutes of full attention with the phone face down and nothing to fix. Presence is the currency she is short on, not provision.</p>`,
+    see:`<p>You already do the rare thing. You slow down and try to understand what she is carrying. Most men never get there. The catch is doing it on purpose, in plain sight, in the days that decide this, so it actually reaches her.</p>
+         <p><b>This week:</b> pick one thing you know weighs on her and quietly take it off her plate. No announcement. Let her notice.</p>`
+  };
+
+  const BRIDGE = {
+    light:"You have the most room of anyone to turn this around. The plan is how you use it.",
+    mid:"Being a better roommate will not bring her back. Being seen will. The plan is how.",
+    heavy:"In 30 days you will know which way this is going, for certain, instead of lying awake guessing."
+  };
+
+  let answers = new Array(QUESTIONS.length).fill(null);
+  let subtype = null;
+  let idx = 0; // 0..6 scored, 7 = reach-pattern
+  let picking = false; // guard: block re-entry during dwell
+
+  const $ = id => document.getElementById(id);
+  function show(id){
+    ["intro","quiz","result"].forEach(s=>$(s).classList.add("hidden"));
+    const el = $(id);
+    el.classList.remove("hidden");
+    el.classList.remove("section-enter");
+    void el.offsetWidth;
+    el.classList.add("section-enter");
+    window.scrollTo(0,0);
+  }
+
+  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); subtype=null; show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+  function restart(){
+    $("confirm").style.display="none";
+    const lf=$("leadform"); lf.reset(); lf.style.display="";
+    const sb=lf.querySelector("button[type='submit']"); sb.disabled=false; sb.textContent="Send me my result";
+    $("opt-extra").classList.remove("open"); $("opt-toggle").classList.remove("open"); $("opt-toggle").setAttribute("aria-expanded","false");
+    $("result-content").style.display="none"; $("result").classList.remove("revealed");
+    picking=false;
+    start();
+  }
+
+  function render(){
+    const pct = idx < QUESTIONS.length ? (idx / QUESTIONS.length * 100) : 100;
+    $("progfill").style.width = pct + "%";
+    if(idx < QUESTIONS.length){
+      $("progcount").textContent = (idx+1)+" / "+QUESTIONS.length;
+    } else {
+      $("progcount").textContent = "Last one";
+    }
+    $("backbtn").disabled = idx===0;
+
+    const wrap = $("qwrap");
+    wrap.classList.remove("q-enter");
+    void wrap.offsetWidth;
+    wrap.classList.add("q-enter");
+
+    if(idx < QUESTIONS.length){
+      const Q = QUESTIONS[idx];
+      $("qnum").textContent = "Question "+(idx+1);
+      $("qtext").innerHTML = Q.q;
+      $("qhint").textContent = Q.hint;
+      $("opts").innerHTML = SCALE.map((o,i)=>
+        `<button class="opt${answers[idx]===i?' sel':''}" onclick="pick(${i})"><span class="dot"></span>${o.t}</button>`).join("");
+    } else {
+      const Q = SUBQ;
+      $("qnum").textContent = "Last one";
+      $("qtext").textContent = Q.q;
+      $("qhint").textContent = Q.hint;
+      $("opts").innerHTML = Q.opts.map((o,i)=>
+        `<button class="opt${subtype===o.k?' sel':''}" onclick="pickSub('${o.k}')"><span class="dot"></span>${o.t}</button>`).join("");
+    }
+    $("qtext").focus({preventScroll:true});
+  }
+  function pick(i){
+    if(picking) return;
+    picking = true;
+    answers[idx]=i;
+    render();
+    setTimeout(()=>{ picking=false; idx++; render(); }, 400);
+  }
+  function pickSub(k){
+    if(picking) return;
+    picking = true;
+    subtype=k;
+    setTimeout(()=>{ picking=false; showResult(); },400);
+  }
+  function back(){ if(idx>0){ idx--; render(); } }
+
+  function bandFor(score){ return score<=6 ? "light" : (score<=13 ? "mid" : "heavy"); }
+
+  function showResult(){
+    const score = answers.reduce((a,b)=>a+(b||0),0); // 0..21
+    const band = bandFor(score);
+    const B = BANDS[band];
+
+    $("rhead").textContent = B.head;
+    $("rbody").innerHTML = B.body;
+
+    // spectrum
+    const pct = Math.round((score / 21) * 100);
+    $("spec-marker").textContent = score + " / 21";
+    $("spec-marker").style.left = "0%";
+    ["sl-light","sl-mid","sl-heavy"].forEach(id=>$(id).classList.remove("active"));
+    $(B.label).classList.add("active");
+
+    // flags (answered 2 or 3)
+    const flagged = QUESTIONS.map((Q,i)=>({f:Q.flag,v:answers[i]})).filter(x=>x.v>=2);
+    const ul = $("flags");
+    if(flagged.length===0){
+      ul.innerHTML = `<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first. Those go quiet first.</li>`;
+    } else {
+      ul.innerHTML = flagged.map(x=>`<li>${x.f}</li>`).join("");
+    }
+
+    // first move (reach-pattern driven)
+    $("movebody").innerHTML = FIRSTMOVE[subtype] || FIRSTMOVE.gesture;
+
+    // bridge above the email card
+    $("bridge").textContent = BRIDGE[band];
+
+    try{ track('quiz_complete',{ score:score, band:band, reach:subtype }); }catch(e){}
+
+    // --- staged reveal ---
+    $("result").classList.remove("revealed");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+    const blocks = ["rb-head","rb-body","rb-flags","rb-move","rb-offer","rb-capture"];
+
+    if(reduceMotion){
+      show("result");
+      $("reading-beat").style.display = "none";
+      $("result-content").style.display = "";
+      blocks.forEach(id=>{ const el=$(id); el.style.opacity="1"; el.style.animation="none"; });
+      $("spec-marker").style.left = pct + "%";
+    } else {
+      show("result");
+      $("reading-beat").style.display = "";
+      $("result-content").style.display = "none";
+      setTimeout(()=>{
+        $("reading-beat").style.display = "none";
+        $("result-content").style.display = "";
+        $("result").classList.add("revealed");
+        blocks.forEach((id,i)=>{ $(id).style.animationDelay = (i * 120) + "ms"; });
+        setTimeout(()=>{ $("spec-marker").style.left = pct + "%"; }, 500);
+      }, 800);
+    }
+  }
+
+  // Keyboard: number keys select options on the current question
+  document.addEventListener("keydown", function(e){
+    if($("quiz").classList.contains("hidden")) return;
+    const tag = document.activeElement && document.activeElement.tagName;
+    if(tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    const n = parseInt(e.key, 10);
+    if(isNaN(n) || n < 1 || n > 4) return;
+    const opts = $("opts").querySelectorAll(".opt");
+    if(n > opts.length) return;
+    opts[n-1].click();
+  });
+
+  // Track buy clicks
+  document.getElementById("buybtn").addEventListener("click", function(){
+    try{ track('quiz_buy_click'); if(window.fbq) fbq('track','InitiateCheckout'); }catch(e){}
+  });
+
+  function toggleOptExtra(){
+    const toggle = $("opt-toggle");
+    const extra = $("opt-extra");
+    const isOpen = extra.classList.contains("open");
+    extra.classList.toggle("open", !isOpen);
+    toggle.classList.toggle("open", !isOpen);
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+  }
+
+  function submitLead(e){
+    e.preventDefault();
+    if(!$("consent").checked){ return false; }
+    const score = answers.reduce((a,b)=>a+(b||0),0);
+    const band = bandFor(score);
+    const lead = {
+      product: "save-your-relationship",        // routes the subscriber to the right MailerLite group
+      first_name: $("firstname").value.trim(),
+      email: $("email").value.trim(),
+      age_bracket: $("age").value,
+      years_together: $("years").value,
+      reach: subtype,                            // gesture | defend | provide | see
+      score: score,                             // 0..21
+      band: band,                               // light | mid | heavy
+      consent: true,
+      consent_at: new Date().toISOString(),
+      website: $("website").value               // honeypot
+    };
+
+    // Posts to a Cloudflare Worker that holds the MailerLite token and creates the subscriber
+    // server-side in group 191258795228267635 (Save Your Relationship). Deploy a worker for this
+    // product and paste its URL here. Until then, leave as-is: the catch() below still confirms to
+    // the user, and the lead is mirrored to the analytics layer via track('quiz_lead').
+    const WORKER_URL = "https://syr-lead.truecontact.workers.dev";  // TODO: point at the live worker
+
+    const btn = $("leadform").querySelector("button[type='submit']");
+    btn.disabled = true; btn.textContent = "Sending...";
+
+    function done(){
+      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq) fbq('track','Lead'); }catch(e){}
+      $("confirm").style.color = "var(--sage)";
+      $("confirm").textContent = "You're in" + (lead.first_name ? ", " + lead.first_name : "") + ". Your result and first step are on the way. Check your inbox.";
+      $("leadform").style.display = "none";
+      $("confirm").style.display = "block";
+    }
+
+    fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead)
+    })
+    .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(done)
+    .catch(err => {
+      console.error(err);
+      // Soft-fail to a confirmation anyway so a missing/unconfigured worker never blocks the user.
+      done();
+    });
+    return false;
+  }
+</script>
+</body>
+</html>
