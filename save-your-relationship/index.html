@@ -191,6 +191,17 @@ section{padding:64px 0;}
 .sec-intro{text-align:center; color:var(--ink-soft); font-size:19px; max-width:34em; margin:0 auto 8px;}
 .divider{height:1px; background:var(--line); border:0; max-width:760px; margin:0 auto;}
 
+/* light section variant — warm parchment, brand cream family.
+   Overrides the design tokens so every var()-driven child adapts automatically. */
+section.light{
+  background:#efe7d8; color:#2a2433;
+  --ink:#2a2433; --ink-soft:#6a6072; --accent:#9a6c1f;
+  --page:#fbf6ec; --box:#efe3d0; --box-line:#e3d4ba; --line:#e2d4bb; --bg-2:#f3ecdd;
+  border-top:1px solid #e2d4bb; border-bottom:1px solid #e2d4bb;
+}
+section.light .quote{color:#5d5466;}
+section.light .card, section.light .testi{box-shadow:0 12px 28px -24px rgba(40,30,10,.4);}
+
 /* the 2am / pain list */
 .band{background:var(--bg-2);}
 .pain-list{list-style:none; max-width:620px; margin:34px auto 0;}
@@ -240,6 +251,20 @@ section{padding:64px 0;}
 .guide-grid .role{font-style:italic; color:var(--accent); font-family:var(--font-display); font-size:16px; margin-bottom:2px;}
 .guide-grid .role2{font-style:italic; color:var(--ink-soft); font-family:var(--font-display); font-size:15px; line-height:1.4; margin-bottom:16px;}
 .guide-grid p{color:var(--ink-soft); font-size:16.5px;}
+
+/* testimonials */
+.testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:42px;}
+.testi{background:var(--page); border:1px solid var(--box-line); border-radius:var(--radius); padding:28px 24px; display:flex; flex-direction:column;}
+.testi .theme{display:inline-flex; align-self:flex-start; align-items:center; background:rgba(205,163,90,.13); border:1px solid var(--accent); color:var(--accent); font-size:11px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; padding:5px 12px; border-radius:100px; margin-bottom:20px;}
+.testi blockquote{font-size:16px; color:var(--ink); line-height:1.62; margin:0 0 22px; flex:1;}
+.testi blockquote .hl{font-family:var(--font-display); font-style:italic; font-weight:500; color:var(--accent);}
+.testi .who{display:flex; align-items:center; gap:12px; margin-top:auto;}
+.testi .dot{width:36px; height:36px; border-radius:50%; background:var(--box); border:1px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); color:var(--accent); font-size:17px; flex:0 0 36px; line-height:1;}
+.testi .name{font-weight:600; color:var(--ink); font-size:15px;}
+.testi .meta{font-size:13px; color:var(--ink-soft);}
+.testi-feature{max-width:660px; margin:34px auto 0; text-align:center; border-top:1px solid var(--line); padding-top:34px;}
+.testi-feature blockquote{font-family:var(--font-display); font-style:italic; font-size:22px; color:var(--ink); line-height:1.5;}
+.testi-feature .who{margin-top:16px; font-size:14px; color:var(--accent); letter-spacing:.04em;}
 
 /* success */
 .success{background:var(--bg-2);}
@@ -324,7 +349,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
   .hero .cover-col{order:-1;}
   .cover-shot{transform:none; width:230px;}
   .hero h1{font-size:46px;}
-  .steps,.inside{grid-template-columns:1fr;}
+  .steps,.inside,.testi-grid{grid-template-columns:1fr;}
   .win-list{grid-template-columns:1fr;}
   .guide-grid{grid-template-columns:1fr; text-align:center; gap:18px;}
   .avatar{margin:0 auto;}
@@ -375,9 +400,12 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
         still slipping away.
       </p>
       <p class="lede">
-        All that effort has been missing the one thing she desires to feel most:
+        All that effort went into being seen as a good husband. It never went into seeing her.
       </p>
-      <p class="lede beat"><b>Being Seen.</b></p>
+      <p class="lede">
+        And the one thing she has been starving for is the very thing you were chasing:
+      </p>
+      <p class="lede beat"><b>Being seen.</b></p>
       <p class="lede">
         If you follow this plan, in 30 days you'll learn what most men never will. And you'll
         either watch her soften toward a man who can clearly see her, or you will finally know
@@ -427,19 +455,15 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 </section>
 
 <!-- ============ THE REFRAME / TRUTH ============ -->
-<section>
+<section class="light">
   <div class="wrap reframe">
     <p class="sec-eyebrow eyebrow">What she's been carrying</p>
     <h2 class="sec-title reveal">The harder you tried, the more alone she felt</h2>
     <div class="reveal" style="margin-top:30px">
       <p>There is a weight she has carried that you were never taught to see. The invisible project management of a shared life. Being the one who notices when something is off and tends to it. It runs in the back of her mind every waking hour and never clocks out.</p>
-      <p>So when you did a kind thing and then waited, watching her face for the warmth to come back, she felt the wait. A gift from a man who needs her to be delighted does not land as a gift.</p>
-      <p class="quote">"You handed her a gift. She received a bill."</p>
-      <p class="big">Nobody feels loved because they were impressed. They feel loved because they were understood.</p>
+      <p>You were taught what your father was taught: provide, fix, show up, and the job is done. Seeing her was never on the list. That part is not your fault. What you do with it now is.</p>
+      <p class="big">The issue is: you're trying to hand her a gift, and she's receiving a bill.</p>
     </div>
-  </div>
-  <div class="wrap" style="margin-top:50px">
-    <p class="pull reveal">Step off the stage.<br>Walk into the room.</p>
   </div>
 </section>
 
@@ -473,7 +497,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 </section>
 
 <!-- ============ WHAT'S INSIDE ============ -->
-<section>
+<section class="light">
   <div class="wrap-wide">
     <p class="sec-eyebrow eyebrow">What you get</p>
     <h2 class="sec-title reveal">Everything for the next 30 days, <em>$17.50</em></h2>
@@ -516,6 +540,36 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
   </div>
 </section>
 
+<!-- ============ TESTIMONIALS ============ -->
+<section class="light">
+  <div class="wrap-wide">
+    <p class="sec-eyebrow eyebrow">What people say about working with Yaniv</p>
+    <h2 class="sec-title reveal">Real change, in their words</h2>
+    <p class="sec-intro reveal">Not a quick fix or a trick. What shifts when a man finally sees himself, and the people closest to him, clearly.</p>
+    <div class="testi-grid">
+      <figure class="testi reveal">
+        <span class="theme">Deeper connection</span>
+        <blockquote>This gave me new ways to understand what makes me, me. Naming and working with the different parts of myself is <span class="hl">already changing my relationships</span>, to myself and to the people around me. I'd recommend it to any man who wants a deeper, richer way of being with himself and others.</blockquote>
+        <figcaption class="who"><span class="dot">D</span><span><span class="name">Dan</span><br><span class="meta">Course participant</span></span></figcaption>
+      </figure>
+      <figure class="testi reveal">
+        <span class="theme">Safe, and honest</span>
+        <blockquote>Yaniv guided me to a place of greater self-trust through the real work of understanding the parts of myself I'd been avoiding. If you want acceptance, empathy, depth, and someone who will <span class="hl">gently call you out</span>, work with him.</blockquote>
+        <figcaption class="who"><span class="dot">A</span><span><span class="name">Andrea</span><br><span class="meta">Coaching client</span></span></figcaption>
+      </figure>
+      <figure class="testi reveal">
+        <span class="theme">Tools that last</span>
+        <blockquote>It gave me insights and ways of expressing myself that changed my relationships, plus tools I now use with the leaders I work with. Yaniv made it safe for a novice like me to wrestle with hard things and <span class="hl">actually feel connected</span>.</blockquote>
+        <figcaption class="who"><span class="dot">B</span><span><span class="name">Brian</span><br><span class="meta">Leadership professional</span></span></figcaption>
+      </figure>
+    </div>
+    <div class="testi-feature reveal">
+      <blockquote>"One of the best workshops I've ever taken, and I'm saying that after 40 years of professional, personal, and spiritual work. A rare balance of skill and heart, and a real combination for how you are in relationship with yourself."</blockquote>
+      <p class="who">Marianne &middot; 40+ years in personal-development work</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ SUCCESS VISION ============ -->
 <section class="success">
   <div class="wrap">
@@ -534,7 +588,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 </section>
 
 <!-- ============ THE GUARANTEE (the mechanism) ============ -->
-<section>
+<section class="light">
   <div class="wrap">
     <div class="guarantee reveal">
       <svg class="seal" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -583,7 +637,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 </section>
 
 <!-- ============ FAQ ============ -->
-<section>
+<section class="light">
   <div class="wrap">
     <p class="sec-eyebrow eyebrow">Before you decide</p>
     <h2 class="sec-title reveal">Honest answers</h2>
