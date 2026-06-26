@@ -711,7 +711,17 @@
     btn.disabled = true; btn.textContent = "Sending...";
 
     function done(){
-      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq) fbq('track','Lead'); }catch(e){}
+      // Stamp a signup marker into the URL so a Meta custom conversion ("URL contains signed_up=1")
+      // fires only on a real email signup, not on every quiz view. Then fire PageView so the pixel
+      // records an event carrying that URL.
+      try {
+        if (window.history && history.replaceState) {
+          var u = new URL(window.location.href);
+          u.searchParams.set('signed_up', '1');
+          history.replaceState(null, '', u.toString());
+        }
+      } catch(e){}
+      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead'); fbq('track','PageView'); } }catch(e){}
       $("confirm").style.color = "var(--sage)";
       $("confirm").textContent = "You're in" + (lead.first_name ? ", " + lead.first_name : "") + ". Your result and first step are on the way. Check your inbox.";
       $("leadform").style.display = "none";
