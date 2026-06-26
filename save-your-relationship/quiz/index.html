@@ -424,6 +424,8 @@
     { t:"Often", v:2 },
     { t:"That's exactly us", v:3 },
   ];
+  // Short theme label per question (Q1..Q7) — used for analytics + the "what's hardest" field.
+  const THEMES = ["Lost warmth","No longer reaching","Only logistics","Withdrawn","Effort not landing","Gone quiet","Fears she's checked out"];
   // Reach-pattern question (not scored). Drives the first move + personalizes the reframe.
   const SUBQ = {
     q:"When the distance scares you and you try to fix it, what do you reach for first?",
@@ -609,6 +611,8 @@
     $("bridge").textContent = BRIDGE[band] || BRIDGE.mid;
 
     try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reach }); }catch(e){}
+    // Aggregate: one event per question with the chosen value (what most people react to).
+    if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
 
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
@@ -679,6 +683,8 @@
     if(!$("consent").checked){ return false; }
     const score = answers.reduce((a,b)=>a+(b||0),0);
     const band = bandFor(score);
+    // High-pain themes (questions answered 2 or 3) — readable "what's hardest for this person".
+    const topAreas = QUESTIONS.map((q,i)=>({t:THEMES[i],v:answers[i]})).filter(x=>x.v>=2).map(x=>x.t).join(", ");
     const lead = {
       product: "save-your-relationship",        // routes the subscriber to the right MailerLite group
       first_name: $("firstname").value.trim(),
@@ -687,7 +693,9 @@
       years_together: $("years").value,
       reach: subtype,                            // gesture | defend | provide | see
       score: score,                             // 0..21
-      band: band,                               // light | mid | heavy
+      band: band,                               // solid | light | mid | heavy
+      answers: answers.slice(),                 // [q1..q7] raw 0-3 -> syr_q1..syr_q7
+      top_areas: topAreas,                      // readable high-pain themes -> syr_top_areas
       consent: true,
       consent_at: new Date().toISOString(),
       website: $("website").value               // honeypot
