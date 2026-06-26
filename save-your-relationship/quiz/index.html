@@ -9,15 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Social share / link-preview card -->
-<meta name="description" content="A 2-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
+<meta name="description" content="A 4-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Is it too late to save your marriage?" />
-<meta property="og:description" content="A 2-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
+<meta property="og:description" content="A 4-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
 <meta property="og:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
 <meta property="og:url" content="https://thetruecontact.com/save-your-relationship/quiz/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Is it too late to save your marriage?" />
-<meta name="twitter:description" content="A 2-minute honest look at where your marriage stands, for the man who has tried everything." />
+<meta name="twitter:description" content="A 4-minute honest look at where your marriage stands, for the man who has tried everything." />
 <meta name="twitter:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
 
 <!-- ===================== ANALYTICS STACK (same IDs as the landing page) =====================
@@ -242,7 +242,7 @@
 
     <!-- INTRO -->
     <section id="intro" class="intro">
-      <div class="eyebrow">A 2-minute honest look</div>
+      <div class="eyebrow">A 4-minute honest look</div>
       <h1>Is it too late to <span class="q-em">save your marriage</span>?</h1>
       <p class="intro-sub">For the man who has tried everything and can feel her slipping away.</p>
       <p>Seven honest questions. No one is grading you, and there is no trick where the answer is always "it's hopeless." This just shows you where your marriage actually stands right now, and the one thing most men get wrong about saving it.</p>
@@ -567,44 +567,53 @@
 
   function bandFor(score){ return score<=2 ? "solid" : (score<=6 ? "light" : (score<=13 ? "mid" : "heavy")); }
 
-  function showResult(){
-    const score = answers.reduce((a,b)=>a+(b||0),0); // 0..21
-    const band = bandFor(score);
-    const B = BANDS[band];
+  // deep is an optional {band, score, reach} from a result email link; otherwise we compute from answers.
+  function showResult(deep){
+    const hasScore = deep ? (typeof deep.score === "number" && !isNaN(deep.score)) : true;
+    const score = deep ? (hasScore ? deep.score : 0) : answers.reduce((a,b)=>a+(b||0),0); // 0..21
+    const band  = deep ? deep.band : bandFor(score);
+    const reach = deep ? (deep.reach || "gesture") : subtype;
+    const B = BANDS[band] || BANDS.mid;
 
     $("rhead").textContent = B.head;
     $("rbody").innerHTML = B.body;
 
-    // spectrum
+    // spectrum (hidden on a deep link that carries no score)
     const pct = Math.round((score / 21) * 100);
+    $("spectrum").style.display = (deep && !hasScore) ? "none" : "";
     $("spec-marker").textContent = score + " / 21";
     $("spec-marker").style.left = "0%";
     ["sl-light","sl-mid","sl-heavy"].forEach(id=>$(id).classList.remove("active"));
     $(B.label).classList.add("active");
 
-    // flags (answered 2 or 3)
-    const flagged = QUESTIONS.map((Q,i)=>({f:Q.flag,v:answers[i]})).filter(x=>x.v>=2);
-    const ul = $("flags");
-    if(flagged.length===0){
-      ul.innerHTML = `<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first. Those go quiet first.</li>`;
+    // flags — only when we have the per-question answers (not on an emailed deep link)
+    if (deep) {
+      $("rb-flags").style.display = "none";
     } else {
-      ul.innerHTML = flagged.map(x=>`<li>${x.f}</li>`).join("");
+      $("rb-flags").style.display = "";
+      const flagged = QUESTIONS.map((Q,i)=>({f:Q.flag,v:answers[i]})).filter(x=>x.v>=2);
+      const ul = $("flags");
+      if(flagged.length===0){
+        ul.innerHTML = `<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first. Those go quiet first.</li>`;
+      } else {
+        ul.innerHTML = flagged.map(x=>`<li>${x.f}</li>`).join("");
+      }
     }
 
     // first move (reach-pattern driven)
-    $("movebody").innerHTML = FIRSTMOVE[subtype] || FIRSTMOVE.gesture;
+    $("movebody").innerHTML = FIRSTMOVE[reach] || FIRSTMOVE.gesture;
 
     // bridge above the email card
-    $("bridge").textContent = BRIDGE[band];
+    $("bridge").textContent = BRIDGE[band] || BRIDGE.mid;
 
-    try{ track('quiz_complete',{ score:score, band:band, reach:subtype }); }catch(e){}
+    try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reach }); }catch(e){}
 
-    // --- staged reveal ---
+    // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
     const blocks = ["rb-head","rb-body","rb-flags","rb-move","rb-offer","rb-capture"];
 
-    if(reduceMotion){
+    if(reduceMotion || deep){
       show("result");
       $("reading-beat").style.display = "none";
       $("result-content").style.display = "";
@@ -640,6 +649,19 @@
   document.getElementById("buybtn").addEventListener("click", function(){
     try{ track('quiz_buy_click'); if(window.fbq) fbq('track','InitiateCheckout'); }catch(e){}
   });
+
+  // Deep link: /quiz/?band=...&score=...&reach=... jumps straight to that result.
+  // Used by the result emails so a lead can re-read exactly where they landed.
+  (function(){
+    try{
+      var p = new URLSearchParams(location.search);
+      var band = p.get("band");
+      if (band && BANDS[band]) {
+        var s = parseInt(p.get("score"), 10);
+        showResult({ band: band, score: isNaN(s) ? undefined : s, reach: p.get("reach") || "gesture" });
+      }
+    }catch(e){}
+  })();
 
   function toggleOptExtra(){
     const toggle = $("opt-toggle");
