@@ -283,6 +283,13 @@ section.light .card, section.light .testi{box-shadow:0 12px 28px -24px rgba(40,3
 .guarantee p{font-size:21px; color:var(--ink); font-family:var(--font-display); font-style:italic; line-height:1.5; max-width:24em; margin:0 auto;}
 .guarantee .sign{margin-top:22px; font-size:15px; letter-spacing:.06em; color:var(--accent);}
 
+/* my promise (agreement plan) */
+.promise{max-width:520px; margin:0 auto 46px; text-align:center;}
+.promise .eyebrow{display:block; margin-bottom:18px;}
+.promise-list{list-style:none; text-align:left; display:inline-block;}
+.promise-list li{display:flex; gap:13px; align-items:flex-start; font-size:17px; color:var(--ink); padding:8px 0;}
+.promise-list .ico{width:20px; height:20px; flex:0 0 20px; margin-top:4px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+
 /* offer box */
 .offer-box{
   background:var(--page); border:1px solid var(--box-line); border-radius:16px;
@@ -591,6 +598,15 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
 <!-- ============ THE GUARANTEE (the mechanism) ============ -->
 <section class="light">
   <div class="wrap">
+    <div class="promise reveal">
+      <p class="sec-eyebrow eyebrow">My promise to you</p>
+      <ul class="promise-list">
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> I won't hand you a script to manipulate her.</li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> I won't pretend 30 days fixes everything.</li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> I'll tell you what's actually wrong, even if it stings.</li>
+        <li><svg class="ico" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> If it doesn't help, you don't pay.</li>
+      </ul>
+    </div>
     <div class="guarantee reveal">
       <svg class="seal" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg>
       <h2>The No-Lose promise</h2>
@@ -696,7 +712,7 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
   <div class="wrap">
     <a href="#top" class="brand" style="font-size:19px"><img class="seal" src="assets/tc-seal.png" alt="True Contact logo" style="width:36px;height:36px" /><span><span class="t">True</span> <span class="c">Contact</span></span></a>
     <p style="margin-top:10px"><em style="font-family:var(--font-display);color:var(--ink)">Save Your Relationship</em>, by Yaniv Rose</p>
-    <p style="margin-top:14px">&copy; 2026 True Contact &middot; <a href="REPLACE_WITH_TERMS_URL">Terms</a> &middot; <a href="REPLACE_WITH_PRIVACY_URL">Privacy</a> &middot; <a href="mailto:yaniv@thetruecontact.com">Contact</a></p>
+    <p style="margin-top:14px">&copy; 2026 True Contact &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="mailto:yaniv@thetruecontact.com">Contact</a></p>
   </div>
 </footer>
 
