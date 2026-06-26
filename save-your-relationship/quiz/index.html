@@ -8,6 +8,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- Social share / link-preview card -->
+<meta name="description" content="A 2-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Is it too late to save your marriage?" />
+<meta property="og:description" content="A 2-minute honest look at where your marriage actually stands, and the one thing most men get wrong about saving it." />
+<meta property="og:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
+<meta property="og:url" content="https://thetruecontact.com/save-your-relationship/quiz/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Is it too late to save your marriage?" />
+<meta name="twitter:description" content="A 2-minute honest look at where your marriage stands, for the man who has tried everything." />
+<meta name="twitter:image" content="https://thetruecontact.com/save-your-relationship/assets/og-banner.jpg" />
+
 <!-- ===================== ANALYTICS STACK (same IDs as the landing page) =====================
      Each loader stays dormant until its ID is real (no bad requests on file://).
      window.track() fires every event to GA4 + GTM. -->
@@ -316,6 +328,7 @@
             </div>
             <a class="btn" id="buybtn" href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30">Get the book</a>
             <div class="under">Instant PDF. Read it on your phone tonight.</div>
+            <div class="under" style="margin-top:7px">30-day money-back guarantee. If nothing shifts, email for a full refund. No questions asked.</div>
           </div>
         </div>
 
@@ -384,8 +397,8 @@
     { q:"The easy warmth between you is gone. She is polite, but the spark that used to be there feels missing.",
       hint:"Think about a normal evening, not a good day or a bad fight.",
       flag:"The everyday warmth has drained out. That is usually the first thing to go." },
-    { q:"You cannot remember the last time <span class=\"q-em\">she</span> reached for <span class=\"q-em\">you</span> first. A hand, a hug, sex, any of it.",
-      hint:"Who starts it now, almost every time.",
+    { q:"You are the one who starts any closeness now. A hand, a hug, sex. <span class=\"q-em\">She</span> rarely reaches for <span class=\"q-em\">you</span> first.",
+      hint:"Think about who tends to start it these days.",
       flag:"She has stopped reaching first. The wanting has gone quiet on her side." },
     { q:"What you talk about now is logistics. The kids, the calendar, the house. The real stuff has thinned out.",
       hint:"How you feel, what you want, the inside jokes.",
@@ -423,6 +436,12 @@
 
   // Per-band result copy. Honest but hopeful. The reframe (being seen vs seeing her) runs through all three.
   const BANDS = {
+    solid: {
+      label:"sl-light",
+      head:"Good news. By your answers, you're in better shape than you feared.",
+      body:`<p>You came here bracing for the worst, and that fear is worth listening to. But the way you answered, the warmth is still mostly there. She still reaches for you, you still talk about real things, your effort still lands. This is not a marriage on the edge. It is a good one with a little distance creeping in, and you noticed it early enough that closing it is easy.</p>
+            <p>Here is the one thing worth knowing while things are good. Nobody feels loved because they were impressed. They feel loved because they were understood. Almost everything that pulls a marriage apart later starts now, with effort that slowly gets aimed at being <em>seen</em> as a good husband instead of at <em>seeing</em> her. Keep yours pointed the right way and you stay out of the rooms the rest of this quiz describes.</p>`
+    },
     light: {
       label:"sl-light",
       head:"She hasn't left. She's drifting. And you caught it early.",
@@ -455,6 +474,7 @@
   };
 
   const BRIDGE = {
+    solid:"You're ahead of this. The plan is how you stay there.",
     light:"You have the most room of anyone to turn this around. The plan is how you use it.",
     mid:"Being a better roommate will not bring her back. Being seen will. The plan is how.",
     heavy:"In 30 days you will know which way this is going, for certain, instead of lying awake guessing."
@@ -534,7 +554,7 @@
   }
   function back(){ if(idx>0){ idx--; render(); } }
 
-  function bandFor(score){ return score<=6 ? "light" : (score<=13 ? "mid" : "heavy"); }
+  function bandFor(score){ return score<=2 ? "solid" : (score<=6 ? "light" : (score<=13 ? "mid" : "heavy")); }
 
   function showResult(){
     const score = answers.reduce((a,b)=>a+(b||0),0); // 0..21
