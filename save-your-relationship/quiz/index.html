@@ -484,6 +484,7 @@
   let subtype = null;
   let idx = 0; // 0..6 scored, 7 = reach-pattern
   let picking = false; // guard: block re-entry during dwell
+  const seenSteps = new Set(); // de-dupe per-question analytics so Back doesn't double-count
 
   const $ = id => document.getElementById(id);
   function show(id){
@@ -496,7 +497,16 @@
     window.scrollTo(0,0);
   }
 
-  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); subtype=null; show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+
+  // Fire one analytics event the first time each question is reached (drop-off funnel).
+  function trackStep(){
+    const isReach = idx >= QUESTIONS.length;
+    const key = isReach ? "reach" : "q" + (idx + 1);
+    if (seenSteps.has(key)) return;
+    seenSteps.add(key);
+    try { track("quiz_question", { step: idx + 1, q: key, total: QUESTIONS.length }); } catch(e){}
+  }
   function restart(){
     $("confirm").style.display="none";
     const lf=$("leadform"); lf.reset(); lf.style.display="";
@@ -538,6 +548,7 @@
         `<button class="opt${subtype===o.k?' sel':''}" onclick="pickSub('${o.k}')"><span class="dot"></span>${o.t}</button>`).join("");
     }
     $("qtext").focus({preventScroll:true});
+    trackStep();
   }
   function pick(i){
     if(picking) return;
