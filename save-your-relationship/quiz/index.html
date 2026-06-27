@@ -658,6 +658,15 @@
 
   // Track buy clicks
   document.getElementById("buybtn").addEventListener("click", function(){
+    // Pass ad click-ids to Gumroad so the server-side CAPI worker can match the buyer.
+    try {
+      var a = this, u = new URL(a.href);
+      var fbclid = new URLSearchParams(location.search).get('fbclid');
+      if (fbclid) u.searchParams.set('fbclid', fbclid);
+      var m = document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/);
+      if (m) u.searchParams.set('_fbp', m[1]);
+      a.href = u.toString();
+    } catch (e) {}
     try{ track('quiz_buy_click'); if(window.fbq) fbq('track','InitiateCheckout'); }catch(e){}
   });
 
