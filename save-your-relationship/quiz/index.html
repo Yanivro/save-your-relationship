@@ -230,6 +230,15 @@
   .form-field label{font-size:12px;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase}
   .capture small{display:block;margin-top:12px;color:#9a8e9e;font-size:12.5px}
   .confirm{margin-top:16px;font-size:15px;color:var(--sage);display:none}
+  /* fork: two honest doors */
+  .fork-head{text-align:center;margin:34px 0 2px}
+  .fork-head h3{font-size:22px}
+  .fork-head .fork-sub{display:block;color:var(--text-soft);font-size:14px;margin-top:6px}
+  .fork-head .bridge{margin-bottom:16px;text-align:center}
+  #rb-offer .offer{margin-top:16px}
+  .orline{display:flex;align-items:center;gap:14px;color:#6b6480;font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;margin:22px 6px 0}
+  .orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--line)}
+  #rb-capture .orline + .capture{margin-top:14px}
   .softline{margin-top:26px;font-size:13px;color:var(--text-soft);text-align:center;line-height:1.6}
   .restart{margin-top:18px;text-align:center}
   .hidden{display:none}
@@ -314,20 +323,21 @@
             <ul id="flags"></ul>
           </div>
         </div>
-        <div class="reveal-block" id="rb-move">
-          <div class="move">
-            <div class="card-kicker">Your first move</div>
-            <div id="movebody"></div>
+        <!-- THE FORK: two honest doors -->
+        <div class="reveal-block" id="rb-fork">
+          <div class="fork-head">
+            <div class="bridge" id="bridge"></div>
+            <h3>You have seen it. Now what?</h3>
+            <span class="fork-sub">Two honest ways forward.</span>
           </div>
         </div>
 
-        <!-- THE BOOK (primary conversion) -->
+        <!-- DOOR 1: the full transformation (paid) -->
         <div class="reveal-block" id="rb-offer">
           <div class="offer">
-            <div class="card-kicker">The full plan</div>
-            <h3>Save Your Relationship</h3>
-            <div class="sub">by Yaniv Rose</div>
-            <p>The 30-day plan that walks you through all of it. Diagnose what is actually wrong, stop the chasing and defending that pushes her away, show the change without announcing it, and at day 30, read what her response is telling you. About a 30-minute read. Start tonight.</p>
+            <div class="card-kicker">The full transformation</div>
+            <h3>Ready to actually turn this around?</h3>
+            <p>Save Your Relationship is the 30-day plan. Diagnose what is actually wrong, stop the chasing and defending that pushes her away, show the change without announcing it, and at day 30, read what her response is telling you. About a 30-minute read.</p>
             <div class="price-row">
               <span class="was">$25</span>
               <span class="now">$17.50 <small>one-time</small></span>
@@ -339,12 +349,13 @@
           </div>
         </div>
 
-        <!-- SOFT EMAIL ASK (secondary) -->
+        <!-- DOOR 2: start free tonight (email) -->
         <div class="reveal-block" id="rb-capture">
+          <div class="orline">or</div>
           <div class="capture">
-            <div class="bridge" id="bridge"></div>
-            <h3 id="capture-h3">Prefer it in your inbox first?</h3>
-            <p id="capture-lead">I will send your result and the first step you can take this week. Free. One email.</p>
+            <div class="card-kicker">Start free tonight</div>
+            <h3 id="capture-h3">Not ready for all that yet?</h3>
+            <p id="capture-lead">Start with one thing tonight. Drop your email and I will send you one move you can make this evening, plus a free 7-day plan to start seeing her again.</p>
             <form class="form" id="leadform" onsubmit="return submitLead(event)">
               <div class="form-field">
                 <label for="firstname">First name</label>
@@ -381,11 +392,11 @@
               <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
               <label class="consent" for="consent" style="grid-column:1 / -1; display:flex; align-items:flex-start; gap:.55em; font-size:.82rem; line-height:1.45; cursor:pointer; color:inherit; opacity:.92; margin:.2em 0 .1em">
                 <input type="checkbox" id="consent" required style="margin-top:.18em; flex:0 0 auto; width:16px; height:16px; accent-color:#cda35a; cursor:pointer">
-                <span>Yes, email me my result and the next steps. Unsubscribe any time.</span>
+                <span>Yes, send me the first move and the 7-day plan. Unsubscribe any time.</span>
               </label>
-              <button type="submit">Send me my result</button>
+              <button type="submit">Send me the plan</button>
             </form>
-            <div class="confirm" id="confirm">You're in. Your result and first step are on the way. Check your inbox.</div>
+            <div class="confirm" id="confirm">You're in. Your first move and the 7-day plan are on the way. Check your inbox.</div>
             <small>No spam. Leave any time.</small>
           </div>
         </div><!-- /rb-capture -->
@@ -609,11 +620,8 @@
       }
     }
 
-    // first move (reach-pattern driven)
-    $("movebody").innerHTML = FIRSTMOVE[reach] || FIRSTMOVE.gesture;
-
-    // bridge above the email card
-    $("bridge").textContent = BRIDGE[band] || BRIDGE.mid;
+    // first move is now delivered in the email (Door 2), not shown on-screen.
+    // bridge line removed by request; the empty #bridge div is kept to preserve the spacing.
 
     try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reach }); }catch(e){}
     // Aggregate: one event per question with the chosen value (what most people react to).
@@ -622,7 +630,7 @@
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-    const blocks = ["rb-head","rb-body","rb-flags","rb-move","rb-offer","rb-capture"];
+    const blocks = ["rb-head","rb-body","rb-flags","rb-fork","rb-offer","rb-capture"];
 
     if(reduceMotion || deep){
       show("result");
