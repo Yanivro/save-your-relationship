@@ -47,7 +47,12 @@
       var g=document.createElement('script'); g.async=true;
       g.src='https://www.googletagmanager.com/gtag/js?id='+ids.ga4;
       document.head.appendChild(g);
-      gtag('js', new Date()); gtag('config', ids.ga4);
+      gtag('js', new Date());
+      // Cross-domain: carry client_id to the Gumroad checkout subdomain (attribution).
+      gtag('config', ids.ga4, {
+        linker: { domains: ['thetruecontact.com', 'get.thetruecontact.com'], decorate_forms: true },
+        allow_linker: true
+      });
     }
     if (ids.clarity && !placeholder.test(ids.clarity)) {
       (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -742,6 +747,28 @@
     });
     return false;
   }
+</script>
+
+<!-- ===================== PERFORMANCE (Core Web Vitals → GA4) ===================== -->
+<script>
+(function(){
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/web-vitals@4/dist/web-vitals.iife.js';
+  s.onload = function(){
+    if (!window.webVitals) return;
+    function send(m){
+      track('web_vitals', {
+        metric_name: m.name, metric_id: m.id,
+        metric_value: Math.round(m.name === 'CLS' ? m.value * 1000 : m.value),
+        metric_rating: m.rating, non_interaction: true
+      });
+    }
+    ['onLCP', 'onINP', 'onCLS', 'onFCP', 'onTTFB'].forEach(function(fn){
+      if (window.webVitals[fn]) window.webVitals[fn](send);
+    });
+  };
+  document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>
