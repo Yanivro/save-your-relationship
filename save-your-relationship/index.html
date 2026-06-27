@@ -48,7 +48,13 @@
       var g=document.createElement('script'); g.async=true;
       g.src='https://www.googletagmanager.com/gtag/js?id='+ids.ga4;
       document.head.appendChild(g);
-      gtag('js', new Date()); gtag('config', ids.ga4);
+      gtag('js', new Date());
+      // Cross-domain: carry the session/client_id across to the Gumroad checkout
+      // subdomain so purchases attribute to the originating ad, not a self-referral.
+      gtag('config', ids.ga4, {
+        linker: { domains: ['thetruecontact.com', 'get.thetruecontact.com'], decorate_forms: true },
+        allow_linker: true
+      });
     }
     if (ids.clarity && !placeholder.test(ids.clarity)) {
       (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -777,6 +783,43 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
       if (d.open) track('faq_open', { question: (d.querySelector('summary') || {}).textContent || '' });
     });
   });
+})();
+</script>
+
+<!-- ===================== PERFORMANCE + SCROLL DEPTH ===================== -->
+<script>
+(function(){
+  // Scroll-depth milestones — GA4 enhanced measurement only fires a single 'scroll'
+  // at 90%; these show WHERE in the page people drop (the hero is the problem).
+  var marks = [25, 50, 75, 100], hit = {};
+  function onScroll(){
+    var de = document.documentElement, b = document.body;
+    var st = window.pageYOffset || de.scrollTop || 0;
+    var h = (de.scrollHeight || b.scrollHeight) - window.innerHeight;
+    var pct = h > 0 ? (st / h) * 100 : 100;
+    marks.forEach(function(m){ if (!hit[m] && pct >= m){ hit[m] = 1; track('scroll_depth', { percent: m }); } });
+    if (hit[100]) window.removeEventListener('scroll', onScroll);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Core Web Vitals → GA4 — diagnose slow mobile loads (the ~1s paid-mobile bounce).
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/web-vitals@4/dist/web-vitals.iife.js';
+  s.onload = function(){
+    if (!window.webVitals) return;
+    function send(m){
+      track('web_vitals', {
+        metric_name: m.name, metric_id: m.id,
+        metric_value: Math.round(m.name === 'CLS' ? m.value * 1000 : m.value),
+        metric_rating: m.rating, non_interaction: true
+      });
+    }
+    ['onLCP', 'onINP', 'onCLS', 'onFCP', 'onTTFB'].forEach(function(fn){
+      if (window.webVitals[fn]) window.webVitals[fn](send);
+    });
+  };
+  document.head.appendChild(s);
 })();
 </script>
 </body>
