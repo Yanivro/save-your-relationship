@@ -760,6 +760,15 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
   var buys = document.querySelectorAll('a[href*="/l/"], a[href*="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30"]');
   buys.forEach(function(a){
     a.addEventListener('click', function(){
+      // Pass the ad click-ids to Gumroad so the server-side CAPI worker can match the buyer.
+      try {
+        var u = new URL(a.href);
+        var fbclid = new URLSearchParams(location.search).get('fbclid');
+        if (fbclid) u.searchParams.set('fbclid', fbclid);
+        var m = document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/);
+        if (m) u.searchParams.set('_fbp', m[1]);
+        a.href = u.toString();
+      } catch (e) {}
       var where = loc(a);
       track('cta_click', { location: where, link_text: a.textContent.trim() });
       track('begin_checkout', {
