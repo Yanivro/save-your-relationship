@@ -5,14 +5,21 @@
 <script>
   (function () {
     var base = "https://thetruecontact.com/save-your-relationship/quiz/";
-    var defaults = { utm_source: "threads", utm_campaign: "books-save-marriage" };
-    var params = new URLSearchParams(location.search);
-    for (var k in defaults) { if (!params.has(k)) params.set(k, defaults[k]); }
-    location.replace(base + "?" + params.toString());
+    var src = "short", med = "shortlink";
+    var p = new URLSearchParams(location.search);
+    var out = new URLSearchParams();
+    out.set("utm_source", src);
+    out.set("utm_medium", med);
+    out.set("utm_campaign", p.get("c") || "general");
+    // explicit utm_* in the link override the baked defaults
+    ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function (k) {
+      if (p.has(k)) out.set(k, p.get(k));
+    });
+    location.replace(base + "?" + out.toString());
   })();
 </script>
-<meta http-equiv="refresh" content="0; url=/save-your-relationship/quiz/?utm_source=threads&amp;utm_campaign=books-save-marriage" />
+<meta http-equiv="refresh" content="0; url=/save-your-relationship/quiz/?utm_source=short&amp;utm_medium=shortlink&amp;utm_campaign=general" />
 <link rel="canonical" href="https://thetruecontact.com/save-your-relationship/quiz/" />
 </head><body style="background:#16131f;color:#ece6f2;font-family:sans-serif;text-align:center;padding:4rem">
-<p>Redirecting to the <a style="color:#cda35a" href="/save-your-relationship/quiz/?utm_source=threads&amp;utm_campaign=books-save-marriage">quiz</a>…</p>
+<p>Redirecting to <a style="color:#cda35a" href="/save-your-relationship/quiz/?utm_source=short&amp;utm_medium=shortlink&amp;utm_campaign=general">the quiz</a>…</p>
 </body></html>
