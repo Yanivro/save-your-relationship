@@ -143,6 +143,38 @@
   .back{background:none;border:none;color:var(--text-soft);cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:8px 0}
   .back:hover{color:var(--ink)}
   .back[disabled]{opacity:.3;cursor:default}
+  #contbtn{font-size:15px;padding:13px 26px}
+  #contbtn[disabled]{opacity:.35;cursor:default;box-shadow:none}
+  /* reach frequency grid */
+  .reach-row{display:flex;flex-direction:column;gap:9px;padding:14px 0;border-top:1px solid var(--line)}
+  .reach-row:first-child{border-top:none;padding-top:2px}
+  .reach-label{font-size:15px;color:var(--text);line-height:1.35}
+  .freq-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .freq-btn{cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--text-soft);background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:10px 4px;transition:.12s}
+  .freq-btn:hover{border-color:var(--ember)}
+  .freq-btn.sel{border-color:var(--ember);background:#2c2540;color:var(--ink)}
+  /* multi-select */
+  .opt.multi .box{width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex:none;transition:.13s}
+  .opt.multi:hover .box{border-color:var(--ember)}
+  .opt.multi.sel .box{border-color:var(--ember);background:var(--ember);box-shadow:inset 0 0 0 3px #2c2540}
+  /* report: reach meter */
+  .meter-list{margin-bottom:14px}
+  .meter-row{display:flex;align-items:center;gap:10px;padding:7px 0}
+  .meter-row .ml{flex:1;font-size:14px;color:var(--text);line-height:1.3}
+  .meter-row .mf{font-size:11px;color:var(--text-soft);width:64px;text-align:right;flex:none}
+  .meter{display:inline-flex;gap:4px;flex:none}
+  .meter i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+  .meter i.on{background:var(--ember)}
+  /* report: want -> how map */
+  .wanthow .mapitem{padding:13px 0;border-top:1px solid var(--line)}
+  .wanthow .mapitem:first-child{border-top:none;padding-top:0}
+  .wanthow .want{font-size:13.5px;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:9px}
+  .wanthow .want:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 7px}
+  .wanthow .how{font-size:14.5px;line-height:1.5;color:var(--text);margin:6px 0 0 16px;padding-left:11px;border-left:2px solid var(--line)}
+  /* report: gate bullets */
+  .gate-list{list-style:none;margin:0 0 16px;padding:0}
+  .gate-list li{position:relative;padding:0 0 10px 24px;font-size:14px;line-height:1.45;color:var(--text)}
+  .gate-list li:before{content:"\2713";position:absolute;left:0;top:0;color:var(--gold);font-weight:700}
 
   /* reading beat */
   @keyframes beat-pulse{0%,100%{opacity:.45}50%{opacity:1}}
@@ -258,13 +290,13 @@
 
     <!-- INTRO -->
     <section id="intro" class="intro">
-      <div class="eyebrow">A 4-minute honest look</div>
+      <div class="eyebrow">A 5-minute honest look</div>
       <h1>Is it too late to <span class="q-em">save your relationship</span>?</h1>
       <p class="intro-sub">For the man who has tried everything and can feel her slipping away.</p>
-      <p>Seven questions. Be honest and you'll get a clear picture of where your relationship is at right now.</p>
+      <p>Answer honestly and you'll get a clear, personal read on where your relationship really stands.</p>
       <div class="reassure">
-        <span class="chip">7 questions</span>
-        <span class="chip">No email to see your result</span>
+        <span class="chip">A few honest questions</span>
+        <span class="chip">See your result free</span>
         <span class="chip">Brutally honest</span>
       </div>
       <div class="start-row">
@@ -286,7 +318,7 @@
       </div>
       <div class="nav-row">
         <button class="back" id="backbtn" onclick="back()">&larr; Back</button>
-        <span></span>
+        <button class="btn" id="contbtn" style="display:none" onclick="cont()">Continue &rarr;</button>
       </div>
     </section>
 
@@ -314,48 +346,38 @@
             <p class="spec-caption">This measures how far she has pulled away. 0 means a rough patch you are still in together. 21 means she is mostly gone, and you can feel it.</p>
           </div>
         </div>
-        <div class="reveal-block" id="rb-body">
-          <div class="body" id="rbody"></div>
+        <div class="reveal-block" id="rb-read">
+          <div class="body" id="rread"></div>
         </div>
         <div class="reveal-block" id="rb-flags">
           <div class="flagbox">
-            <div class="card-kicker">What your answers flag</div>
+            <div class="card-kicker">What's quietly hurting it most</div>
             <ul id="flags"></ul>
           </div>
         </div>
-        <!-- THE FORK: two honest doors -->
-        <div class="reveal-block" id="rb-fork">
-          <div class="fork-head">
-            <div class="bridge" id="bridge"></div>
-            <h3>You have seen it. Now what?</h3>
-            <span class="fork-sub">Two honest ways forward.</span>
+        <!-- why your effort hasn't worked: reach meter + the reframe -->
+        <div class="reveal-block" id="rb-reach">
+          <div class="move">
+            <div class="card-kicker">Why your effort hasn't worked</div>
+            <div class="meter-list" id="reach-meter"></div>
+            <p id="reach-reframe"></p>
           </div>
         </div>
 
-        <!-- DOOR 1: the full transformation (paid) -->
-        <div class="reveal-block" id="rb-offer">
-          <div class="offer">
-            <div class="card-kicker">The full transformation</div>
-            <h3>Ready to actually turn this around?</h3>
-            <p>Save Your Relationship is the 30-day plan. Diagnose what is actually wrong, stop the chasing and defending that pushes her away, show the change without announcing it, and at day 30, read what her response is telling you. About a 30-minute read.</p>
-            <div class="price-row">
-              <span class="was">$25</span>
-              <span class="now">$17.50 <small>one-time</small></span>
-              <span class="off-pill">30% off</span>
-            </div>
-            <a class="btn" id="buybtn" href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&offer_code=LAUNCH30">Get the book</a>
-            <div class="under">Instant PDF. Read it on your phone tonight.</div>
-            <div class="under" style="margin-top:7px">30-day money-back guarantee. If nothing shifts, email for a full refund. No questions asked.</div>
+        <!-- what you want -> how you get there -->
+        <div class="reveal-block" id="rb-want">
+          <div class="move">
+            <div class="card-kicker">What you want &rarr; how you get there</div>
+            <div class="wanthow" id="wanthow"></div>
           </div>
         </div>
 
-        <!-- DOOR 2: start free tonight (email) -->
-        <div class="reveal-block" id="rb-capture">
-          <div class="orline">or</div>
+        <!-- THE ASK: email gate (no product offer on the page) -->
+        <div class="reveal-block" id="rb-gate">
           <div class="capture">
-            <div class="card-kicker">Start free tonight</div>
-            <h3 id="capture-h3">Not ready for all that yet?</h3>
-            <p id="capture-lead">Start with one thing tonight. Drop your email and I will send you one move you can make this evening, plus a free 7-day plan to start seeing her again.</p>
+            <div class="card-kicker">Your full read + your plan</div>
+            <h3 id="capture-h3">Want the full read and your day-by-day plan?</h3>
+            <ul class="gate-list" id="gate-bullets"></ul>
             <form class="form" id="leadform" onsubmit="return submitLead(event)">
               <div class="form-field">
                 <label for="firstname">First name</label>
@@ -365,7 +387,7 @@
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="your email" required>
               </div>
-              <button type="button" class="opt-toggle" id="opt-toggle" aria-expanded="false" aria-controls="opt-extra" style="grid-column:1 / -1" onclick="toggleOptExtra()"><span class="caret">&#9658;</span> Add a bit about you (optional)</button>
+              <button type="button" class="opt-toggle" id="opt-toggle" aria-expanded="false" aria-controls="opt-extra" style="grid-column:1 / -1" onclick="toggleOptExtra()"><span class="caret">&#9658;</span> Add your age (optional)</button>
               <div class="opt-extra" id="opt-extra" role="group" aria-label="Optional details">
                 <div class="form-field">
                   <label for="age">Age</label>
@@ -378,25 +400,15 @@
                     <option>60+</option>
                   </select>
                 </div>
-                <div class="form-field">
-                  <label for="years">Years together</label>
-                  <select id="years">
-                    <option value="" selected>years together</option>
-                    <option>Under 5</option>
-                    <option>5-10</option>
-                    <option>10-20</option>
-                    <option>20+</option>
-                  </select>
-                </div>
               </div>
               <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
               <label class="consent" for="consent" style="grid-column:1 / -1; display:flex; align-items:flex-start; gap:.55em; font-size:.82rem; line-height:1.45; cursor:pointer; color:inherit; opacity:.92; margin:.2em 0 .1em">
                 <input type="checkbox" id="consent" required style="margin-top:.18em; flex:0 0 auto; width:16px; height:16px; accent-color:#cda35a; cursor:pointer">
-                <span>Yes, send me the first move and the 7-day plan. Unsubscribe any time.</span>
+                <span>Yes, email me my full read and the day-by-day steps. Unsubscribe any time.</span>
               </label>
-              <button type="submit">Send me the plan</button>
+              <button type="submit">Send me my full plan</button>
             </form>
-            <div class="confirm" id="confirm">You're in. Your first move and the 7-day plan are on the way. Check your inbox.</div>
+            <div class="confirm" id="confirm">You're in. Your full read and your plan are on the way. Check your inbox.</div>
             <small>No spam. Leave any time.</small>
           </div>
         </div><!-- /rb-capture -->
@@ -442,17 +454,60 @@
   ];
   // Short theme label per question (Q1..Q7) — used for analytics + the "what's hardest" field.
   const THEMES = ["Lost warmth","No longer reaching","Only logistics","Withdrawn","Effort not landing","Gone quiet","Fears she's checked out"];
-  // Reach-pattern question (not scored). Drives the first move + personalizes the reframe.
-  const SUBQ = {
-    q:"When the distance scares you and you try to fix it, what do you reach for first?",
-    hint:"This decides your first move, so pick the closest one.",
-    opts:[
-      { t:"The grand gesture. Flowers, a dinner, a trip, a gift to win her back.", k:"gesture" },
-      { t:"My case. Explaining how much I do and how hard I work.", k:"defend" },
-      { t:"More providing. Working harder, earning more, hoping she notices.", k:"provide" },
-      { t:"Slowing down to figure out what she is actually carrying.", k:"see" },
+  // Reach-pattern question (not scored). Five habits, each rated for frequency. Highest drives the first move.
+  const REACH = {
+    stem:"When the distance scares you, how often do you do each of these?",
+    hint:"Be honest. Set a frequency for each one.",
+    items:[
+      { k:"gesture", t:"Grand gestures to win her back (flowers, a dinner, a trip, a gift)" },
+      { k:"defend",  t:"Making my case for how much I do and how hard I work" },
+      { k:"provide", t:"Working harder and providing more, hoping she notices" },
+      { k:"see",     t:"Slowing down to figure out what she's actually carrying" },
+      { k:"quiet",   t:"Nothing. I go quiet and pull back, and wait for it to pass" },
     ]
   };
+  const FREQ = [{t:"Never",v:0},{t:"Sometimes",v:1},{t:"Often",v:2},{t:"Always",v:3}];
+  // Reflective block (not scored) — drives the mirror, empathy, and what-you-want -> how.
+  const YEARS = { q:"How long have you been together?", opts:["Under 5 years","5 to 10 years","11 to 20 years","Over 20 years"] };
+  const LOVED = { q:"Back when things were good, what did you love most?", hint:"Pick up to 3.", cap:3, opts:[
+    { k:"looked",     t:"The way she used to look at me" },
+    { k:"understood", t:"Feeling truly understood" },
+    { k:"laugh",      t:"Her laugh and her lightness" },
+    { k:"team",       t:"We were a team against the world" },
+    { k:"friendship", t:"The friendship underneath it all" },
+    { k:"builtLife",  t:"The family and life we built" },
+    { k:"cameToYou",  t:"Being the person she came to" },
+  ]};
+  const FIGHT = { q:"What are you really fighting for?", hint:"Pick up to 2.", cap:2, opts:[
+    { k:"womanIFellFor",   t:"The woman I fell for, back in my life" },
+    { k:"kids",            t:"My kids growing up with both parents" },
+    { k:"notBlowUpFamily", t:"Not blowing up the family" },
+    { k:"manIMeanToBe",    t:"Becoming the man I keep meaning to be" },
+    { k:"realPartnership", t:"A real partnership again, not just coexisting" },
+    { k:"growOld",         t:"Growing old with her" },
+  ]};
+
+  // ---- content library (mirrors the design spec; drives the personalized report) ----
+  const HEAD = { solid:"Good news. You're in better shape than you feared.", light:"She hasn't left. She's drifting. And you caught it early.", mid:"You're living like roommates, not partners.", heavy:"It's late. But it may not be too late." };
+  const READ = {
+    solid:"By your answers, the warmth is mostly still there. This is a good marriage with a little distance creeping in, and you caught it early enough that closing it is easy.",
+    light:"She is still here, still reaching some of the time. What you are feeling is the early drift, the warmth thinning out before anything is broken. Early is the best place to be standing.",
+    mid:"Somewhere along the way the marriage quietly turned into a partnership of logistics. That is not peace. It is distance wearing the costume of peace. But you caught it before she is fully gone, and roommates can become partners again.",
+    heavy:"By your answers she has pulled most of the way out. The reaching stopped a while ago. It may be late. It is not automatically too late, and the honest work is the only real shot."
+  };
+  const LOVED_LABEL   = { looked:"the way she used to look at you", understood:"feeling truly understood", laugh:"her laugh and her lightness", team:"being a team against the world", friendship:"the friendship underneath it all", builtLife:"the family and life you built", cameToYou:"being the person she came to" };
+  const LOVED_EMPATHY = { looked:"the icy look from the woman who once looked at you like the best man alive", understood:"feeling like a stranger to the one person who used to know you best", laugh:"the quiet house where her laugh used to be", team:"facing it all alone when you used to face it together", friendship:"losing your best friend while still sharing a bed", builtLife:"watching the life you built together go cold", cameToYou:"no longer being the one she turns to" };
+  const FIGHT_LABEL   = { womanIFellFor:"the woman you fell for", kids:"your kids growing up with both of you", notBlowUpFamily:"keeping the family together", manIMeanToBe:"becoming the man you mean to be", realPartnership:"a real partnership again", growOld:"growing old with her" };
+  const FIGHT_EMPATHY = { kids:"the worry about what the distance is doing to your kids", womanIFellFor:"the ache of missing the woman you fell for, in the same house", notBlowUpFamily:"the fear of the whole family coming apart", manIMeanToBe:"the gap between who you are and who you mean to be", realPartnership:"living like business partners when you wanted a marriage", growOld:"the fear of facing old age alone after all these years" };
+  const FIGHT_OUTCOME = { kids:"without the family breaking apart", womanIFellFor:"and start getting the woman you fell for back", notBlowUpFamily:"without blowing up the family", manIMeanToBe:"and become the man you keep meaning to be while you do it", realPartnership:"back to a real partnership, not two people coexisting", growOld:"so you still get to grow old with her" };
+  const REACH_LABEL   = { gesture:"Grand gestures to win her back", defend:"Making your case for how much you do", provide:"Working harder, providing more", see:"Slowing down to see what she carries", quiet:"Going quiet and pulling back" };
+  const REACH_REFRAME = {
+    giveToGet:"You answer the distance by doing more, and she noticed the effort years ago. Nobody feels loved because they were impressed. They feel loved because they were <em>understood</em>. The fix is not less effort. It is the same effort, aimed at seeing her.",
+    quiet:"When it gets hard, you go quiet and wait it out. But your silence does not read as calm to her. It reads as you giving up too. The fix is to stay in the room, even before you have the words.",
+    see:"You already do the rare thing, slowing down to see what she carries. Most men never get there. The work is doing it on purpose, in plain sight, on the days that decide this, so it actually reaches her."
+  };
+  const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", friendship:"The friendship comes back when she feels safe being honest with you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
+  const FREQ_WORD = ["Never","Sometimes","Often","Always"];
 
   // Per-band result copy. Honest but hopeful. The reframe (being seen vs seeing her) runs through all three.
   const BANDS = {
@@ -500,11 +555,26 @@
     heavy:"In 30 days you will know which way this is going, for certain, instead of lying awake guessing."
   };
 
+  // Step model: 0..6 = the 7 pain questions, 7 = reach grid, 8 = years, 9 = loved, 10 = fighting.
+  const TOTAL = QUESTIONS.length + 4;
+  function freshReach(){ return { gesture:null, defend:null, provide:null, see:null, quiet:null }; }
   let answers = new Array(QUESTIONS.length).fill(null);
-  let subtype = null;
-  let idx = 0; // 0..6 scored, 7 = reach-pattern
+  let reachFreq = freshReach();   // each habit 0-3
+  let years = null;               // index into YEARS.opts
+  let loved = [];                 // keys, max 3
+  let fighting = [];              // keys, max 2
+  let subtype = null;             // derived: highest-frequency reach habit (back-compat)
+  let idx = 0;
   let picking = false; // guard: block re-entry during dwell
   const seenSteps = new Set(); // de-dupe per-question analytics so Back doesn't double-count
+
+  // Highest-frequency reach habit. Tie-break toward unhelpful patterns; "see" only wins if strictly highest.
+  function topReach(){
+    const order = ["gesture","defend","provide","quiet","see"];
+    let best="gesture", bestV=-1;
+    order.forEach(k=>{ const v=reachFreq[k]; if(v!=null && v>bestV){ bestV=v; best=k; } });
+    return best;
+  }
 
   const $ = id => document.getElementById(id);
   function show(id){
@@ -517,15 +587,15 @@
     window.scrollTo(0,0);
   }
 
-  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reachFreq=freshReach(); years=null; loved=[]; fighting=[]; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
 
   // Fire one analytics event the first time each question is reached (drop-off funnel).
   function trackStep(){
-    const isReach = idx >= QUESTIONS.length;
-    const key = isReach ? "reach" : "q" + (idx + 1);
+    const key = idx < QUESTIONS.length ? ("q" + (idx + 1))
+              : (["reach","years","loved","fighting"][idx - QUESTIONS.length] || "step" + idx);
     if (seenSteps.has(key)) return;
     seenSteps.add(key);
-    try { track("quiz_question", { step: idx + 1, q: key, total: QUESTIONS.length }); } catch(e){}
+    try { track("quiz_question", { step: idx + 1, q: key, total: TOTAL }); } catch(e){}
   }
   function restart(){
     $("confirm").style.display="none";
@@ -537,39 +607,77 @@
     start();
   }
 
+  const STEP = { REACH: QUESTIONS.length, YEARS: QUESTIONS.length+1, LOVED: QUESTIONS.length+2, FIGHT: QUESTIONS.length+3 };
+
   function render(){
-    const pct = idx < QUESTIONS.length ? (idx / QUESTIONS.length * 100) : 100;
-    $("progfill").style.width = pct + "%";
-    if(idx < QUESTIONS.length){
-      $("progcount").textContent = (idx+1)+" / "+QUESTIONS.length;
-    } else {
-      $("progcount").textContent = "Last one";
-    }
+    $("progfill").style.width = (Math.min(idx, TOTAL) / TOTAL * 100) + "%";
+    $("progcount").textContent = (idx+1) + " / " + TOTAL;
     $("backbtn").disabled = idx===0;
 
-    const wrap = $("qwrap");
-    wrap.classList.remove("q-enter");
-    void wrap.offsetWidth;
-    wrap.classList.add("q-enter");
+    const wrap = $("qwrap"); wrap.classList.remove("q-enter"); void wrap.offsetWidth; wrap.classList.add("q-enter");
+    const cont = $("contbtn"); cont.style.display = "none"; cont.disabled = true;
 
-    if(idx < QUESTIONS.length){
-      const Q = QUESTIONS[idx];
-      $("qnum").textContent = "Question "+(idx+1);
-      $("qtext").innerHTML = Q.q;
-      $("qhint").textContent = Q.hint;
-      $("opts").innerHTML = SCALE.map((o,i)=>
-        `<button class="opt${answers[idx]===i?' sel':''}" onclick="pick(${i})"><span class="dot"></span>${o.t}</button>`).join("");
-    } else {
-      const Q = SUBQ;
-      $("qnum").textContent = "Last one";
-      $("qtext").textContent = Q.q;
-      $("qhint").textContent = Q.hint;
-      $("opts").innerHTML = Q.opts.map((o,i)=>
-        `<button class="opt${subtype===o.k?' sel':''}" onclick="pickSub('${o.k}')"><span class="dot"></span>${o.t}</button>`).join("");
-    }
+    if(idx < QUESTIONS.length) renderScale();
+    else if(idx === STEP.REACH) renderReach();
+    else if(idx === STEP.YEARS) renderYears();
+    else if(idx === STEP.LOVED) renderMulti(LOVED, loved, "loved");
+    else renderMulti(FIGHT, fighting, "fighting");
+
     $("qtext").focus({preventScroll:true});
     trackStep();
   }
+
+  function renderScale(){
+    const Q = QUESTIONS[idx];
+    $("qnum").textContent = "Question "+(idx+1);
+    $("qtext").innerHTML = Q.q;
+    $("qhint").textContent = Q.hint;
+    $("opts").innerHTML = SCALE.map((o,i)=>
+      `<button class="opt${answers[idx]===i?' sel':''}" onclick="pick(${i})"><span class="dot"></span>${o.t}</button>`).join("");
+  }
+
+  function renderReach(){
+    $("qnum").textContent = "Almost there";
+    $("qtext").textContent = REACH.stem;
+    $("qhint").textContent = REACH.hint;
+    $("opts").innerHTML = REACH.items.map(it=>{
+      const cur = reachFreq[it.k];
+      const segs = FREQ.map(f=>`<button class="freq-btn${cur===f.v?' sel':''}" onclick="setReach('${it.k}',${f.v})">${f.t}</button>`).join("");
+      return `<div class="reach-row"><div class="reach-label">${it.t}</div><div class="freq-seg">${segs}</div></div>`;
+    }).join("");
+    const all = REACH.items.every(it=>reachFreq[it.k]!=null);
+    const cont = $("contbtn"); cont.style.display=""; cont.disabled=!all; cont.textContent="Continue →";
+  }
+  function setReach(k,v){ reachFreq[k]=v; render(); }
+
+  function renderYears(){
+    $("qnum").textContent = "Almost there";
+    $("qtext").textContent = YEARS.q;
+    $("qhint").textContent = "";
+    $("opts").innerHTML = YEARS.opts.map((t,i)=>
+      `<button class="opt${years===i?' sel':''}" onclick="pickYears(${i})"><span class="dot"></span>${t}</button>`).join("");
+  }
+  function pickYears(i){ if(picking) return; picking=true; years=i; render(); setTimeout(()=>{ picking=false; idx++; render(); },380); }
+
+  function renderMulti(cfg, arr, which){
+    $("qnum").textContent = idx === TOTAL-1 ? "Last one" : "Almost there";
+    $("qtext").textContent = cfg.q;
+    $("qhint").textContent = cfg.hint + (arr.length ? "  ("+arr.length+"/"+cfg.cap+")" : "");
+    $("opts").innerHTML = cfg.opts.map(o=>{
+      const on = arr.indexOf(o.k) >= 0;
+      return `<button class="opt multi${on?' sel':''}" onclick="toggleMulti('${which}','${o.k}',${cfg.cap})"><span class="box"></span>${o.t}</button>`;
+    }).join("");
+    const cont = $("contbtn"); cont.style.display=""; cont.disabled = arr.length < 1;
+    cont.textContent = idx === TOTAL-1 ? "See my result →" : "Continue →";
+  }
+  function toggleMulti(which, k, cap){
+    const arr = which === "loved" ? loved : fighting;
+    const i = arr.indexOf(k);
+    if(i >= 0) arr.splice(i,1);
+    else { if(arr.length >= cap) return; arr.push(k); }
+    render();
+  }
+
   function pick(i){
     if(picking) return;
     picking = true;
@@ -577,26 +685,81 @@
     render();
     setTimeout(()=>{ picking=false; idx++; render(); }, 400);
   }
-  function pickSub(k){
-    if(picking) return;
-    picking = true;
-    subtype=k;
-    setTimeout(()=>{ picking=false; showResult(); },400);
+
+  function cont(){
+    if(idx === STEP.REACH){ subtype = topReach(); idx++; render(); return; }
+    if(idx === TOTAL-1){ subtype = subtype || topReach(); showResult(); return; }
+    idx++; render();
   }
+
   function back(){ if(idx>0){ idx--; render(); } }
 
   function bandFor(score){ return score<=2 ? "solid" : (score<=6 ? "light" : (score<=13 ? "mid" : "heavy")); }
 
   // deep is an optional {band, score, reach} from a result email link; otherwise we compute from answers.
+  function dots(v){ let s=""; for(let i=0;i<4;i++) s+='<i class="'+(i<v?'on':'')+'"></i>'; return '<span class="meter">'+s+'</span>'; }
+
+  // Build the personalized free report from answers (or a deep-link with limited data).
+  function buildReport(o){
+    const band = o.band;
+    $("rhead").textContent = HEAD[band] || HEAD.mid;
+
+    // read + answer-driven empathy (empathy only from chosen loved + fighting picks)
+    const topLoved = (o.loved && o.loved[0]) || null;
+    const topFight = (o.fighting && o.fighting[0]) || null;
+    let read = "<p>" + (READ[band] || READ.mid) + "</p>";
+    const emp = [];
+    if(topLoved && LOVED_EMPATHY[topLoved]) emp.push(LOVED_EMPATHY[topLoved]);
+    if(topFight && FIGHT_EMPATHY[topFight]) emp.push(FIGHT_EMPATHY[topFight]);
+    if(emp.length) read += "<p>And I know what that quietly costs you: " + emp.join(", and ") + ". That is a heavy thing, and most men carry it alone.</p>";
+    $("rread").innerHTML = read;
+
+    // flags (need per-question answers; not on a deep link)
+    if(o.deep){ $("rb-flags").style.display="none"; }
+    else {
+      $("rb-flags").style.display="";
+      const flagged = QUESTIONS.map((Q,i)=>({t:THEMES[i],f:Q.flag,v:answers[i]})).filter(x=>x.v>=2);
+      $("flags").innerHTML = flagged.length
+        ? flagged.map(x=>"<li><b>"+x.t+".</b> "+x.f+"</li>").join("")
+        : '<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first.</li>';
+    }
+
+    // reach meter + reframe
+    if(o.deep){ $("rb-reach").style.display="none"; }
+    else {
+      $("rb-reach").style.display="";
+      const ritems = REACH.items.map(it=>({k:it.k,v:o.reachFreq[it.k]})).filter(x=>x.v!=null).sort((a,b)=>b.v-a.v);
+      $("reach-meter").innerHTML = ritems.map(x=>
+        '<div class="meter-row"><span class="ml">'+REACH_LABEL[x.k]+'</span>'+dots(x.v)+'<span class="mf">'+FREQ_WORD[x.v]+'</span></div>').join("");
+      $("reach-reframe").innerHTML = o.reachKey==="quiet" ? REACH_REFRAME.quiet : (o.reachKey==="see" ? REACH_REFRAME.see : REACH_REFRAME.giveToGet);
+    }
+
+    // what you want -> how (from fighting + loved picks, capped at 3)
+    const witems = [];
+    (o.fighting||[]).forEach(k=>{ if(WANT_HOW[k]) witems.push({want:FIGHT_LABEL[k], how:WANT_HOW[k]}); });
+    (o.loved||[]).forEach(k=>{ if(WANT_HOW[k]) witems.push({want:LOVED_LABEL[k], how:WANT_HOW[k]}); });
+    if(o.deep || !witems.length){ $("rb-want").style.display="none"; }
+    else {
+      $("rb-want").style.display="";
+      $("wanthow").innerHTML = witems.slice(0,3).map(x=>
+        '<div class="mapitem"><div class="want">'+x.want+'</div><div class="how">'+x.how+'</div></div>').join("");
+    }
+
+    // gate bullets: 2 static + fighting outcome + loved first-move (answer-gated)
+    const gb = ["What's really pulling her away, deeper than this quiz could show","Whether this can be reversed, and exactly how to start"];
+    if(topFight && FIGHT_OUTCOME[topFight]) gb.push("How to turn it around " + FIGHT_OUTCOME[topFight]);
+    gb.push((topLoved && LOVED_LABEL[topLoved]) ? ("The first move toward bringing back " + LOVED_LABEL[topLoved]) : "Your day-by-day steps for the next 30 days");
+    $("gate-bullets").innerHTML = gb.map(b=>"<li>"+b+"</li>").join("");
+  }
+
   function showResult(deep){
     const hasScore = deep ? (typeof deep.score === "number" && !isNaN(deep.score)) : true;
     const score = deep ? (hasScore ? deep.score : 0) : answers.reduce((a,b)=>a+(b||0),0); // 0..21
     const band  = deep ? deep.band : bandFor(score);
-    const reach = deep ? (deep.reach || "gesture") : subtype;
+    const reachKey = deep ? (deep.reach || "gesture") : (subtype || topReach());
     const B = BANDS[band] || BANDS.mid;
 
-    $("rhead").textContent = B.head;
-    $("rbody").innerHTML = B.body;
+    buildReport({ band:band, score:score, deep:!!deep, reachKey:reachKey, reachFreq:reachFreq, loved:loved, fighting:fighting });
 
     // spectrum (hidden on a deep link that carries no score)
     const pct = Math.round((score / 21) * 100);
@@ -606,37 +769,19 @@
     ["sl-light","sl-mid","sl-heavy"].forEach(id=>$(id).classList.remove("active"));
     $(B.label).classList.add("active");
 
-    // flags — only when we have the per-question answers (not on an emailed deep link)
-    if (deep) {
-      $("rb-flags").style.display = "none";
-    } else {
-      $("rb-flags").style.display = "";
-      const flagged = QUESTIONS.map((Q,i)=>({f:Q.flag,v:answers[i]})).filter(x=>x.v>=2);
-      const ul = $("flags");
-      if(flagged.length===0){
-        ul.innerHTML = `<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first. Those go quiet first.</li>`;
-      } else {
-        ul.innerHTML = flagged.map(x=>`<li>${x.f}</li>`).join("");
-      }
-    }
-
-    // first move is now delivered in the email (Door 2), not shown on-screen.
-    // bridge line removed by request; the empty #bridge div is kept to preserve the spacing.
-
-    try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reach }); }catch(e){}
-    // Aggregate: one event per question with the chosen value (what most people react to).
+    try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reachKey }); }catch(e){}
     if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
 
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-    const blocks = ["rb-head","rb-body","rb-flags","rb-fork","rb-offer","rb-capture"];
+    const blocks = ["rb-head","rb-read","rb-flags","rb-reach","rb-want","rb-gate"];
 
     if(reduceMotion || deep){
       show("result");
       $("reading-beat").style.display = "none";
       $("result-content").style.display = "";
-      blocks.forEach(id=>{ const el=$(id); el.style.opacity="1"; el.style.animation="none"; });
+      blocks.forEach(id=>{ const el=$(id); if(el){ el.style.opacity="1"; el.style.animation="none"; } });
       $("spec-marker").style.left = pct + "%";
     } else {
       show("result");
@@ -646,7 +791,7 @@
         $("reading-beat").style.display = "none";
         $("result-content").style.display = "";
         $("result").classList.add("revealed");
-        blocks.forEach((id,i)=>{ $(id).style.animationDelay = (i * 120) + "ms"; });
+        blocks.forEach((id,i)=>{ const el=$(id); if(el) el.style.animationDelay = (i * 120) + "ms"; });
         setTimeout(()=>{ $("spec-marker").style.left = pct + "%"; }, 500);
       }, 800);
     }
@@ -664,8 +809,9 @@
     opts[n-1].click();
   });
 
-  // Track buy clicks
-  document.getElementById("buybtn").addEventListener("click", function(){
+  // Track buy clicks (the on-page offer was removed; this stays null-safe in case a buy link is re-added).
+  var _buybtn = document.getElementById("buybtn");
+  if (_buybtn) _buybtn.addEventListener("click", function(){
     // Pass ad click-ids to Gumroad so the server-side CAPI worker can match the buyer.
     try {
       var a = this, u = new URL(a.href);
@@ -712,8 +858,11 @@
       first_name: $("firstname").value.trim(),
       email: $("email").value.trim(),
       age_bracket: $("age").value,
-      years_together: $("years").value,
-      reach: subtype,                            // gesture | defend | provide | see
+      years_together: (years!=null ? YEARS.opts[years] : ""),  // from the quiz question now
+      reach: subtype || topReach(),             // gesture | defend | provide | see | quiet (highest)
+      reach_freq: Object.assign({}, reachFreq), // {gesture,defend,provide,see,quiet} each 0-3
+      loved: loved.slice(),                     // what-you-loved keys -> syr_loved
+      fighting: fighting.slice(),               // what-you're-fighting-for keys -> syr_fighting_for
       score: score,                             // 0..21
       band: band,                               // solid | light | mid | heavy
       answers: answers.slice(),                 // [q1..q7] raw 0-3 -> syr_q1..syr_q7
