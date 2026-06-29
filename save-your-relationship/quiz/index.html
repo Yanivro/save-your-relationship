@@ -905,6 +905,16 @@
     const band = bandFor(score);
     // High-pain themes (questions answered 2 or 3) — readable "what's hardest for this person".
     const topAreas = QUESTIONS.map((q,i)=>({t:THEMES[i],v:answers[i]})).filter(x=>x.v>=2).map(x=>x.t).join(", ");
+
+    // ---- attribution + Meta dedup ----
+    // One event_id, shared by the browser pixel Lead and the server-side CAPI Lead, so Meta
+    // counts the lead once. Capture the ad params + _fbp from the URL/cookie (server-side capture
+    // in the worker is what survives in-app browsers; this is the source data).
+    const _qs = new URLSearchParams(location.search);
+    const _p = k => _qs.get(k) || "";
+    const _cookie = n => { const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]+)')); return m ? m[1] : ""; };
+    const eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+
     const lead = {
       product: "save-your-relationship",        // routes the subscriber to the right MailerLite group
       first_name: $("firstname").value.trim(),
@@ -922,6 +932,18 @@
       top_areas: topAreas,                      // readable high-pain themes -> syr_top_areas
       consent: true,
       consent_at: new Date().toISOString(),
+      // attribution (server writes to MailerLite + uses for Meta CAPI match)
+      event_id: eventId,
+      event_source_url: location.href,
+      utm_source: _p('utm_source'),
+      utm_medium: _p('utm_medium'),
+      utm_campaign: _p('utm_campaign'),
+      utm_content: _p('utm_content'),            // the ad
+      utm_term: _p('utm_term'),                  // the placement
+      utm_id: _p('utm_id'),                      // the Meta ad id
+      fbclid: _p('fbclid'),
+      fbp: _cookie('_fbp'),
+      referrer: document.referrer || "",
       website: $("website").value               // honeypot
     };
 
@@ -945,7 +967,7 @@
           history.replaceState(null, '', u.toString());
         }
       } catch(e){}
-      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead'); fbq('track','PageView'); } }catch(e){}
+      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead', {}, { eventID: eventId }); fbq('track','PageView'); } }catch(e){}
       // Route to the dedicated thank-you screen (shows their email so they know where to look).
       $("thanks-email").textContent = lead.email || "your inbox";
       show("thanks");
