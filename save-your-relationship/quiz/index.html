@@ -262,6 +262,17 @@
   .form-field label{font-size:12px;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase}
   .capture small{display:block;margin-top:12px;color:#9a8e9e;font-size:12.5px}
   .confirm{margin-top:16px;font-size:15px;color:var(--sage);display:none}
+  /* thank-you screen (post-signup) */
+  .thanks{display:flex;justify-content:center}
+  .thanks-card{max-width:520px;width:100%;text-align:center;background:#120f1a;border:1px solid rgba(205,163,90,.20);box-shadow:0 0 44px rgba(205,163,90,.06);border-radius:var(--r-lg);padding:42px 30px;margin-top:34px}
+  .thanks-icon{color:var(--ember);display:flex;justify-content:center;margin-bottom:16px}
+  .thanks-card h2{font-size:27px;color:var(--ink);line-height:1.2}
+  .thanks-lead{margin-top:8px;color:var(--text-soft);font-size:15px}
+  .thanks-card p{margin-top:14px;color:var(--ink);font-size:15.5px;line-height:1.6}
+  .thanks-card p b{color:var(--ember)}
+  .thanks-note{margin-top:24px;background:rgba(205,163,90,.06);border:1px solid rgba(205,163,90,.18);border-radius:var(--r-md);padding:16px 18px;color:var(--text-soft);font-size:14px;line-height:1.6;text-align:left}
+  .thanks-note b{color:var(--ink)}
+  .thanks-card .restart{margin-top:26px}
   /* fork: two honest doors */
   .fork-head{text-align:center;margin:34px 0 2px}
   .fork-head h3{font-size:22px}
@@ -416,6 +427,22 @@
 
       <div class="softline">However far gone it feels, doing the work has no losing version. Either she softens toward a man who finally sees her, or you walk away knowing you gave it everything. If you are carrying this completely alone, a good couples therapist is worth the call too.</div>
       <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
+    </section>
+
+    <!-- THANK YOU (shown after the email signup) -->
+    <section id="thanks" class="hidden thanks">
+      <div class="thanks-card">
+        <div class="thanks-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m16 19 2 2 4-4"/></svg>
+        </div>
+        <h2 id="thanks-head">You're in.</h2>
+        <p class="thanks-lead">Thanks for trusting me with this.</p>
+        <p>Your full read and your first step are on their way to <b id="thanks-email">your inbox</b> right now. Go open it.</p>
+        <div class="thanks-note">
+          <b>Don't see it?</b> Give it a couple of minutes, then check your spam or promotions folder. It comes from <b>yaniv@thetruecontact.com</b>. Drag it into your inbox so the rest of your plan lands where you'll actually see it.
+        </div>
+        <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
+      </div>
     </section>
 
   </div>
@@ -578,7 +605,7 @@
 
   const $ = id => document.getElementById(id);
   function show(id){
-    ["intro","quiz","result"].forEach(s=>$(s).classList.add("hidden"));
+    ["intro","quiz","result","thanks"].forEach(s=>$(s).classList.add("hidden"));
     const el = $(id);
     el.classList.remove("hidden");
     el.classList.remove("section-enter");
@@ -898,10 +925,10 @@
         }
       } catch(e){}
       try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead'); fbq('track','PageView'); } }catch(e){}
-      $("confirm").style.color = "var(--sage)";
-      $("confirm").textContent = "You're in" + (lead.first_name ? ", " + lead.first_name : "") + ". Your result and first step are on the way. Check your inbox.";
-      $("leadform").style.display = "none";
-      $("confirm").style.display = "block";
+      // Route to the dedicated thank-you screen (personalized with name + email).
+      $("thanks-head").textContent = "You're in" + (lead.first_name ? ", " + lead.first_name : "") + ".";
+      $("thanks-email").textContent = lead.email || "your inbox";
+      show("thanks");
     }
 
     fetch(WORKER_URL, {
