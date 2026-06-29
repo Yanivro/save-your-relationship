@@ -458,7 +458,7 @@
           <img class="thanks-book" src="../assets/cover.jpg" alt="The 30-Day Turnaround, a 30-day plan by Yaniv Rose" width="318" height="426">
           <p class="thanks-offer-lead">Your free steps cover the first few days. The full 30-Day Turnaround is the whole plan, day by day, the exact moves that close the distance and start bringing her back.</p>
           <div class="thanks-price"><s>$25</s> <b>$17.50</b></div>
-          <a id="buybtn" class="btn" href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&amp;offer_code=LAUNCH30">Get the full plan</a>
+          <a id="buybtn" class="btn" href="../">Get the full plan</a>
           <small>Read it tonight. Your free plan is still on its way.</small>
         </div>
 
@@ -861,19 +861,19 @@
     opts[n-1].click();
   });
 
-  // Track buy clicks (the on-page offer was removed; this stays null-safe in case a buy link is re-added).
+  // Thank-you upsell now sends to the LANDING PAGE (not straight to Gumroad). Carry the ad params
+  // (utm_* + fbclid) forward so a purchase made from the landing page stays attributed to the ad.
   var _buybtn = document.getElementById("buybtn");
   if (_buybtn) _buybtn.addEventListener("click", function(){
-    // Pass ad click-ids to Gumroad so the server-side CAPI worker can match the buyer.
     try {
-      var a = this, u = new URL(a.href);
-      var fbclid = new URLSearchParams(location.search).get('fbclid');
-      if (fbclid) u.searchParams.set('fbclid', fbclid);
-      var m = document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/);
-      if (m) u.searchParams.set('_fbp', m[1]);
+      var a = this, u = new URL(a.href, location.href);
+      var src = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','fbclid'].forEach(function(k){
+        var v = src.get(k); if (v) u.searchParams.set(k, v);
+      });
       a.href = u.toString();
     } catch (e) {}
-    try{ track('quiz_buy_click'); if(window.fbq) fbq('track','InitiateCheckout'); }catch(e){}
+    try{ track('quiz_to_landing'); }catch(e){}
   });
 
   // Deep link: /quiz/?band=...&score=...&reach=... jumps straight to that result.
