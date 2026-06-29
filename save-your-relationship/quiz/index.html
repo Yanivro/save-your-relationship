@@ -968,6 +968,10 @@
         }
       } catch(e){}
       try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead', {}, { eventID: eventId }); fbq('track','PageView'); } }catch(e){}
+      // Clarity samples sessions by default — upgrade() forces THIS session to be kept and recorded,
+      // and the tags make a lead's session findable/filterable in the Clarity dashboard. The recording
+      // continues onto the landing page (same site, same Clarity project) when they click the upsell.
+      try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','band',band); clarity('set','reach',subtype||''); clarity('upgrade','quiz_lead'); } }catch(e){}
       // Route to the dedicated thank-you screen (shows their email so they know where to look).
       $("thanks-email").textContent = lead.email || "your inbox";
       show("thanks");
