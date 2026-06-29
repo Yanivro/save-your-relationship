@@ -272,6 +272,16 @@
   .thanks-card p b{color:var(--ember)}
   .thanks-note{margin-top:24px;background:rgba(205,163,90,.06);border:1px solid rgba(205,163,90,.18);border-radius:var(--r-md);padding:16px 18px;color:var(--text-soft);font-size:14px;line-height:1.6;text-align:left}
   .thanks-note b{color:var(--ink)}
+  .thanks-or{margin-top:26px;color:#6b6480;font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;display:flex;align-items:center;gap:14px}
+  .thanks-or::before,.thanks-or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .thanks-offer{margin-top:18px;background:linear-gradient(180deg,#241e33,#1c1828);border:1px solid var(--ember);border-radius:var(--r-lg);padding:26px 22px;box-shadow:0 0 44px rgba(205,163,90,.08)}
+  .thanks-offer-head{font-size:22px;color:var(--ink);line-height:1.22}
+  .thanks-book{display:block;width:142px;height:auto;margin:18px auto 6px;border-radius:5px;box-shadow:0 20px 44px -14px rgba(0,0,0,.75)}
+  .thanks-offer-lead{color:var(--ink);font-size:15px;line-height:1.55;margin-top:12px}
+  .thanks-price{margin:14px 0 16px;font-size:15px;color:var(--text-soft)}
+  .thanks-price s{opacity:.55;margin-right:6px}
+  .thanks-price b{color:var(--ink);font-size:22px}
+  .thanks-offer small{display:block;margin-top:12px;color:#9a8e9e;font-size:12.5px}
   .thanks-card .restart{margin-top:26px}
   /* fork: two honest doors */
   .fork-head{text-align:center;margin:34px 0 2px}
@@ -386,7 +396,7 @@
         <!-- THE ASK: email gate (no product offer on the page) -->
         <div class="reveal-block" id="rb-gate">
           <div class="capture">
-            <div class="card-kicker">Your full read + your plan</div>
+            <div class="card-kicker">Get the full report</div>
             <h3 id="capture-h3">Want the full read and your day-by-day plan?</h3>
             <ul class="gate-list" id="gate-bullets"></ul>
             <form class="form" id="leadform" onsubmit="return submitLead(event)">
@@ -404,7 +414,8 @@
                   <label for="age">Age</label>
                   <select id="age">
                     <option value="" selected>your age</option>
-                    <option>Under 30</option>
+                    <option>Under 25</option>
+                    <option>25-29</option>
                     <option>30-39</option>
                     <option>40-49</option>
                     <option>50-59</option>
@@ -435,12 +446,22 @@
         <div class="thanks-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m16 19 2 2 4-4"/></svg>
         </div>
-        <h2 id="thanks-head">You're in.</h2>
-        <p class="thanks-lead">Thanks for trusting me with this.</p>
-        <p>Your full read and your first step are on their way to <b id="thanks-email">your inbox</b> right now. Go open it.</p>
+        <h2 id="thanks-head">The full report is on its way to you.</h2>
+        <p>It's heading to <b id="thanks-email">your inbox</b> right now. Go open it.</p>
         <div class="thanks-note">
           <b>Don't see it?</b> Give it a couple of minutes, then check your spam or promotions folder. It comes from <b>yaniv@thetruecontact.com</b>. Drag it into your inbox so the rest of your plan lands where you'll actually see it.
         </div>
+
+        <div class="thanks-or">or</div>
+        <div class="thanks-offer">
+          <h3 class="thanks-offer-head">Are you ready to save your marriage?</h3>
+          <img class="thanks-book" src="../assets/cover.jpg" alt="The 30-Day Turnaround, a 30-day plan by Yaniv Rose" width="318" height="426">
+          <p class="thanks-offer-lead">Your free steps cover the first few days. The full 30-Day Turnaround is the whole plan, day by day, the exact moves that close the distance and start bringing her back.</p>
+          <div class="thanks-price"><s>$25</s> <b>$17.50</b></div>
+          <a id="buybtn" class="btn" href="https://get.thetruecontact.com/l/saveyourrelationship?wanted=true&amp;offer_code=LAUNCH30">Get the full plan</a>
+          <small>Read it tonight. Your free plan is still on its way.</small>
+        </div>
+
         <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
       </div>
     </section>
@@ -925,8 +946,7 @@
         }
       } catch(e){}
       try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead'); fbq('track','PageView'); } }catch(e){}
-      // Route to the dedicated thank-you screen (personalized with name + email).
-      $("thanks-head").textContent = "You're in" + (lead.first_name ? ", " + lead.first_name : "") + ".";
+      // Route to the dedicated thank-you screen (shows their email so they know where to look).
       $("thanks-email").textContent = lead.email || "your inbox";
       show("thanks");
     }
