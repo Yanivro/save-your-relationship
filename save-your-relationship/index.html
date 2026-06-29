@@ -770,6 +770,8 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
         items: [{ item_id: 'save-your-relationship', item_name: 'Save Your Relationship', price: 17.5, quantity: 1 }]
       });
       if (window.fbq) fbq('track', 'InitiateCheckout', { value: 17.5, currency: 'USD', content_name: 'Save Your Relationship' });
+      // Force Clarity to keep + record this purchase-intent session (it samples by default), and tag it.
+      try { if (window.clarity) { clarity('set', 'buy_intent', 'yes'); clarity('set', 'buy_location', where); clarity('upgrade', 'begin_checkout'); } } catch (e) {}
     });
   });
   // Mid-funnel: offer/price box scrolled into view (once)
