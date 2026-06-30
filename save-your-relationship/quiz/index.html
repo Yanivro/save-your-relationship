@@ -157,6 +157,23 @@
   .opt.multi .box{width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex:none;transition:.13s}
   .opt.multi:hover .box{border-color:var(--ember)}
   .opt.multi.sel .box{border-color:var(--ember);background:var(--ember);box-shadow:inset 0 0 0 3px #2c2540}
+  /* readiness slider (leaning-in vs leaning-out) */
+  .slider-wrap{margin-top:30px}
+  .slider-readout{display:flex;flex-direction:column;align-items:center;margin-bottom:20px;min-height:30px}
+  .slider-leanlabel{font-family:'Fraunces',serif;font-size:22px;font-weight:600;line-height:1.1;color:var(--text-soft);min-height:26px;transition:color .15s}
+  .rd-slider{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:999px;outline:none;cursor:pointer;
+    background:linear-gradient(90deg,var(--rust) 0%,#c79a55 50%,var(--sage) 100%)}
+  .rd-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:var(--ink);
+    border:3px solid var(--ember);box-shadow:0 0 0 4px rgba(205,163,90,.16),0 4px 14px rgba(0,0,0,.55);cursor:grab;transition:transform .12s}
+  .rd-slider::-webkit-slider-thumb:active{transform:scale(1.12);cursor:grabbing}
+  .rd-slider::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--ink);border:3px solid var(--ember);
+    box-shadow:0 0 0 4px rgba(205,163,90,.16),0 4px 14px rgba(0,0,0,.55);cursor:grab}
+  .rd-slider:focus-visible{box-shadow:0 0 0 3px rgba(205,163,90,.4)}
+  .slider-poles{display:flex;justify-content:space-between;gap:14px;margin-top:16px}
+  .slider-poles span{font-size:12.5px;font-weight:600;color:var(--text-soft);max-width:44%;line-height:1.32}
+  .slider-poles span:last-child{text-align:right}
+  .slider-caption{margin-top:24px;text-align:center;font-family:'Fraunces',serif;font-style:italic;font-size:18px;line-height:1.45;color:var(--ink);min-height:54px;transition:opacity .15s}
+  .slider-caption.placeholder{font-style:normal;font-family:'Inter',sans-serif;font-size:14px;color:var(--text-soft)}
   /* report: reach meter */
   .meter-list{margin-bottom:14px}
   .meter-row{display:flex;align-items:center;gap:10px;padding:7px 0}
@@ -396,8 +413,8 @@
         <!-- THE ASK: email gate (no product offer on the page) -->
         <div class="reveal-block" id="rb-gate">
           <div class="capture">
-            <div class="card-kicker">Get the full report</div>
-            <h3 id="capture-h3">Want the full read and your day-by-day plan?</h3>
+            <div class="card-kicker" id="gate-kicker">Your game plan</div>
+            <h3 id="capture-h3">Whether this can be turned around, and your exact next moves.</h3>
             <ul class="gate-list" id="gate-bullets"></ul>
             <form class="form" id="leadform" onsubmit="return submitLead(event)">
               <div class="form-field">
@@ -428,7 +445,7 @@
                 <input type="checkbox" id="consent" required style="margin-top:.18em; flex:0 0 auto; width:16px; height:16px; accent-color:#cda35a; cursor:pointer">
                 <span>Yes, email me my full read and the day-by-day steps. Unsubscribe any time.</span>
               </label>
-              <button type="submit">Send me my full plan</button>
+              <button type="submit">Send me my game plan</button>
             </form>
             <div class="confirm" id="confirm">You're in. Your full read and your plan are on the way. Check your inbox.</div>
             <small>No spam. Leave any time.</small>
@@ -534,6 +551,47 @@
     { k:"realPartnership", t:"A real partnership again, not just coexisting" },
     { k:"growOld",         t:"Growing old with her" },
   ]};
+  // Readiness slider (not scored): leaning-in vs leaning-out. 0 = getting ready to leave, 100 = ready to fight.
+  // Raw 0-100 stored as syr_readiness; binned into syr_lean for routing + email segmentation.
+  const READINESS = {
+    stem:"Be honest with yourself. Where are you right now?",
+    hint:"There's no wrong answer here. Most men land somewhere in the middle.",
+    leftPole:"Getting ready for divorce",
+    rightPole:"Hopeful and ready to turn it around",
+    // ascending 0..100; first zone whose max >= value wins
+    zones:[
+      { max:20,  lean:"out",     label:"Almost out",      color:"var(--rust)", caption:"“I think I’m mostly done. I just need to be sure before I go.”" },
+      { max:45,  lean:"torn",    label:"On the fence",     color:"#c79a55",     caption:"“I go back and forth. Part of me is already preparing to leave.”" },
+      { max:70,  lean:"hopeful", label:"Running on empty", color:"var(--gold)", caption:"“I want to save it. I’m just running out of belief that I can.”" },
+      { max:100, lean:"allin",   label:"Ready to fight",   color:"var(--sage)", caption:"“I’ll do whatever it takes to turn this around.”" },
+    ]
+  };
+  function leanFor(v){ for(const z of READINESS.zones){ if(v <= z.max) return z; } return READINESS.zones[READINESS.zones.length-1]; }
+
+  // Conditional fork: only when he's leaning out (readiness <= FEAR_THRESHOLD). Options are men's
+  // verbatim divorce fears. Never says "divorce" on screen; the result names the fear back, then the
+  // No-Lose reframe pulls him toward "find out for sure", not "here's how to leave".
+  const FEAR_THRESHOLD = 20;
+  const FEAR = {
+    bridge:"That took something to put into words. One more, then your read.",
+    stem:"What scares you most about it ending?",
+    hint:"Not the logistics. The thing underneath.",
+    items:[
+      { k:"kids",     t:"Becoming a weekend visitor to my own kids" },
+      { k:"alone",    t:"Ending up alone. Wondering who would want me now" },
+      { k:"money",    t:"The money. Starting over with nothing after all I put in" },
+      { k:"friend",   t:"Losing the one person I told everything to" },
+      { k:"noreturn", t:"That once it is done, there is no turning back" },
+    ]
+  };
+  // How the result names the fear back to him (de-shame).
+  const FEAR_BACK = {
+    kids:"becoming a weekend visitor to your own kids",
+    alone:"ending up alone, wondering who would want you now",
+    money:"starting over with nothing after all you put in",
+    friend:"losing the one person you told everything to",
+    noreturn:"that once it is done, there is no turning back",
+  };
 
   // ---- content library (mirrors the design spec; drives the personalized report) ----
   const HEAD = { solid:"Good news. You're in better shape than you feared.", light:"She hasn't left. She's drifting. And you caught it early.", mid:"You're living like roommates, not partners.", heavy:"It's late. But it may not be too late." };
@@ -554,7 +612,7 @@
     quiet:"When it gets hard, you go quiet and wait it out. But your silence does not read as calm to her. It reads as you giving up too. The fix is to stay in the room, even before you have the words.",
     see:"You already do the rare thing, slowing down to see what she carries. Most men never get there. The work is doing it on purpose, in plain sight, on the days that decide this, so it actually reaches her."
   };
-  const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", friendship:"The friendship comes back when she feels safe being honest with you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
+  const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", friendship:"The friendship comes back when she feels safe opening up to you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
   const FREQ_WORD = ["Never","Sometimes","Often","Always"];
 
   // Per-band result copy. Honest but hopeful. The reframe (being seen vs seeing her) runs through all three.
@@ -603,8 +661,8 @@
     heavy:"In 30 days you will know which way this is going, for certain, instead of lying awake guessing."
   };
 
-  // Step model: 0..6 = the 7 pain questions, 7 = reach grid, 8 = years, 9 = loved, 10 = fighting.
-  const TOTAL = QUESTIONS.length + 4;
+  // Step model: 0..6 = the 7 pain questions, 7 = reach grid, 8 = years, 9 = loved, 10 = fighting, 11 = readiness slider.
+  const TOTAL = QUESTIONS.length + 5;
   function freshReach(){ return []; }
   let answers = new Array(QUESTIONS.length).fill(null);
   let reach = freshReach();        // selected reach-habit keys (multi-select, no cap)
@@ -613,6 +671,8 @@
   let years = null;               // index into YEARS.opts
   let loved = [];                 // keys, max 3
   let fighting = [];              // keys, max 2
+  let readiness = null;           // 0..100 from the slider (null until he drags it)
+  let fear = null;                // divorce-fear key, only set if he forks (readiness <= threshold)
   let subtype = null;             // derived: highest-frequency reach habit (back-compat)
   let idx = 0;
   let picking = false; // guard: block re-entry during dwell
@@ -635,12 +695,12 @@
     window.scrollTo(0,0);
   }
 
-  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reach=freshReach(); years=null; loved=[]; fighting=[]; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reach=freshReach(); years=null; loved=[]; fighting=[]; readiness=null; fear=null; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
 
   // Fire one analytics event the first time each question is reached (drop-off funnel).
   function trackStep(){
     const key = idx < QUESTIONS.length ? ("q" + (idx + 1))
-              : (["reach","years","loved","fighting"][idx - QUESTIONS.length] || "step" + idx);
+              : (["reach","years","loved","fighting","readiness","fear"][idx - QUESTIONS.length] || "step" + idx);
     if (seenSteps.has(key)) return;
     seenSteps.add(key);
     try { track("quiz_question", { step: idx + 1, q: key, total: TOTAL }); } catch(e){}
@@ -648,18 +708,18 @@
   function restart(){
     $("confirm").style.display="none";
     const lf=$("leadform"); lf.reset(); lf.style.display="";
-    const sb=lf.querySelector("button[type='submit']"); sb.disabled=false; sb.textContent="Send me my result";
+    const sb=lf.querySelector("button[type='submit']"); sb.disabled=false; sb.textContent="Send me my game plan";
     $("opt-extra").classList.remove("open"); $("opt-toggle").classList.remove("open"); $("opt-toggle").setAttribute("aria-expanded","false");
     $("result-content").style.display="none"; $("result").classList.remove("revealed");
     picking=false;
     start();
   }
 
-  const STEP = { REACH: QUESTIONS.length, YEARS: QUESTIONS.length+1, LOVED: QUESTIONS.length+2, FIGHT: QUESTIONS.length+3 };
+  const STEP = { REACH: QUESTIONS.length, YEARS: QUESTIONS.length+1, LOVED: QUESTIONS.length+2, FIGHT: QUESTIONS.length+3, READINESS: QUESTIONS.length+4, FEAR: QUESTIONS.length+5 };
 
   function render(){
     $("progfill").style.width = (Math.min(idx, TOTAL) / TOTAL * 100) + "%";
-    $("progcount").textContent = (idx+1) + " / " + TOTAL;
+    $("progcount").textContent = Math.min(idx+1, TOTAL) + " / " + TOTAL;
     $("backbtn").disabled = idx===0;
 
     const wrap = $("qwrap"); wrap.classList.remove("q-enter"); void wrap.offsetWidth; wrap.classList.add("q-enter");
@@ -669,7 +729,9 @@
     else if(idx === STEP.REACH) renderReach();
     else if(idx === STEP.YEARS) renderYears();
     else if(idx === STEP.LOVED) renderMulti(LOVED, loved, "loved");
-    else renderMulti(FIGHT, fighting, "fighting");
+    else if(idx === STEP.FIGHT) renderMulti(FIGHT, fighting, "fighting");
+    else if(idx === STEP.READINESS) renderReadiness();
+    else renderFear();
 
     $("qtext").focus({preventScroll:true});
     trackStep();
@@ -729,6 +791,55 @@
     render();
   }
 
+  function renderReadiness(){
+    $("qnum").textContent = "One more";
+    $("qtext").textContent = READINESS.stem;
+    $("qhint").textContent = READINESS.hint;
+    const set = readiness != null;
+    const v = set ? readiness : 50;
+    const z = set ? leanFor(readiness) : null;
+    $("opts").innerHTML =
+      '<div class="slider-wrap">'
+      + '<div class="slider-readout">'
+      +   '<span class="slider-leanlabel" id="rd-leanlabel"'+(set?(' style="color:'+z.color+'"'):'')+'>'+(set?z.label:'')+'</span>'
+      + '</div>'
+      + '<input type="range" min="0" max="100" step="1" value="'+v+'" class="rd-slider" id="rd-slider" '
+      +   'aria-label="Where are you right now, from getting ready for divorce to ready to turn it around" '
+      +   'oninput="onReadiness(this.value)">'
+      + '<div class="slider-poles"><span>'+READINESS.leftPole+'</span><span>'+READINESS.rightPole+'</span></div>'
+      + '<div class="slider-caption'+(set?'':' placeholder')+'" id="rd-caption">'+(set?z.caption:'Drag the slider to where you really are.')+'</div>'
+      + '</div>';
+    const cont = $("contbtn"); cont.style.display=""; cont.disabled = !set; cont.textContent = "See my result →";
+  }
+  function onReadiness(v){
+    readiness = parseInt(v, 10);
+    const z = leanFor(readiness);
+    const lbl = $("rd-leanlabel"), cap = $("rd-caption");
+    lbl.textContent = z.label; lbl.style.color = z.color;
+    cap.textContent = z.caption; cap.classList.remove("placeholder");
+    $("contbtn").disabled = false;
+  }
+
+  // Conditional fork (only reached when readiness <= FEAR_THRESHOLD). Single-select -> straight to result.
+  function renderFear(){
+    $("qnum").textContent = "Before your read";
+    $("qtext").textContent = FEAR.stem;
+    $("qhint").textContent = FEAR.hint;
+    $("opts").innerHTML =
+      '<p style="font-family:\'Fraunces\',serif;font-style:italic;font-size:15px;color:var(--text-soft);line-height:1.45;margin:2px 0 16px">'+FEAR.bridge+'</p>'
+      + FEAR.items.map(o=>
+          '<button class="opt'+(fear===o.k?' sel':'')+'" onclick="pickFear(\''+o.k+'\')"><span class="dot"></span>'+o.t+'</button>').join("");
+    const cont = $("contbtn"); cont.style.display="none"; cont.disabled = true;
+  }
+  function pickFear(k){
+    if(picking) return;
+    picking = true;
+    fear = k;
+    render();
+    try{ track("quiz_fear", { fear:k }); }catch(e){}
+    setTimeout(()=>{ picking=false; showResult(); }, 400);
+  }
+
   function pick(i){
     if(picking) return;
     picking = true;
@@ -739,7 +850,15 @@
 
   function cont(){
     if(idx === STEP.REACH){ subtype = topReach(); idx++; render(); return; }
-    if(idx === TOTAL-1){ subtype = subtype || topReach(); showResult(); return; }
+    if(idx === STEP.READINESS){
+      subtype = subtype || topReach();
+      if(readiness != null){ try{ track("quiz_readiness", { readiness:readiness, lean:leanFor(readiness).lean }); }catch(e){} }
+      // Leaning out -> ask the one fear question first. Otherwise go straight to the result.
+      if(readiness != null && readiness <= FEAR_THRESHOLD){ idx = STEP.FEAR; render(); return; }
+      fear = null;
+      showResult();
+      return;
+    }
     idx++; render();
   }
 
@@ -758,7 +877,13 @@
     // read + answer-driven empathy (empathy only from chosen loved + fighting picks)
     const topLoved = (o.loved && o.loved[0]) || null;
     const topFight = (o.fighting && o.fighting[0]) || null;
-    let read = "<p>" + (READ[band] || READ.mid) + "</p>";
+    let read = "";
+    // Leaning-out fork: name his fear back (de-shame), then the No-Lose reframe toward "find out for sure".
+    if(o.fear && FEAR_BACK[o.fear]){
+      read += "<p>You told me the part that scares you most is " + FEAR_BACK[o.fear] + ". That is not weakness. That is the size of what you built.</p>"
+            + "<p>The men who walk away clean, without it haunting them at 2am for years, did the real work first and got a clear answer. The ones who never stop wondering left while a part of them still hoped. You do not have to decide tonight. You have to find out for sure.</p>";
+    }
+    read += "<p>" + (READ[band] || READ.mid) + "</p>";
     const emp = [];
     if(topLoved && LOVED_EMPATHY[topLoved]) emp.push(LOVED_EMPATHY[topLoved]);
     if(topFight && FIGHT_EMPATHY[topFight]) emp.push(FIGHT_EMPATHY[topFight]);
@@ -797,10 +922,22 @@
         '<div class="mapitem"><div class="want">'+x.want+'</div><div class="how">'+x.how+'</div></div>').join("");
     }
 
-    // gate bullets: 2 static + fighting outcome + loved first-move (answer-gated)
-    const gb = ["What's really pulling her away, deeper than this quiz could show","Whether this can be reversed, and exactly how to start"];
-    if(topFight && FIGHT_OUTCOME[topFight]) gb.push("How to turn it around " + FIGHT_OUTCOME[topFight]);
-    gb.push((topLoved && LOVED_LABEL[topLoved]) ? ("The first move toward bringing back " + LOVED_LABEL[topLoved]) : "Your day-by-day steps for the next 30 days");
+    // gate copy themed by where the slider left him. Out -> "find out for sure"; everyone else -> game plan.
+    let gb;
+    const sbtn = $("leadform") && $("leadform").querySelector("button[type='submit']");
+    if(o.fear){
+      $("gate-kicker").textContent = "Before you decide";
+      $("capture-h3").textContent = "Find out for sure, before you can't take it back.";
+      if(sbtn) sbtn.textContent = "Send me my read";
+      gb = ["Whether this still has a pulse","Your next move, either way","How 30 days gives you a clear answer instead of a guess"];
+    } else {
+      $("gate-kicker").textContent = "Your game plan";
+      $("capture-h3").textContent = "Whether this can be turned around, and your exact next moves.";
+      if(sbtn) sbtn.textContent = "Send me my game plan";
+      gb = ["What's really pulling her away","Whether this can be reversed, and exactly how to start"];
+      if(topFight && FIGHT_OUTCOME[topFight]) gb.push("How to turn it around " + FIGHT_OUTCOME[topFight]);
+      gb.push((topLoved && LOVED_LABEL[topLoved]) ? ("The first move toward bringing back " + LOVED_LABEL[topLoved]) : "Your day-by-day steps for the next 30 days");
+    }
     $("gate-bullets").innerHTML = gb.map(b=>"<li>"+b+"</li>").join("");
   }
 
@@ -811,7 +948,7 @@
     const reachKey = deep ? (deep.reach || "gesture") : (subtype || topReach());
     const B = BANDS[band] || BANDS.mid;
 
-    buildReport({ band:band, score:score, deep:!!deep, reachKey:reachKey, reachSel:reach.slice(), loved:loved, fighting:fighting });
+    buildReport({ band:band, score:score, deep:!!deep, reachKey:reachKey, reachSel:reach.slice(), loved:loved, fighting:fighting, fear:(deep ? "" : fear) });
 
     // spectrum (hidden on a deep link that carries no score)
     const pct = Math.round((score / 21) * 100);
@@ -821,7 +958,7 @@
     ["sl-light","sl-mid","sl-heavy"].forEach(id=>$(id).classList.remove("active"));
     $(B.label).classList.add("active");
 
-    try{ track(deep ? "quiz_result_view" : "quiz_complete", { score:score, band:band, reach:reachKey }); }catch(e){}
+    try{ track(deep ? "quiz_result_view" : "quiz_complete", Object.assign({ score:score, band:band, reach:reachKey }, (!deep && readiness!=null) ? { readiness:readiness, lean:leanFor(readiness).lean } : {}, (!deep && fear) ? { fear:fear } : {})); }catch(e){}
     if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
 
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
@@ -928,6 +1065,10 @@
       fighting: fighting.slice(),               // what-you're-fighting-for keys -> syr_fighting_for
       score: score,                             // 0..21
       band: band,                               // solid | light | mid | heavy
+      readiness: readiness,                     // 0..100 slider -> syr_readiness (null if not set)
+      lean: (readiness!=null ? leanFor(readiness).lean : ""),         // out|torn|hopeful|allin -> syr_lean
+      lean_label: (readiness!=null ? leanFor(readiness).label : ""),  // reader-facing -> syr_lean_label
+      fear: (fear || ""),                       // divorce-fear key, only if he forked -> syr_fear
       answers: answers.slice(),                 // [q1..q7] raw 0-3 -> syr_q1..syr_q7
       top_areas: topAreas,                      // readable high-pain themes -> syr_top_areas
       consent: true,
@@ -951,7 +1092,7 @@
     // server-side in group 191258795228267635 (Save Your Relationship). Deploy a worker for this
     // product and paste its URL here. Until then, leave as-is: the catch() below still confirms to
     // the user, and the lead is mirrored to the analytics layer via track('quiz_lead').
-    const WORKER_URL = "https://syr-lead.truecontact.workers.dev";  // TODO: point at the live worker
+    const WORKER_URL = "https://syr-lead.truecontact.workers.dev";  // live lead worker
 
     const btn = $("leadform").querySelector("button[type='submit']");
     btn.disabled = true; btn.textContent = "Sending...";
