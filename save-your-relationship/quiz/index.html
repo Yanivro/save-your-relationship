@@ -882,6 +882,8 @@
     if(o.fear && FEAR_BACK[o.fear]){
       read += "<p>You told me the part that scares you most is " + FEAR_BACK[o.fear] + ". That is not weakness. That is the size of what you built.</p>"
             + "<p>The men who walk away clean, without it haunting them at 2am for years, did the real work first and got a clear answer. The ones who never stop wondering left while a part of them still hoped. You do not have to decide tonight. You have to find out for sure.</p>";
+    } else if(o.lean === "torn"){
+      read += "<p>Part of you is already preparing to leave. You do not have to decide today. You have to find out. Do the next 30 days and you will know which way this really goes, instead of lying awake guessing.</p>";
     }
     read += "<p>" + (READ[band] || READ.mid) + "</p>";
     const emp = [];
@@ -930,6 +932,11 @@
       $("capture-h3").textContent = "Find out for sure, before you can't take it back.";
       if(sbtn) sbtn.textContent = "Send me my read";
       gb = ["Whether this still has a pulse","Your next move, either way","How 30 days gives you a clear answer instead of a guess"];
+    } else if(o.lean === "torn"){
+      $("gate-kicker").textContent = "Your game plan";
+      $("capture-h3").textContent = "The 30-day test that ends the limbo.";
+      if(sbtn) sbtn.textContent = "Do the 30 days and find out";
+      gb = ["Which way this is really going","What 30 days of real change tells you","How to stop guessing and know for sure"];
     } else {
       $("gate-kicker").textContent = "Your game plan";
       $("capture-h3").textContent = "Whether this can be turned around, and your exact next moves.";
@@ -948,7 +955,8 @@
     const reachKey = deep ? (deep.reach || "gesture") : (subtype || topReach());
     const B = BANDS[band] || BANDS.mid;
 
-    buildReport({ band:band, score:score, deep:!!deep, reachKey:reachKey, reachSel:reach.slice(), loved:loved, fighting:fighting, fear:(deep ? "" : fear) });
+    const leanVal = (deep || readiness == null) ? "" : leanFor(readiness).lean;
+    buildReport({ band:band, score:score, deep:!!deep, reachKey:reachKey, reachSel:reach.slice(), loved:loved, fighting:fighting, fear:(deep ? "" : fear), lean:leanVal });
 
     // spectrum (hidden on a deep link that carries no score)
     const pct = Math.round((score / 21) * 100);
@@ -1040,6 +1048,7 @@
     if(!$("consent").checked){ return false; }
     const score = answers.reduce((a,b)=>a+(b||0),0);
     const band = bandFor(score);
+    const lean = (readiness != null) ? leanFor(readiness).lean : "";   // out|torn|hopeful|allin (for signup-by-lean)
     // High-pain themes (questions answered 2 or 3) — readable "what's hardest for this person".
     const topAreas = QUESTIONS.map((q,i)=>({t:THEMES[i],v:answers[i]})).filter(x=>x.v>=2).map(x=>x.t).join(", ");
 
@@ -1108,11 +1117,11 @@
           history.replaceState(null, '', u.toString());
         }
       } catch(e){}
-      try{ track('quiz_lead',{ band:band, reach:subtype }); if(window.fbq){ fbq('track','Lead', {}, { eventID: eventId }); fbq('track','PageView'); } }catch(e){}
+      try{ track('quiz_lead', Object.assign({ band:band, reach:subtype }, lean ? { lean:lean, readiness:readiness } : {}, fear ? { fear:fear } : {})); if(window.fbq){ fbq('track','Lead', {}, { eventID: eventId }); fbq('track','PageView'); } }catch(e){}
       // Clarity samples sessions by default — upgrade() forces THIS session to be kept and recorded,
       // and the tags make a lead's session findable/filterable in the Clarity dashboard. The recording
       // continues onto the landing page (same site, same Clarity project) when they click the upsell.
-      try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','band',band); clarity('set','reach',subtype||''); clarity('upgrade','quiz_lead'); } }catch(e){}
+      try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','band',band); clarity('set','reach',subtype||''); if(lean) clarity('set','lean',lean); clarity('upgrade','quiz_lead'); } }catch(e){}
       // Route to the dedicated thank-you screen (shows their email so they know where to look).
       $("thanks-email").textContent = lead.email || "your inbox";
       show("thanks");
