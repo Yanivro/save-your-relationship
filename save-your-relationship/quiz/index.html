@@ -538,6 +538,7 @@
     { k:"looked",     t:"The way she used to look at me" },
     { k:"understood", t:"Feeling truly understood" },
     { k:"laugh",      t:"Her laugh and her lightness" },
+    { k:"physical",   t:"The way we used to want each other" },
     { k:"team",       t:"We were a team against the world" },
     { k:"friendship", t:"The friendship underneath it all" },
     { k:"builtLife",  t:"The family and life we built" },
@@ -547,6 +548,7 @@
     { k:"womanIFellFor",   t:"The woman I fell for, back in my life" },
     { k:"kids",            t:"My kids growing up with both parents" },
     { k:"notBlowUpFamily", t:"Not blowing up the family" },
+    { k:"desire",          t:"Us wanting each other again" },
     { k:"manIMeanToBe",    t:"Becoming the man I keep meaning to be" },
     { k:"realPartnership", t:"A real partnership again, not just coexisting" },
     { k:"growOld",         t:"Growing old with her" },
@@ -592,6 +594,14 @@
     friend:"losing the one person you told everything to",
     noreturn:"that once it is done, there is no turning back",
   };
+  // Readiness-aware opener: meet him where he said he is (the slider) BEFORE the diagnosis. Keyed by lean.
+  // Kept word-for-word in sync with LEAN_OPEN in worker.js (the email uses {$syr_lean_open}).
+  const LEAN_OPEN = {
+    out:"It sounds really hard to be where you are. Getting ready to walk away, after everything you put in, is a heavy and lonely place to stand.",
+    torn:"It sounds really hard to be where you are. Part of you is already preparing to leave, and part of you is still holding on. Living in that back and forth is exhausting and lonely, and you do not have to resolve it today.",
+    hopeful:"It sounds really hard to be where you are. You still want to save this. You are just running low on the belief that you can. That is a lonely place to try to reach someone from, and the fact that you are still reaching says a lot about you.",
+    allin:"It sounds really hard to be where you are, and still you are ready to fight for this. A lot of men would have gone numb by now. You still believe in her, and in this, and that belief is what we build everything else on.",
+  };
 
   // ---- content library (mirrors the design spec; drives the personalized report) ----
   const HEAD = { solid:"Good news. You're in better shape than you feared.", light:"She hasn't left. She's drifting. And you caught it early.", mid:"You're living like roommates, not partners.", heavy:"It's late. But it may not be too late." };
@@ -601,18 +611,18 @@
     mid:"Somewhere along the way the marriage quietly turned into a partnership of logistics. That is not peace. It is distance wearing the costume of peace. But you caught it before she is fully gone, and roommates can become partners again.",
     heavy:"By your answers she has pulled most of the way out. The reaching stopped a while ago. It may be late. It is not automatically too late, and the work is the only real shot."
   };
-  const LOVED_LABEL   = { looked:"the way she used to look at you", understood:"feeling truly understood", laugh:"her laugh and her lightness", team:"being a team against the world", friendship:"the friendship underneath it all", builtLife:"the family and life you built", cameToYou:"being the person she came to" };
-  const LOVED_EMPATHY = { looked:"the icy look from the woman who once looked at you like the best man alive", understood:"feeling like a stranger to the one person who used to know you best", laugh:"the quiet house where her laugh used to be", team:"facing it all alone when you used to face it together", friendship:"losing your best friend while still sharing a bed", builtLife:"watching the life you built together go cold", cameToYou:"no longer being the one she turns to" };
-  const FIGHT_LABEL   = { womanIFellFor:"the woman you fell for", kids:"your kids growing up with both of you", notBlowUpFamily:"keeping the family together", manIMeanToBe:"becoming the man you mean to be", realPartnership:"a real partnership again", growOld:"growing old with her" };
-  const FIGHT_EMPATHY = { kids:"the worry about what the distance is doing to your kids", womanIFellFor:"the ache of missing the woman you fell for, in the same house", notBlowUpFamily:"the fear of the whole family coming apart", manIMeanToBe:"the gap between who you are and who you mean to be", realPartnership:"living like business partners when you wanted a marriage", growOld:"the fear of facing old age alone after all these years" };
-  const FIGHT_OUTCOME = { kids:"without the family breaking apart", womanIFellFor:"and start getting the woman you fell for back", notBlowUpFamily:"without blowing up the family", manIMeanToBe:"and become the man you keep meaning to be while you do it", realPartnership:"back to a real partnership, not two people coexisting", growOld:"so you still get to grow old with her" };
+  const LOVED_LABEL   = { looked:"the way she used to look at you", understood:"feeling truly understood", laugh:"her laugh and her lightness", physical:"the way you used to want each other", team:"being a team against the world", friendship:"the friendship underneath it all", builtLife:"the family and life you built", cameToYou:"being the person she came to" };
+  const LOVED_EMPATHY = { looked:"the icy look from the woman who once looked at you like the best man alive", understood:"feeling like a stranger to the one person who used to know you best", laugh:"the quiet house where her laugh used to be", physical:"lying next to someone who used to reach for you, and now turns away", team:"facing it all alone when you used to face it together", friendship:"losing your best friend while still sharing a bed", builtLife:"watching the life you built together go cold", cameToYou:"no longer being the one she turns to" };
+  const FIGHT_LABEL   = { womanIFellFor:"the woman you fell for", kids:"your kids growing up with both of you", notBlowUpFamily:"keeping the family together", desire:"the two of you wanting each other again", manIMeanToBe:"becoming the man you mean to be", realPartnership:"a real partnership again", growOld:"growing old with her" };
+  const FIGHT_EMPATHY = { kids:"the worry about what the distance is doing to your kids", womanIFellFor:"the ache of missing the woman you fell for, in the same house", notBlowUpFamily:"the fear of the whole family coming apart", desire:"the ache of sleeping next to her and feeling like strangers", manIMeanToBe:"the gap between who you are and who you mean to be", realPartnership:"living like business partners when you wanted a marriage", growOld:"the fear of facing old age alone after all these years" };
+  const FIGHT_OUTCOME = { kids:"without the family breaking apart", womanIFellFor:"and start getting the woman you fell for back", notBlowUpFamily:"without blowing up the family", desire:"and feel wanted by her again", manIMeanToBe:"and become the man you keep meaning to be while you do it", realPartnership:"back to a real partnership, not two people coexisting", growOld:"so you still get to grow old with her" };
   const REACH_LABEL   = { gesture:"Grand gestures to win her back", defend:"Making your case for how much you do", provide:"Working harder, providing more", see:"Slowing down to see what she carries", quiet:"Going quiet and pulling back" };
   const REACH_REFRAME = {
     giveToGet:"You answer the distance by doing more, and she noticed the effort years ago. Nobody feels loved because they were impressed. They feel loved because they were <em>understood</em>. The fix is not less effort. It is the same effort, aimed at seeing her.",
     quiet:"When it gets hard, you go quiet and wait it out. But your silence does not read as calm to her. It reads as you giving up too. The fix is to stay in the room, even before you have the words.",
     see:"You already do the rare thing, slowing down to see what she carries. Most men never get there. The work is doing it on purpose, in plain sight, on the days that decide this, so it actually reaches her."
   };
-  const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", friendship:"The friendship comes back when she feels safe opening up to you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
+  const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", desire:"Wanting comes back when she feels close and safe with you again, not pressured.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", physical:"The wanting returns when she feels close to you again, not managed or performed for.", friendship:"The friendship comes back when she feels safe opening up to you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
   const FREQ_WORD = ["Never","Sometimes","Often","Always"];
 
   // Per-band result copy. Honest but hopeful. The reframe (being seen vs seeing her) runs through all three.
@@ -878,12 +888,12 @@
     const topLoved = (o.loved && o.loved[0]) || null;
     const topFight = (o.fighting && o.fighting[0]) || null;
     let read = "";
+    // First, meet him where he said he is (the readiness slider), before any diagnosis.
+    if(o.lean && LEAN_OPEN[o.lean]) read += "<p>" + LEAN_OPEN[o.lean] + "</p>";
     // Leaning-out fork: name his fear back (de-shame), then the No-Lose reframe toward "find out for sure".
     if(o.fear && FEAR_BACK[o.fear]){
       read += "<p>You told me the part that scares you most is " + FEAR_BACK[o.fear] + ". That is not weakness. That is the size of what you built.</p>"
             + "<p>The men who walk away clean, without it haunting them at 2am for years, did the real work first and got a clear answer. The ones who never stop wondering left while a part of them still hoped. You do not have to decide tonight. You have to find out for sure.</p>";
-    } else if(o.lean === "torn"){
-      read += "<p>Part of you is already preparing to leave. You do not have to decide today. You have to find out. Do the next 30 days and you will know which way this really goes, instead of lying awake guessing.</p>";
     }
     read += "<p>" + (READ[band] || READ.mid) + "</p>";
     const emp = [];
@@ -968,6 +978,13 @@
 
     try{ track(deep ? "quiz_result_view" : "quiz_complete", Object.assign({ score:score, band:band, reach:reachKey }, (!deep && readiness!=null) ? { readiness:readiness, lean:leanFor(readiness).lean } : {}, (!deep && fear) ? { fear:fear } : {})); }catch(e){}
     if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
+    // Reflective picks -> GA4, once per completer (signup or not). Makes the multi-select hopes
+    // (incl. the physical-intimacy options) aggregatable for the ~85% who never give an email.
+    if(!deep){ try{
+      loved.forEach(k=>track("quiz_reflect",{ reflect_field:"loved", reflect_value:k }));
+      fighting.forEach(k=>track("quiz_reflect",{ reflect_field:"fighting", reflect_value:k }));
+      if(years!=null) track("quiz_reflect",{ reflect_field:"years", reflect_value:YEARS.opts[years] });
+    }catch(e){} }
 
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
