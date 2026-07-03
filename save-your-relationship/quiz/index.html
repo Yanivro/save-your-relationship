@@ -366,6 +366,7 @@
       <div id="result-content" style="display:none">
         <div class="reveal-block" id="rb-head">
           <h2 id="rhead"></h2>
+          <p id="rsub" style="margin-top:10px;font-size:16.5px;color:var(--text-soft)"></p>
           <div class="spectrum" id="spectrum">
             <div class="card-kicker">Where you land</div>
             <div class="spec-wrap">
@@ -383,6 +384,7 @@
             </div>
             <p class="spec-caption">This measures how far she has pulled away. 0 means a rough patch you are still in together. 21 means she is mostly gone, and you can feel it.</p>
           </div>
+          <p id="rlead" style="margin-top:20px;font-size:17px;font-weight:600;color:var(--ink);line-height:1.4"></p>
         </div>
         <div class="reveal-block" id="rb-read">
           <div class="body" id="rread"></div>
@@ -410,50 +412,23 @@
           </div>
         </div>
 
-        <!-- THE ASK: email gate (no product offer on the page) -->
+        <!-- THE HANDOFF: cost stakes -> the landing page (no email gate; pure sell) -->
         <div class="reveal-block" id="rb-gate">
-          <div class="capture">
-            <div class="card-kicker" id="gate-kicker">Your game plan</div>
-            <h3 id="capture-h3">Whether this can be turned around, and your exact next moves.</h3>
-            <ul class="gate-list" id="gate-bullets"></ul>
-            <form class="form" id="leadform" onsubmit="return submitLead(event)">
-              <div class="form-field">
-                <label for="firstname">First name</label>
-                <input type="text" id="firstname" placeholder="first name" required>
-              </div>
-              <div class="form-field">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="your email" required>
-              </div>
-              <button type="button" class="opt-toggle" id="opt-toggle" aria-expanded="false" aria-controls="opt-extra" style="grid-column:1 / -1" onclick="toggleOptExtra()"><span class="caret">&#9658;</span> Add your age (optional)</button>
-              <div class="opt-extra" id="opt-extra" role="group" aria-label="Optional details">
-                <div class="form-field">
-                  <label for="age">Age</label>
-                  <select id="age">
-                    <option value="" selected>your age</option>
-                    <option>Under 25</option>
-                    <option>25-29</option>
-                    <option>30-39</option>
-                    <option>40-49</option>
-                    <option>50-59</option>
-                    <option>60+</option>
-                  </select>
-                </div>
-              </div>
-              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-              <label class="consent" for="consent" style="grid-column:1 / -1; display:flex; align-items:flex-start; gap:.55em; font-size:.82rem; line-height:1.45; cursor:pointer; color:inherit; opacity:.92; margin:.2em 0 .1em">
-                <input type="checkbox" id="consent" required style="margin-top:.18em; flex:0 0 auto; width:16px; height:16px; accent-color:#cda35a; cursor:pointer">
-                <span>Yes, email me my full read and the day-by-day steps. Unsubscribe any time.</span>
-              </label>
-              <button type="submit">Send me my game plan</button>
-            </form>
-            <div class="confirm" id="confirm">You're in. Your full read and your plan are on the way. Check your inbox.</div>
-            <small>No spam. Leave any time.</small>
+          <div class="capture" style="text-align:center">
+            <div class="card-kicker" id="handoff-kicker">Your 30-day plan</div>
+            <p id="handoff-lead" style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1.25;margin-top:2px">Know within a month<br>whether it can be saved.</p>
+            <p style="margin-top:14px;font-size:14px;color:var(--text-soft);line-height:1.55">A counseling session runs $150 to $300. A divorce runs into the tens of thousands.</p>
+            <p style="margin-top:10px;font-family:'Fraunces',serif;font-style:italic;font-size:19px;color:var(--ink)">Can you afford that?</p>
+            <a id="handoff-btn" class="btn" href="../?src=quiz" style="display:flex;align-items:center;justify-content:center;gap:.5em;margin-top:20px;width:100%">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#1c1726" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <span id="handoff-label">See your 30-day plan</span>
+            </a>
+            <small id="handoff-micro" style="display:block;margin-top:12px;color:#9a8e9e;font-size:12.5px">Takes you to the full plan and how it works.</small>
           </div>
-        </div><!-- /rb-capture -->
+        </div><!-- /rb-handoff -->
       </div><!-- /result-content -->
 
-      <div class="softline">However far gone it feels, doing the work has no losing version. Either she softens toward a man who finally sees her, or you walk away knowing you gave it everything. If you are carrying this completely alone, a good couples therapist is worth the call too.</div>
+      <div class="softline">However far gone it feels, doing the work has no losing version. Either she softens toward a man who finally sees her, or you walk away knowing you gave it everything.</div>
       <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
     </section>
 
@@ -882,7 +857,11 @@
   // Build the personalized free report from answers (or a deep-link with limited data).
   function buildReport(o){
     const band = o.band;
-    $("rhead").textContent = HEAD[band] || HEAD.mid;
+    // ICP-state headline, keyed by the readiness lean. Out = the divorce-stopper (certainty); everyone else = save-the-marriage.
+    var icpOut = (o.lean === "out");
+    $("rhead").textContent = icpOut ? "Can you stop your divorce?" : "Can you save your marriage?";
+    if($("rsub"))  $("rsub").textContent  = icpOut ? "Know for sure." : "Your answers say there's still a real chance, if you move now.";
+    if($("rlead")) $("rlead").textContent = icpOut ? "This won't tell you to stay. It'll tell you the truth, before you can't take it back." : "One move a day. Ten minutes. Start tonight.";
 
     // read + answer-driven empathy (empathy only from chosen loved + fighting picks)
     const topLoved = (o.loved && o.loved[0]) || null;
@@ -934,28 +913,11 @@
         '<div class="mapitem"><div class="want">'+x.want+'</div><div class="how">'+x.how+'</div></div>').join("");
     }
 
-    // gate copy themed by where the slider left him. Out -> "find out for sure"; everyone else -> game plan.
-    let gb;
-    const sbtn = $("leadform") && $("leadform").querySelector("button[type='submit']");
-    if(o.fear){
-      $("gate-kicker").textContent = "Before you decide";
-      $("capture-h3").textContent = "Find out for sure, before you can't take it back.";
-      if(sbtn) sbtn.textContent = "Send me my read";
-      gb = ["Whether this still has a pulse","Your next move, either way","How 30 days gives you a clear answer instead of a guess"];
-    } else if(o.lean === "torn"){
-      $("gate-kicker").textContent = "Your game plan";
-      $("capture-h3").textContent = "The 30-day test that ends the limbo.";
-      if(sbtn) sbtn.textContent = "Do the 30 days and find out";
-      gb = ["Which way this is really going","What 30 days of real change tells you","How to stop guessing and know for sure"];
-    } else {
-      $("gate-kicker").textContent = "Your game plan";
-      $("capture-h3").textContent = "Whether this can be turned around, and your exact next moves.";
-      if(sbtn) sbtn.textContent = "Send me my game plan";
-      gb = ["What's really pulling her away","Whether this can be reversed, and exactly how to start"];
-      if(topFight && FIGHT_OUTCOME[topFight]) gb.push("How to turn it around " + FIGHT_OUTCOME[topFight]);
-      gb.push((topLoved && LOVED_LABEL[topLoved]) ? ("The first move toward bringing back " + LOVED_LABEL[topLoved]) : "Your day-by-day steps for the next 30 days");
-    }
-    $("gate-bullets").innerHTML = gb.map(b=>"<li>"+b+"</li>").join("");
+    // handoff CTA to the landing, themed by the readiness lean (ICP state). Out = certainty; else = the plan.
+    var hOut = (o.lean === "out");
+    if($("handoff-kicker")) $("handoff-kicker").textContent = hOut ? "Before you decide" : "Your 30-day plan";
+    if($("handoff-label"))  $("handoff-label").textContent  = hOut ? "See how to find out for sure" : "See your 30-day plan";
+    if($("handoff-micro"))  $("handoff-micro").textContent  = hOut ? "Takes you to the 30 days that answers it." : "Takes you to the full plan and how it works.";
   }
 
   function showResult(deep){
@@ -1023,9 +985,9 @@
     opts[n-1].click();
   });
 
-  // Thank-you upsell now sends to the LANDING PAGE (not straight to Gumroad). Carry the ad params
-  // (utm_* + fbclid) forward so a purchase made from the landing page stays attributed to the ad.
-  var _buybtn = document.getElementById("buybtn");
+  // Handoff button -> the landing page. Carry the ad params (utm_* + fbclid) forward (src=quiz is
+  // already on the href) so a purchase made from the landing stays attributed to the ad + the quiz.
+  var _buybtn = document.getElementById("handoff-btn");
   if (_buybtn) _buybtn.addEventListener("click", function(){
     try {
       var a = this, u = new URL(a.href, location.href);
