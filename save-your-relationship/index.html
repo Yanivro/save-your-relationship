@@ -757,10 +757,16 @@ footer a{color:var(--ink-soft); text-decoration:underline; text-underline-offset
       // Pass the ad click-ids to Gumroad so the server-side CAPI worker can match the buyer.
       try {
         var u = new URL(a.href);
-        var fbclid = new URLSearchParams(location.search).get('fbclid');
+        var q = new URLSearchParams(location.search);
+        var fbclid = q.get('fbclid');
         if (fbclid) u.searchParams.set('fbclid', fbclid);
         var m = document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/);
         if (m) u.searchParams.set('_fbp', m[1]);
+        // A/B arm markers: carry the campaign params + src (set by the quiz handoff) through to Gumroad,
+        // so quiz-path purchases stay attributable to the quiz arm.
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','src'].forEach(function(k){
+          var v = q.get(k); if (v) u.searchParams.set(k, v);
+        });
         a.href = u.toString();
       } catch (e) {}
       var where = loc(a);
