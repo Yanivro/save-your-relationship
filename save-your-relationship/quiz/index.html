@@ -235,6 +235,12 @@
   .move p{font-size:15.5px;color:var(--text);margin-top:10px}
   .move p:first-child{margin-top:0}
   .move b{color:var(--ink)}
+  /* v4 sell body: dream / problem / truth / window */
+  .move p.rlead2{margin-top:14px;font-weight:600;color:var(--ink);font-size:17px;line-height:1.4}
+  .move p.rsupport{color:var(--text-soft);line-height:1.6}
+  .rtruth{margin-top:26px;padding:2px 0 2px 20px;border-left:3px solid var(--ember);font-family:'Fraunces',Georgia,serif;font-size:19px;font-style:italic;line-height:1.35;color:var(--ink)}
+  .rwindow{margin-top:26px;font-size:16.5px;color:var(--ink);font-weight:500;line-height:1.55}
+  .rwindow .rwin{color:var(--gold);font-style:italic;font-weight:600}
 
   /* the book offer (primary CTA) */
   .offer{margin-top:26px;background:linear-gradient(180deg,#241e33,#1c1828);border:1px solid var(--ember);border-radius:var(--r-lg);padding:28px 26px;box-shadow:0 0 44px rgba(205,163,90,.08)}
@@ -385,31 +391,41 @@
             <p class="spec-caption">This measures how far she has pulled away. 0 means a rough patch you are still in together. 21 means she is mostly gone, and you can feel it.</p>
           </div>
           <p id="rlead" style="margin-top:20px;font-size:17px;font-weight:600;color:var(--ink);line-height:1.4"></p>
+          <p id="rlead-sup" style="margin-top:10px;font-size:15px;color:var(--text-soft);line-height:1.6"></p>
         </div>
         <div class="reveal-block" id="rb-read">
           <div class="body" id="rread"></div>
         </div>
-        <div class="reveal-block" id="rb-flags">
-          <div class="flagbox">
-            <div class="card-kicker">What's quietly hurting it most</div>
-            <ul id="flags"></ul>
-          </div>
-        </div>
-        <!-- why your effort hasn't worked: reach meter + the reframe -->
-        <div class="reveal-block" id="rb-reach">
+
+        <!-- B2 · DREAM — what you're fighting for (personalized: top loved pick) -->
+        <div class="reveal-block" id="rb-dream">
           <div class="move">
-            <div class="card-kicker">Why your effort hasn't worked</div>
-            <div class="meter-list" id="reach-meter"></div>
-            <p id="reach-reframe"></p>
+            <div class="card-kicker">What you're fighting for</div>
+            <p class="rsupport">Picture a Tuesday a few months from now. She tells you about her day, the real version. She laughs, and it isn't polite. You reach for her hand and she doesn't go stiff.</p>
+            <p class="rlead2">That's what <span id="dream-loved">her warmth</span> looks like when it comes back.</p>
+            <p class="rsupport">She didn't stop wanting it. She stopped believing it was coming.</p>
           </div>
         </div>
 
-        <!-- what you want -> how you get there -->
-        <div class="reveal-block" id="rb-want">
+        <!-- B3+B4 · PROBLEM — why your effort hasn't worked (personalized: coping lead by reach) -->
+        <div class="reveal-block" id="rb-problem">
           <div class="move">
-            <div class="card-kicker">What you want &rarr; how you get there</div>
-            <div class="wanthow" id="wanthow"></div>
+            <div class="card-kicker">Why your effort hasn't worked</div>
+            <p class="rlead2" id="problem-lead"></p>
+            <p class="rsupport" id="problem-sup"></p>
+            <p class="rsupport">She was showing you the whole time. The quiet in the car, the careful words, the reaching that stopped. Nobody ever taught you to read those signs.</p>
+            <p class="rlead2">The silence is the worse sign, not the fights.</p>
           </div>
+        </div>
+
+        <!-- B5 · TRUTH -->
+        <div class="reveal-block" id="rb-truth">
+          <p class="rtruth">Nobody feels loved because they were impressed. They feel loved because they were understood.</p>
+        </div>
+
+        <!-- B6 · WINDOW -->
+        <div class="reveal-block" id="rb-window">
+          <p class="rwindow">She doesn't hate you. She's more tired than angry, and she's still in the house. The signs are still readable. <span class="rwin">That's the window.</span></p>
         </div>
 
         <!-- THE HANDOFF: cost stakes -> the landing page (no email gate; pure sell) -->
@@ -430,32 +446,6 @@
 
       <div class="softline">However far gone it feels, doing the work has no losing version. Either she softens toward a man who finally sees her, or you walk away knowing you gave it everything.</div>
       <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
-    </section>
-
-    <!-- THANK YOU (shown after the email signup) -->
-    <section id="thanks" class="hidden thanks">
-      <div class="thanks-card">
-        <div class="thanks-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m16 19 2 2 4-4"/></svg>
-        </div>
-        <h2 id="thanks-head">The full report is on its way to you.</h2>
-        <p>It's heading to <b id="thanks-email">your inbox</b> right now. Go open it.</p>
-        <div class="thanks-note">
-          <b>Don't see it?</b> Give it a couple of minutes, then check your spam or promotions folder. It comes from <b>yaniv@thetruecontact.com</b>. Drag it into your inbox so the rest of your plan lands where you'll actually see it.
-        </div>
-
-        <div class="thanks-or">or</div>
-        <div class="thanks-offer">
-          <h3 class="thanks-offer-head">Are you ready to save your marriage?</h3>
-          <img class="thanks-book" src="../assets/cover.jpg" alt="The 30-Day Turnaround, a 30-day plan by Yaniv Rose" width="318" height="426">
-          <p class="thanks-offer-lead">Your free steps cover the first few days. The full 30-Day Turnaround is the whole plan, day by day, the exact moves that close the distance and start bringing her back.</p>
-          <div class="thanks-price"><s>$25</s> <b>$17.50</b></div>
-          <a id="buybtn" class="btn" href="../">Get the full plan</a>
-          <small>Read it tonight. Your free plan is still on its way.</small>
-        </div>
-
-        <div class="restart"><button class="btn secondary" onclick="restart()">Retake the look</button></div>
-      </div>
     </section>
 
   </div>
@@ -597,6 +587,14 @@
     quiet:"When it gets hard, you go quiet and wait it out. But your silence does not read as calm to her. It reads as you giving up too. The fix is to stay in the room, even before you have the words.",
     see:"You already do the rare thing, slowing down to see what she carries. Most men never get there. The work is doing it on purpose, in plain sight, on the days that decide this, so it actually reaches her."
   };
+  // v4 dream slot: short noun phrase for "That's what ___ looks like when it comes back", keyed to top loved pick.
+  const DREAM_BACK = { looked:"that look", understood:"being known", laugh:"her lightness", physical:"the wanting", team:"being a team", friendship:"the friendship", builtLife:"the life you built", cameToYou:"being her person" };
+  // v4 problem coping lead, 3 buckets keyed like REACH_REFRAME (giveToGet | quiet | see).
+  const COPING = {
+    giveToGet:{ lead:"You've been paying a bill she didn't send.", sup:"Working harder, earning more, fixing what you could see. That's what most good men reach for. It kept missing because it aimed at being seen as a good husband, instead of at seeing her." },
+    quiet:{ lead:"You went quiet, and she read it as you giving up too.", sup:"When it got hard, you pulled back and waited for it to pass. To you it felt like keeping the peace. To her, the silence landed as one more person checking out. It kept missing because staying gone felt safer than staying in the room." },
+    see:{ lead:"You already do the rare thing. It just hasn't reached her yet.", sup:"You slow down and try to feel what she is carrying. Most men never get there. It kept missing because you did it quietly, in your own head, on the ordinary days, instead of out loud on the days that decide this." }
+  };
   const WANT_HOW = { kids:"Starts the day she feels like your partner again, not your co-manager.", team:"Teams rebuild when she feels seen, not impressed.", looked:"That look comes back when she feels understood, maybe for the first time in years.", womanIFellFor:"She comes back when the pressure to perform lifts and she can breathe around you again.", realPartnership:"Partnership returns when you carry the invisible weight with her, not for credit.", understood:"Being known again starts with you listening past the first thirty seconds.", notBlowUpFamily:"A whole family starts with two people who feel like a team again.", desire:"Wanting comes back when she feels close and safe with you again, not pressured.", manIMeanToBe:"You become him by doing the quiet work no one claps for.", growOld:"The next forty years are built on her feeling chosen now.", laugh:"Her lightness returns when the weight she carries gets lighter.", physical:"The wanting returns when she feels close to you again, not managed or performed for.", friendship:"The friendship comes back when she feels safe opening up to you again.", builtLife:"The life you built warms up when she stops carrying it alone.", cameToYou:"She turns to you again when you become the steady one, not the needy one." };
   const FREQ_WORD = ["Never","Sometimes","Often","Always"];
 
@@ -671,7 +669,7 @@
 
   const $ = id => document.getElementById(id);
   function show(id){
-    ["intro","quiz","result","thanks"].forEach(s=>$(s).classList.add("hidden"));
+    ["intro","quiz","result"].forEach(s=>$(s).classList.add("hidden"));
     const el = $(id);
     el.classList.remove("hidden");
     el.classList.remove("section-enter");
@@ -691,10 +689,6 @@
     try { track("quiz_question", { step: idx + 1, q: key, total: TOTAL }); } catch(e){}
   }
   function restart(){
-    $("confirm").style.display="none";
-    const lf=$("leadform"); lf.reset(); lf.style.display="";
-    const sb=lf.querySelector("button[type='submit']"); sb.disabled=false; sb.textContent="Send me my game plan";
-    $("opt-extra").classList.remove("open"); $("opt-toggle").classList.remove("open"); $("opt-toggle").setAttribute("aria-expanded","false");
     $("result-content").style.display="none"; $("result").classList.remove("revealed");
     picking=false;
     start();
@@ -862,56 +856,29 @@
     $("rhead").textContent = icpOut ? "Can you stop your divorce?" : "Can you save your marriage?";
     if($("rsub"))  $("rsub").textContent  = icpOut ? "Know for sure." : "Your answers say there's still a real chance, if you move now.";
     if($("rlead")) $("rlead").textContent = icpOut ? "This won't tell you to stay. It'll tell you the truth, before you can't take it back." : "One move a day. Ten minutes. Start tonight.";
+    if($("rlead-sup")) $("rlead-sup").textContent = icpOut ? "No pressure to save anything. Just a way to know, so you decide with your eyes open." : "No announcing, no grand talk. Thirty days to know where you really stand.";
 
-    // read + answer-driven empathy (empathy only from chosen loved + fighting picks)
     const topLoved = (o.loved && o.loved[0]) || null;
-    const topFight = (o.fighting && o.fighting[0]) || null;
+
+    // rb-read = the mirror: meet him where he said he is (readiness slider) before any diagnosis, and on
+    // the leaning-out fork name his fear back (de-shame) + the No-Lose reframe. Deep-link emails carry no
+    // lean, so they fall back to the band read.
     let read = "";
-    // First, meet him where he said he is (the readiness slider), before any diagnosis.
     if(o.lean && LEAN_OPEN[o.lean]) read += "<p>" + LEAN_OPEN[o.lean] + "</p>";
-    // Leaning-out fork: name his fear back (de-shame), then the No-Lose reframe toward "find out for sure".
     if(o.fear && FEAR_BACK[o.fear]){
       read += "<p>You told me the part that scares you most is " + FEAR_BACK[o.fear] + ". That is not weakness. That is the size of what you built.</p>"
             + "<p>The men who walk away clean, without it haunting them at 2am for years, did the real work first and got a clear answer. The ones who never stop wondering left while a part of them still hoped. You do not have to decide tonight. You have to find out for sure.</p>";
     }
-    read += "<p>" + (READ[band] || READ.mid) + "</p>";
-    const emp = [];
-    if(topLoved && LOVED_EMPATHY[topLoved]) emp.push(LOVED_EMPATHY[topLoved]);
-    if(topFight && FIGHT_EMPATHY[topFight]) emp.push(FIGHT_EMPATHY[topFight]);
-    if(emp.length) read += "<p>And I know what that quietly costs you: " + emp.join(", and ") + ". That is a heavy thing, and most men carry it alone.</p>";
+    if(!read) read = "<p>" + (READ[band] || READ.mid) + "</p>";
     $("rread").innerHTML = read;
 
-    // flags (need per-question answers; not on a deep link)
-    if(o.deep){ $("rb-flags").style.display="none"; }
-    else {
-      $("rb-flags").style.display="";
-      const flagged = QUESTIONS.map((Q,i)=>({t:THEMES[i],f:Q.flag,v:answers[i],i:i})).filter(x=>x.v>=2)
-        .sort((a,b)=> b.v-a.v || a.i-b.i).slice(0,3);  // top 3 most severe; ties keep question order
-      $("flags").innerHTML = flagged.length
-        ? flagged.map(x=>"<li><b>"+x.t+".</b> "+x.f+"</li>").join("")
-        : '<li class="none">Nothing is flagging hard yet. Keep an eye on the warmth and whether she reaches for you first.</li>';
-    }
+    // B2 dream: fill the "what you loved" slot from his top loved pick (fallback: her warmth).
+    if($("dream-loved")) $("dream-loved").textContent = DREAM_BACK[topLoved] || "her warmth";
 
-    // reach meter + reframe
-    if(o.deep){ $("rb-reach").style.display="none"; }
-    else {
-      $("rb-reach").style.display="";
-      const sel = (o.reachSel && o.reachSel.length) ? o.reachSel.slice() : [o.reachKey];
-      $("reach-meter").innerHTML = sel.map(k=>
-        '<div class="meter-row"><span class="meter"><i class="on"></i></span><span class="ml">'+REACH_LABEL[k]+'</span></div>').join("");
-      $("reach-reframe").innerHTML = o.reachKey==="quiet" ? REACH_REFRAME.quiet : (o.reachKey==="see" ? REACH_REFRAME.see : REACH_REFRAME.giveToGet);
-    }
-
-    // what you want -> how (from fighting + loved picks, capped at 3)
-    const witems = [];
-    (o.fighting||[]).forEach(k=>{ if(WANT_HOW[k]) witems.push({want:FIGHT_LABEL[k], how:WANT_HOW[k]}); });
-    (o.loved||[]).forEach(k=>{ if(WANT_HOW[k]) witems.push({want:LOVED_LABEL[k], how:WANT_HOW[k]}); });
-    if(o.deep || !witems.length){ $("rb-want").style.display="none"; }
-    else {
-      $("rb-want").style.display="";
-      $("wanthow").innerHTML = witems.slice(0,3).map(x=>
-        '<div class="mapitem"><div class="want">'+x.want+'</div><div class="how">'+x.how+'</div></div>').join("");
-    }
+    // B3 problem: coping lead keyed to how he's been reaching (3 buckets, mirrors REACH_REFRAME).
+    const cope = o.reachKey==="quiet" ? COPING.quiet : (o.reachKey==="see" ? COPING.see : COPING.giveToGet);
+    if($("problem-lead")) $("problem-lead").textContent = cope.lead;
+    if($("problem-sup"))  $("problem-sup").textContent  = cope.sup;
 
     // handoff CTA to the landing, themed by the readiness lean (ICP state). Out = certainty; else = the plan.
     var hOut = (o.lean === "out");
@@ -951,7 +918,7 @@
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
     $("result").classList.remove("revealed");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-    const blocks = ["rb-head","rb-read","rb-flags","rb-reach","rb-want","rb-gate"];
+    const blocks = ["rb-head","rb-read","rb-dream","rb-problem","rb-truth","rb-window","rb-gate"];
 
     if(reduceMotion || deep){
       show("result");
