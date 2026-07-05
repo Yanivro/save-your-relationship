@@ -191,7 +191,15 @@ section.band{background:var(--bg-2);}
 .sym-list li:before{content:""; position:absolute; left:6px; top:18px; width:7px; height:7px; border-radius:50%; background:var(--accent);}
 
 /* the world of the divorce: standalone cold interstitial (committed 2026-07-03) */
-section.divorce{background:#0b0910; color:#b9b2c8; padding:80px 0; position:relative; border-top:1px solid #241f30; border-bottom:1px solid #241f30;}
+section.divorce{background:#0b0910; color:#b9b2c8; padding:0 0 80px; position:relative; border-top:1px solid #241f30; border-bottom:1px solid #241f30;}
+.divorce-img{position:relative; width:100%; overflow:hidden; margin-bottom:30px;}
+.divorce-img img{display:block; width:100%; height:auto; max-height:440px; object-fit:cover; object-position:center 60%; filter:saturate(.9) brightness(.82);}
+.divorce-img:after{content:""; position:absolute; left:0; right:0; bottom:0; height:58%; background:linear-gradient(to bottom, rgba(11,9,16,0), #0b0910); pointer-events:none;}
+.divorce .wrap{padding-top:6px;}
+section.dream{padding-top:0;}
+.dream-img{position:relative; width:100%; overflow:hidden; margin-bottom:30px;}
+.dream-img img{display:block; width:100%; height:auto; max-height:420px; object-fit:cover; object-position:center 62%;}
+.dream-img:after{content:""; position:absolute; left:0; right:0; bottom:0; height:55%; background:linear-gradient(to bottom, rgba(27,23,38,0), var(--bg-2)); pointer-events:none;}
 section.divorce:before{content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(680px 380px at 50% 118%, rgba(86,104,150,.12), transparent 72%);}
 section.divorce .wrap{position:relative;}
 .divorce-lines{max-width:600px; margin:0 auto; text-align:center;}
@@ -465,7 +473,8 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
 </section>
 
 <!-- ============ 3. THE DREAM ============ -->
-<section class="band">
+<section class="band dream">
+  <div class="dream-img"><img src="assets/dream-hands-coffee.jpg" alt="Two hands almost touching across a kitchen table in warm morning light" loading="lazy" width="1600" height="893"></div>
   <div class="wrap">
     <p class="kicker">What you're fighting for</p>
     <div class="copy-block">
@@ -590,6 +599,7 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
 
 <!-- ============ 8b. THE WORLD OF THE DIVORCE (standalone, committed 2026-07-03) ============ -->
 <section class="divorce">
+  <div class="divorce-img"><img src="assets/divorce-apartment.jpg" alt="A bare apartment with a mattress on the floor and moving boxes" loading="lazy" width="1600" height="893"></div>
   <div class="wrap">
     <div class="divorce-lines">
       <p>A one-bedroom apartment with a mattress on the floor for the first few months.</p>
