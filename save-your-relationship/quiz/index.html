@@ -118,8 +118,17 @@
   .btn:hover{background:var(--ember-deep);transform:translateY(-1px)}
   .btn.secondary{background:transparent;color:var(--ember);box-shadow:none;padding:14px 0}
   .intro-sub{margin-top:12px;font-size:18px;color:var(--text-soft);font-family:'Inter',sans-serif;font-weight:400;line-height:1.4}
-  .start-row{margin-top:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .start-row{margin-top:24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .start-row small{color:var(--text-soft);font-size:13px}
+  /* optional email capture (save-your-result, drives the abandoner drip) */
+  .intro-save{margin-top:26px;max-width:430px}
+  .intro-save-head{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px}
+  .intro-save-head span{color:var(--text-soft);font-weight:400}
+  .intro-input{width:100%;padding:13px 15px;font-size:15px;font-family:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;outline:none;transition:border-color .12s}
+  .intro-input:focus{border-color:var(--ember)}
+  .intro-consent{display:flex;align-items:flex-start;gap:9px;margin-top:11px;font-size:12.5px;color:var(--text-soft);line-height:1.45;cursor:pointer}
+  .intro-consent input{margin-top:2px;flex:none;accent-color:var(--ember)}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
   /* progress */
   .prog{display:flex;align-items:center;gap:14px;margin-bottom:30px}
@@ -340,11 +349,17 @@
       <p>Answer straight and get a clear, personal read on where your marriage really stands, and whether it can still be turned around.</p>
       <div class="reassure">
         <span class="chip">7 questions</span>
-        <span class="chip">Instant result, no signup</span>
+        <span class="chip">Instant result</span>
         <span class="chip">No sugar-coating</span>
       </div>
+      <div class="intro-save">
+        <div class="intro-save-head">Save your results <span>Optional.</span></div>
+        <input type="email" id="intro-email" class="intro-input" placeholder="Your email" autocomplete="email" inputmode="email">
+        <label class="intro-consent"><input type="checkbox" id="intro-consent"> Email me my result and the occasional note to help you turn things around. Unsubscribe anytime.</label>
+        <input type="text" id="intro-hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </div>
       <div class="start-row">
-        <button class="btn" onclick="start()">See where you stand</button>
+        <button class="btn" onclick="startQuiz()">See where you stand</button>
       </div>
     </section>
 
@@ -660,6 +675,10 @@
   let idx = 0;
   let picking = false; // guard: block re-entry during dwell
   const seenSteps = new Set(); // de-dupe per-question analytics so Back doesn't double-count
+  // Optional email capture (intro screen). leadEmail persists across the quiz so a completion can
+  // update the same MailerLite subscriber. Abandoned = captured but never completed (empty result fields).
+  let leadEmail = "";
+  let leadConsent = false;
 
   // Highest-frequency reach habit. Tie-break toward unhelpful patterns; "see" only wins if strictly highest.
   function topReach(){
@@ -676,6 +695,68 @@
     void el.offsetWidth;
     el.classList.add("section-enter");
     window.scrollTo(0,0);
+  }
+
+  // Intro CTA: capture the optional email (if given + consented) BEFORE starting, so we hold it
+  // even if he abandons mid-quiz. Then start the quiz regardless (email is never a gate).
+  function startQuiz(){
+    const em = ($("intro-email") ? $("intro-email").value : "").trim();
+    const consent = $("intro-consent") ? $("intro-consent").checked : false;
+    const hp = $("intro-hp") ? $("intro-hp").value : "";
+    if(em && consent && !hp && /.+@.+\..+/.test(em)){
+      leadEmail = em; leadConsent = true;
+      captureLead("started");
+    }
+    start();
+  }
+
+  // POST the lead to the syr-lead worker. stage "started" = intro capture (abandoner pool);
+  // "completed" = update the same subscriber with the real result once he finishes. One shared
+  // event_id keeps Meta from double-counting the Lead across the two posts.
+  function captureLead(stage){
+    if(!leadEmail) return;
+    const completed = (stage === "completed");
+    const score = answers.reduce((a,b)=>a+(b||0),0);
+    const qs = new URLSearchParams(location.search);
+    const p = k => qs.get(k) || "";
+    const cookie = n => { const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]+)')); return m ? m[1] : ""; };
+    if(!window._syrEventId) window._syrEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+    const lead = {
+      product: "save-your-relationship",
+      email: leadEmail,
+      stage: stage,                              // "started" | "completed" -> syr_stage (segments the drip)
+      consent: true,
+      consent_at: new Date().toISOString(),
+      reach: subtype || topReach(),
+      reach_picks: reach.slice(),
+      loved: loved.slice(),
+      fighting: fighting.slice(),
+      score: completed ? score : null,           // result fields only fill on completion
+      band: completed ? bandFor(score) : "",
+      readiness: readiness,
+      lean: (readiness != null ? leanFor(readiness).lean : ""),
+      fear: (fear || ""),
+      answers: answers.slice(),
+      years_together: (years != null ? YEARS.opts[years] : ""),
+      // attribution — shared event_id dedups the started Lead vs the completed update in Meta
+      event_id: window._syrEventId,
+      event_source_url: location.href,
+      utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
+      utm_content: p('utm_content'), utm_term: p('utm_term'), utm_id: p('utm_id'),
+      fbclid: p('fbclid'), fbp: cookie('_fbp'), referrer: document.referrer || "",
+      website: ($("intro-hp") ? $("intro-hp").value : "")   // honeypot
+    };
+    // Fire the browser-side Meta Lead ONCE, on the first (started) capture only.
+    try{
+      track(stage === "started" ? "quiz_lead_started" : "quiz_lead_completed", { stage:stage, band:lead.band });
+      if(stage === "started" && window.fbq){ fbq('track','Lead', {}, { eventID: window._syrEventId }); }
+    }catch(e){}
+    try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','lead_stage',stage); clarity('upgrade','quiz_lead'); } }catch(e){}
+    try{
+      fetch("https://syr-lead.truecontact.workers.dev", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead)
+      }).catch(function(){});
+    }catch(e){}
   }
 
   function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reach=freshReach(); years=null; loved=[]; fighting=[]; readiness=null; fear=null; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
@@ -906,6 +987,9 @@
     $(B.label).classList.add("active");
 
     try{ track(deep ? "quiz_result_view" : "quiz_complete", Object.assign({ score:score, band:band, reach:reachKey }, (!deep && readiness!=null) ? { readiness:readiness, lean:leanFor(readiness).lean } : {}, (!deep && fear) ? { fear:fear } : {})); }catch(e){}
+    // If he gave his email on the intro, update that same subscriber with the finished result
+    // (moves him from the abandoned segment to completed). No-op if he never entered an email.
+    if(!deep && leadEmail){ try{ captureLead("completed"); }catch(e){} }
     if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
     // Reflective picks -> GA4, once per completer (signup or not). Makes the multi-select hopes
     // (incl. the physical-intimacy options) aggregatable for the ~85% who never give an email.
