@@ -313,7 +313,7 @@ section.divorce .wrap{position:relative;}
 .offer-box .price-reveal{text-align:center; margin:8px 0 22px; padding-top:24px; border-top:1px solid var(--line);}
 .offer-box .price-reveal .amt{font-family:var(--font-display); font-weight:600; font-size:clamp(28px,9vw,44px); color:var(--accent); line-height:1;}
 .offer-box .price-reveal .cap{font-size:14px; color:var(--ink-soft); margin-top:10px;}
-.offer-box .price-reveal .was{text-decoration:line-through; opacity:.7;}
+.offer-box .price-reveal .was{color:var(--ink-soft); font-size:0.58em; font-weight:400; text-decoration:line-through; text-decoration-color:var(--accent); opacity:.85; margin-right:10px;}
 
 /* ===== visual infographics (2026-07-05) ===== */
 .stat-people{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:340px;margin:0 auto 16px;}
@@ -800,18 +800,15 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
     <div class="offer-box">
       <p class="kicker" style="margin-bottom:24px;">What the alternatives cost</p>
 
-      <div class="cost-ladder">
-        <div class="rung">
-          <div class="rl"><span>A contested divorce</span><b>$15,000+ <span>per side</span></b></div>
-          <div class="bar" style="width:100%"></div>
+      <div class="bignums">
+        <div class="bignum">
+          <div class="amt struck">$15,000+</div>
+          <p class="cap">where a divorce starts, for each of you. Before the second
+          household.</p>
         </div>
-        <div class="rung">
-          <div class="rl"><span>Couples therapy</span><b>$3,600 <span>3 months, and she has to come</span></b></div>
-          <div class="bar mid" style="width:24%"></div>
-        </div>
-        <div class="rung">
-          <div class="rl"><span class="gold" style="font-weight:600">This book</span><b class="gold">$24.50 <span>once, yours to keep</span></b></div>
-          <div class="bar book" style="width:2.2%"></div>
+        <div class="bignum">
+          <div class="amt struck">$3,600</div>
+          <p class="cap">three months of couples therapy. And she has to be willing to go.</p>
         </div>
       </div>
 
@@ -825,9 +822,8 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
       <p class="soft">Read it in 30 minutes. No fluff, no filler. Then practice it 30 days.</p>
 
       <div class="price-reveal">
-        <div class="amt">$24.50</div>
-        <p class="cap">one-time, yours to keep &middot; 30% off until the end of July
-        (<span class="was">$35</span>)</p>
+        <div class="amt"><span class="was">$35</span>$24.50</div>
+        <p class="cap">one-time, yours to keep &middot; 30% off until the end of July</p>
       </div>
 
       <p class="soft" style="text-align:center;">Against those numbers, this costs less than one hour at the lawyer's.
