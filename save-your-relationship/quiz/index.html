@@ -514,6 +514,7 @@
   const FREQ = [{t:"Never",v:0},{t:"Sometimes",v:1},{t:"Often",v:2},{t:"Always",v:3}];
   // Reflective block (not scored) — drives the mirror, empathy, and what-you-want -> how.
   const YEARS = { q:"How long have you been together?", opts:["Under 1 year","1 to 4 years","5 to 10 years","11 to 20 years","Over 20 years"] };
+  const AGE = { q:"How old are you?", opts:["Under 25","25 to 34","35 to 44","45 to 54","55 to 64","65 or older"] };
   const LOVED = { q:"Back when things were good, what did you love most?", hint:"Pick up to 3.", cap:3, opts:[
     { k:"looked",     t:"The way she used to look at me" },
     { k:"understood", t:"Feeling truly understood" },
@@ -660,13 +661,14 @@
   };
 
   // Step model: 0..6 = the 7 pain questions, 7 = reach grid, 8 = years, 9 = loved, 10 = fighting, 11 = readiness slider.
-  const TOTAL = QUESTIONS.length + 5;
+  const TOTAL = QUESTIONS.length + 6;
   function freshReach(){ return []; }
   let answers = new Array(QUESTIONS.length).fill(null);
   let reach = freshReach();        // selected reach-habit keys (multi-select, no cap)
   // Back-compat map for the lead payload: selected habit -> 3, unselected -> 0.
   function reachFreqMap(){ const m={}; REACH.items.forEach(it=>{ m[it.k] = reach.indexOf(it.k)>=0 ? 3 : 0; }); return m; }
   let years = null;               // index into YEARS.opts
+  let age = null;                 // index into AGE.opts
   let loved = [];                 // keys, max 3
   let fighting = [];              // keys, max 2
   let readiness = null;           // 0..100 from the slider (null until he drags it)
@@ -767,6 +769,7 @@
       fear: (fear || ""),
       answers: answers.slice(),
       years_together: (years != null ? YEARS.opts[years] : ""),
+      age_bracket: (age != null ? AGE.opts[age] : ""),
       // attribution — shared event_id dedups the started Lead vs the completed update in Meta
       event_id: window._syrEventId,
       event_source_url: location.href,
@@ -788,12 +791,12 @@
     }catch(e){}
   }
 
-  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reach=freshReach(); years=null; loved=[]; fighting=[]; readiness=null; fear=null; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
+  function start(){ idx=0; answers=new Array(QUESTIONS.length).fill(null); reach=freshReach(); years=null; age=null; loved=[]; fighting=[]; readiness=null; fear=null; subtype=null; seenSteps.clear(); show("quiz"); render(); try{track('quiz_start');}catch(e){} }
 
   // Fire one analytics event the first time each question is reached (drop-off funnel).
   function trackStep(){
     const key = idx < QUESTIONS.length ? ("q" + (idx + 1))
-              : (["reach","years","loved","fighting","readiness","fear"][idx - QUESTIONS.length] || "step" + idx);
+              : (["reach","years","age","loved","fighting","readiness","fear"][idx - QUESTIONS.length] || "step" + idx);
     if (seenSteps.has(key)) return;
     seenSteps.add(key);
     try { track("quiz_question", { step: idx + 1, q: key, total: TOTAL }); } catch(e){}
@@ -804,7 +807,7 @@
     start();
   }
 
-  const STEP = { REACH: QUESTIONS.length, YEARS: QUESTIONS.length+1, LOVED: QUESTIONS.length+2, FIGHT: QUESTIONS.length+3, READINESS: QUESTIONS.length+4, FEAR: QUESTIONS.length+5 };
+  const STEP = { REACH: QUESTIONS.length, YEARS: QUESTIONS.length+1, AGE: QUESTIONS.length+2, LOVED: QUESTIONS.length+3, FIGHT: QUESTIONS.length+4, READINESS: QUESTIONS.length+5, FEAR: QUESTIONS.length+6 };
 
   function render(){
     $("progfill").style.width = (Math.min(idx, TOTAL) / TOTAL * 100) + "%";
@@ -817,6 +820,7 @@
     if(idx < QUESTIONS.length) renderScale();
     else if(idx === STEP.REACH) renderReach();
     else if(idx === STEP.YEARS) renderYears();
+    else if(idx === STEP.AGE) renderAge();
     else if(idx === STEP.LOVED) renderMulti(LOVED, loved, "loved");
     else if(idx === STEP.FIGHT) renderMulti(FIGHT, fighting, "fighting");
     else if(idx === STEP.READINESS) renderReadiness();
@@ -860,6 +864,15 @@
       `<button class="opt${years===i?' sel':''}" onclick="pickYears(${i})"><span class="dot"></span>${t}</button>`).join("");
   }
   function pickYears(i){ if(picking) return; picking=true; years=i; render(); setTimeout(()=>{ picking=false; idx++; render(); },380); }
+
+  function renderAge(){
+    $("qnum").textContent = "Almost there";
+    $("qtext").textContent = AGE.q;
+    $("qhint").textContent = "";
+    $("opts").innerHTML = AGE.opts.map((t,i)=>
+      `<button class="opt${age===i?' sel':''}" onclick="pickAge(${i})"><span class="dot"></span>${t}</button>`).join("");
+  }
+  function pickAge(i){ if(picking) return; picking=true; age=i; render(); setTimeout(()=>{ picking=false; idx++; render(); },380); }
 
   function renderMulti(cfg, arr, which){
     $("qnum").textContent = idx === TOTAL-1 ? "Last one" : "Almost there";
@@ -1026,6 +1039,7 @@
       loved.forEach(k=>track("quiz_reflect",{ reflect_field:"loved", reflect_value:k }));
       fighting.forEach(k=>track("quiz_reflect",{ reflect_field:"fighting", reflect_value:k }));
       if(years!=null) track("quiz_reflect",{ reflect_field:"years", reflect_value:YEARS.opts[years] });
+      if(age!=null) track("quiz_reflect",{ reflect_field:"age", reflect_value:AGE.opts[age] });
     }catch(e){} }
 
     // --- reveal (instant for reduced-motion or a deep link, staged otherwise) ---
