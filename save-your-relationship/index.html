@@ -957,6 +957,31 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
       try { if (window.clarity) { clarity('set', 'buy_intent', 'yes'); clarity('set', 'buy_location', where); clarity('upgrade', 'begin_checkout'); } } catch (e) {}
     });
   });
+  // ---- First-touch attribution + landing->quiz handoff ----
+  // Store the acquiring ad's utm/fbclid/_fbp once (shared same-origin with the quiz) and mark the
+  // funnel entry as 'landing', so a quiz signup that came through this sales page is distinguishable
+  // from a direct-to-quiz one. Then stamp those params + via=landing onto the "take the quiz" links,
+  // so the hop stays attributed even in in-app browsers that drop the query string.
+  (function(){
+    var KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','fbclid'];
+    var q = new URLSearchParams(location.search);
+    var cookieFbp = (document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/) || [])[1] || '';
+    var store = {};
+    try { store = JSON.parse(localStorage.getItem('syr_attr') || '{}') || {}; } catch (e) {}
+    KEYS.forEach(function(k){ if (store[k]) return; var v = q.get(k); if (v) store[k] = v; });
+    if (cookieFbp && !store.fbp) store.fbp = cookieFbp;
+    if (!store.entry) store.entry = 'landing';
+    try { localStorage.setItem('syr_attr', JSON.stringify(store)); } catch (e) {}
+    try {
+      document.querySelectorAll('a[href^="quiz/"], a[href="quiz/"]').forEach(function(a){
+        var u = new URL(a.getAttribute('href'), location.href);
+        KEYS.forEach(function(k){ if (store[k]) u.searchParams.set(k, store[k]); });
+        if (store.fbp) u.searchParams.set('_fbp', store.fbp);
+        u.searchParams.set('via', 'landing');
+        a.href = u.toString();
+      });
+    } catch (e) {}
+  })();
   // Mid-funnel: offer/price box scrolled into view (once)
   var offer = document.querySelector('#offer');
   if (offer && 'IntersectionObserver' in window) {

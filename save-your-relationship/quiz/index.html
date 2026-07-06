@@ -680,6 +680,36 @@
   let leadEmail = "";
   let leadConsent = false;
 
+  // ---- First-touch attribution (survives the landing->quiz hop and in-app-browser URL stripping) ----
+  // Same-origin localStorage is shared with the sales page, so the acquiring ad's utm/fbclid captured on
+  // the landing is still readable here even if the "take the quiz" link arrived bare. SYR_ATTR.get(k)
+  // reads the live URL first, then the stored first-touch value. .entry = 'landing' if they came through
+  // the sales page, else 'direct'. .fbp = the _fbp value (cookie, or carried in the URL).
+  const SYR_ATTR = (function(){
+    var KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','fbclid'];
+    var url = new URLSearchParams(location.search);
+    var cookieFbp = (document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/) || [])[1] || '';
+    var store = {};
+    try { store = JSON.parse(localStorage.getItem('syr_attr') || '{}') || {}; } catch(e){}
+    // First-touch: keep whatever was stored; fill blanks from this page's URL.
+    KEYS.forEach(function(k){ if (store[k]) return; var v = url.get(k); if (v) store[k] = v; });
+    var fbp = cookieFbp || url.get('_fbp') || store.fbp || '';
+    if (fbp && !store.fbp) store.fbp = fbp;
+    // Entry point = the first page of the funnel we saw them on. via=landing is stamped on the sales
+    // page's quiz links; the localStorage flag + referrer are fallbacks for when the link arrived bare.
+    if (!store.entry) {
+      var ref = document.referrer || '';
+      var viaLanding = url.get('via') === 'landing' || /\/save-your-relationship\/(?:index\.html)?(?:[?#]|$)/.test(ref);
+      store.entry = viaLanding ? 'landing' : 'direct';
+    }
+    try { localStorage.setItem('syr_attr', JSON.stringify(store)); } catch(e){}
+    return {
+      get: function(k){ var v = url.get(k); return (v != null && v !== '') ? v : (store[k] || ''); },
+      fbp: fbp,
+      entry: store.entry || 'direct'
+    };
+  })();
+
   // Highest-frequency reach habit. Tie-break toward unhelpful patterns; "see" only wins if strictly highest.
   function topReach(){
     const order = ["gesture","defend","provide","quiet","see"];
@@ -717,8 +747,7 @@
     if(!leadEmail) return;
     const completed = (stage === "completed");
     const score = answers.reduce((a,b)=>a+(b||0),0);
-    const qs = new URLSearchParams(location.search);
-    const p = k => qs.get(k) || "";
+    const p = k => SYR_ATTR.get(k);   // URL param, then stored first-touch (landing->quiz safe)
     const cookie = n => { const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]+)')); return m ? m[1] : ""; };
     if(!window._syrEventId) window._syrEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead-' + Date.now() + '-' + Math.random().toString(16).slice(2));
     const lead = {
@@ -743,7 +772,7 @@
       event_source_url: location.href,
       utm_source: p('utm_source'), utm_medium: p('utm_medium'), utm_campaign: p('utm_campaign'),
       utm_content: p('utm_content'), utm_term: p('utm_term'), utm_id: p('utm_id'),
-      fbclid: p('fbclid'), fbp: cookie('_fbp'), referrer: document.referrer || "",
+      fbclid: p('fbclid'), fbp: SYR_ATTR.fbp || cookie('_fbp'), entry: SYR_ATTR.entry, referrer: document.referrer || "",
       website: ($("intro-hp") ? $("intro-hp").value : "")   // honeypot
     };
     // Fire the browser-side Meta Lead ONCE, on the first (started) capture only.
@@ -1086,8 +1115,7 @@
     // One event_id, shared by the browser pixel Lead and the server-side CAPI Lead, so Meta
     // counts the lead once. Capture the ad params + _fbp from the URL/cookie (server-side capture
     // in the worker is what survives in-app browsers; this is the source data).
-    const _qs = new URLSearchParams(location.search);
-    const _p = k => _qs.get(k) || "";
+    const _p = k => SYR_ATTR.get(k);   // URL param, then stored first-touch (landing->quiz safe)
     const _cookie = n => { const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]+)')); return m ? m[1] : ""; };
     const eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead-' + Date.now() + '-' + Math.random().toString(16).slice(2));
 
@@ -1122,7 +1150,8 @@
       utm_term: _p('utm_term'),                  // the placement
       utm_id: _p('utm_id'),                      // the Meta ad id
       fbclid: _p('fbclid'),
-      fbp: _cookie('_fbp'),
+      fbp: SYR_ATTR.fbp || _cookie('_fbp'),
+      entry: SYR_ATTR.entry,                     // 'landing' (came via sales page) | 'direct' -> syr_entry
       referrer: document.referrer || "",
       website: $("website").value               // honeypot
     };
