@@ -746,8 +746,12 @@
   // "completed" = update the same subscriber with the real result once he finishes. One shared
   // event_id keeps Meta from double-counting the Lead across the two posts.
   function captureLead(stage){
-    if(!leadEmail) return;
     const completed = (stage === "completed");
+    // The "started" (intro/abandoner) capture needs an email. A COMPLETED quiz is ALWAYS sent — even
+    // with no email — so his answers land in the response store (that is how we keep the ~86% who never
+    // opt in). The worker logs every completion to D1 and only touches MailerLite/Meta when an email is present.
+    if(!leadEmail && !completed) return;
+    const hasEmail = !!leadEmail;
     const score = answers.reduce((a,b)=>a+(b||0),0);
     const p = k => SYR_ATTR.get(k);   // URL param, then stored first-touch (landing->quiz safe)
     const cookie = n => { const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]+)')); return m ? m[1] : ""; };
@@ -778,12 +782,17 @@
       fbclid: p('fbclid'), fbp: SYR_ATTR.fbp || cookie('_fbp'), entry: SYR_ATTR.entry, referrer: document.referrer || "",
       website: ($("intro-hp") ? $("intro-hp").value : "")   // honeypot
     };
-    // Fire the browser-side Meta Lead ONCE, on the first (started) capture only.
-    try{
-      track(stage === "started" ? "quiz_lead_started" : "quiz_lead_completed", { stage:stage, band:lead.band });
-      if(stage === "started" && window.fbq){ fbq('track','Lead', {}, { eventID: window._syrEventId }); }
-    }catch(e){}
-    try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','lead_stage',stage); clarity('upgrade','quiz_lead'); } }catch(e){}
+    // Lead signals (Meta Lead + analytics + Clarity) fire ONLY when he actually left an email — an
+    // emailless completion is a silent response-store write, not a lead, so it must not inflate lead counts.
+    if(hasEmail){
+      try{
+        track(stage === "started" ? "quiz_lead_started" : "quiz_lead_completed", { stage:stage, band:lead.band });
+        if(stage === "started" && window.fbq){ fbq('track','Lead', {}, { eventID: window._syrEventId }); }
+      }catch(e){}
+      try{ if(window.clarity){ clarity('set','lead','yes'); clarity('set','lead_stage',stage); clarity('upgrade','quiz_lead'); } }catch(e){}
+    }
+    // Always POST on completion (with or without email): the worker logs every completion to the D1
+    // response store, and only writes to MailerLite / fires CAPI when an email is present.
     try{
       fetch("https://syr-lead.truecontact.workers.dev", {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead)
@@ -1031,7 +1040,7 @@
     try{ track(deep ? "quiz_result_view" : "quiz_complete", Object.assign({ score:score, band:band, reach:reachKey }, (!deep && readiness!=null) ? { readiness:readiness, lean:leanFor(readiness).lean } : {}, (!deep && fear) ? { fear:fear } : {})); }catch(e){}
     // If he gave his email on the intro, update that same subscriber with the finished result
     // (moves him from the abandoned segment to completed). No-op if he never entered an email.
-    if(!deep && leadEmail){ try{ captureLead("completed"); }catch(e){} }
+    if(!deep){ try{ captureLead("completed"); }catch(e){} }  // always log the completion (D1 store); email path adds MailerLite/CAPI
     if(!deep){ try{ QUESTIONS.forEach((q,i)=>track("quiz_answer",{ q:"q"+(i+1), theme:THEMES[i], value:answers[i] })); }catch(e){} }
     // Reflective picks -> GA4, once per completer (signup or not). Makes the multi-select hopes
     // (incl. the physical-intimacy options) aggregatable for the ~85% who never give an email.
