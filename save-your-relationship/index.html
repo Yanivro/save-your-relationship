@@ -210,6 +210,24 @@ section.divorce .wrap{position:relative;}
 /* the truth line */
 .pull{font-family:var(--font-display); font-style:italic; font-size:30px; line-height:1.4; color:var(--accent); text-align:center; max-width:20em; margin:0 auto;}
 
+/* ---------- myth / truth two-column (2026-07-07, replaces old "The trap") ---------- */
+.myths{max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:16px;}
+.myth-row{display:grid; grid-template-columns:1fr 1.12fr; gap:0; border:1px solid var(--box-line); border-radius:14px; overflow:hidden; background:var(--box);}
+.myth-col, .truth-col{padding:24px 26px;}
+.myth-col{border-right:1px solid var(--box-line); background:linear-gradient(180deg, rgba(224,100,90,.05), transparent);}
+.truth-col{background:linear-gradient(180deg, rgba(205,163,90,.06), transparent);}
+.col-label{display:inline-flex; align-items:center; gap:7px; font-size:11.5px; letter-spacing:.15em; text-transform:uppercase; font-weight:700; margin-bottom:13px;}
+.myth-col .col-label{color:var(--flag);}
+.truth-col .col-label{color:var(--accent);}
+.col-label svg{width:15px; height:15px; stroke-width:2.1; fill:none; stroke:currentColor;}
+.myth-text{font-family:var(--font-display); font-style:italic; font-size:20px; line-height:1.42; color:var(--ink-soft);}
+.truth-punch{font-weight:600; color:var(--ink); font-size:18px; line-height:1.4; margin-bottom:9px;}
+.truth-amp{font-size:16px; color:var(--ink-soft); line-height:1.55;}
+@media (max-width:640px){
+  .myth-row{grid-template-columns:1fr;}
+  .myth-col{border-right:0; border-bottom:1px solid var(--box-line);}
+}
+
 /* big-stat display block (Signs section) */
 .big-stat{text-align:center; margin:30px auto; max-width:520px;}
 .big-stat .num{font-family:var(--font-display); font-weight:600; font-size:clamp(52px,16vw,96px); line-height:1; color:var(--accent); margin-bottom:16px;}
@@ -528,21 +546,65 @@ footer{border-top:1px solid var(--line); padding:36px 0 40px; text-align:center;
   </div>
 </section>
 
-<!-- ============ 5. THE TRAP ============ -->
+<!-- ============ 5. THE MYTHS (Myth/Truth two-column) - replaced old "THE TRAP" 2026-07-07 ============ -->
+<!-- OLD "THE TRAP" section preserved here for easy revert:
 <section class="band">
   <div class="wrap">
     <p class="sec-eyebrow">The trap</p>
     <h2 class="sec-title">The harder you try, the worse she feels.</h2>
     <div class="copy-block">
-      <p>You've tried. Date nights, promises to do better, working harder. And she's still pulling
-      away.</p>
-      <p>You wanted to show her you're a good husband. A great provider. That's not what she needs
-      right now. She needs you to learn how to see her.</p>
-      <p>So the effort backfires. <strong>She doesn't feel loved. She feels managed.</strong>
-      Trying harder at the wrong thing convinces her you still don't get it.</p>
+      <p>You've tried. Date nights, promises to do better, working harder. And she's still pulling away.</p>
+      <p>You wanted to show her you're a good husband. A great provider. That's not what she needs right now. She needs you to learn how to see her.</p>
+      <p>So the effort backfires. She doesn't feel loved. She feels managed. Trying harder at the wrong thing convinces her you still don't get it.</p>
     </div>
-    <p class="pull" style="margin-top:34px;">Nobody feels loved because they were impressed. They
-    feel loved because they were understood.</p>
+    <p class="pull">Nobody feels loved because they were impressed. They feel loved because they were understood.</p>
+  </div>
+</section>
+-->
+<section class="band">
+  <div class="wrap">
+    <p class="sec-eyebrow">The myths</p>
+    <h2 class="sec-title">Why the effort keeps backfiring</h2>
+    <div class="myths">
+
+      <div class="myth-row">
+        <div class="myth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>The myth</span>
+          <p class="myth-text">"I just need to try harder. Be a better husband, a better provider."</p>
+        </div>
+        <div class="truth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>The truth</span>
+          <p class="truth-punch">She doesn't feel loved. She feels managed.</p>
+          <p class="truth-amp">Trying harder at the wrong thing convinces her you still don't get it.</p>
+        </div>
+      </div>
+
+      <div class="myth-row">
+        <div class="myth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>The myth</span>
+          <p class="myth-text">"We just need to talk it out. Maybe counseling."</p>
+        </div>
+        <div class="truth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>The truth</span>
+          <p class="truth-punch">She's done talking.</p>
+          <p class="truth-amp">Counseling talks about the marriage. This changes what you do inside it, every day, in ways she can feel.</p>
+        </div>
+      </div>
+
+      <div class="myth-row">
+        <div class="myth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>The myth</span>
+          <p class="myth-text">"It's probably too late. She's already checked out."</p>
+        </div>
+        <div class="truth-col">
+          <span class="col-label"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>The truth</span>
+          <p class="truth-punch">The clues are still there, and so is she.</p>
+          <p class="truth-amp">That's your window, while she's still here to look at.</p>
+        </div>
+      </div>
+
+    </div>
+    <p class="pull" style="margin-top:34px;">Nobody feels loved because they were impressed. They feel loved because they were understood.</p>
   </div>
 </section>
 
