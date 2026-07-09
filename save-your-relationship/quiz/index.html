@@ -809,6 +809,7 @@
     try{
       fetch("https://syr-lead.truecontact.workers.dev", {
         method: "POST", headers: { "Content-Type": "application/json" },
+        keepalive: true,   // the handoff click navigates away immediately; without this the browser aborts the POST
         body: JSON.stringify({
           product: "save-your-relationship", email: leadEmail, stage: "checkout",
           event_id: window._syrEventId, event_source_url: location.href,
